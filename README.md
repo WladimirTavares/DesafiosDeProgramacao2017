@@ -7,11 +7,14 @@ Slides:
 3. [Estrutura de Dados](Estrutura%20de%20dados/Estrutura%20de%20Dados.pdf)
 4. [Programação Dinâmica](Programa%C3%A7%C3%A3o%20Din%C3%A2mica/Programa%C3%A7%C3%A3o%20Din%C3%A2mica.pdf)
 5. [Grafos](Grafos/Grafos.pdf)
-6. [Jogos Combinatorios](Combinatorial%20Game/Jogos%20Combinatorios.pdf)
-7. [Backtracking](Backtracking/Algoritmos%20de%20Backtracking.pdf)
-8. [Fluxo em redes](Fluxo%20em%20redes/Fluxo%20em%20redes.pdf)
-9. [Geometria Computacional 1](Geometria%20Computacional/Geometria%20Computacional.pdf)
-10. [Geometria Computacional 2](Geometria%20Computacional2/Geometria%20Computacional2.pdf)
+6. [Algoritmo Guloso](Algoritmo%20Guloso.pdf)
+7. [Busca binária](Busca%20Binaria.pdf)
+8. [Jogos Combinatorios](Combinatorial%20Game/Jogos%20Combinatorios.pdf)
+9. [Backtracking](Backtracking/Algoritmos%20de%20Backtracking.pdf)
+10. [Fluxo em redes](Fluxo%20em%20redes/Fluxo%20em%20redes.pdf)
+11. [Tabelas Esparsas](Tabelas%20Esparsas.pdf)
+12. [Geometria Computacional 1](Geometria%20Computacional/Geometria%20Computacional.pdf)
+13. [Geometria Computacional 2](Geometria%20Computacional2/Geometria%20Computacional2.pdf)
 
 Listas:
 
