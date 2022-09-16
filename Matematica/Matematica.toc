@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.12pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Algebra}{2}{0}{1}
+\beamer@sectionintoc {2}{Teoria dos n\'umeros}{15}{0}{2}
+\beamer@sectionintoc {3}{Combinat\'oria}{30}{0}{3}

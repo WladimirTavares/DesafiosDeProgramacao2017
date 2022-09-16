@@ -1,0 +1,12 @@
+\beamer@endinputifotherversion {3.36pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Por que fazer Desafios de Programa\c c\~ao?}{3}{0}{1}
+\beamer@sectionintoc {2}{T\'opicos}{6}{0}{2}
+\beamer@sectionintoc {3}{Bibliografia}{8}{0}{3}
+\beamer@sectionintoc {4}{Competi\c c\~oes}{10}{0}{4}
+\beamer@sectionintoc {5}{Como praticar}{12}{0}{5}
+\beamer@sectionintoc {6}{Competi\c c\~oes semanais}{14}{0}{6}
+\beamer@sectionintoc {7}{Problema 1}{16}{0}{7}
+\beamer@sectionintoc {8}{Problema 2}{24}{0}{8}
+\beamer@sectionintoc {9}{Dicas para ser Competitivo}{26}{0}{9}
+\beamer@subsectionintoc {9}{1}{Dica 5: Domine a arte de testar}{40}{0}{9}

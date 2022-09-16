@@ -1,0 +1,23 @@
+\frametitle{Usando vetores}
+\begin{itemize}
+\item Um vetor de arestas $E$ de tamanho $m$ e um vetor $LE$ de tamanho $n$.
+\begin{itemize}
+\item E[k].to indica a extremidade final da aresta $k$.
+\item E[k].nextID indica a posição da próxima aresta com extremidade inicial igual da aresta $k$
+\end{itemize}
+
+\item Inicialize LE[i] = -1 para todo i.
+
+\item Inserir uma nova aresta $u$ para $v$ com ID $k$
+\begin{itemize}
+\item E[k].to  = v
+\item E[k].nextID = LE[u]
+\item LE[u] = k
+\end{itemize}
+\item Iterar sobre todas as arestas começada por $u$:
+\Fontvi{
+\begin{lstlisting}[language=C]
+for(ID = LE[u]; ID != -1; ID = E[ID].nextID)
+\end{lstlisting}
+}
+\end{itemize}

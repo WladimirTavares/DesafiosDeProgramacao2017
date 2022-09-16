@@ -1,0 +1,8 @@
+\beamer@endinputifotherversion {3.12pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Programa\c c\~ao Din\^amica}{2}{0}{1}
+\beamer@sectionintoc {2}{Programa\c c\~ao Din\^amica 1D}{5}{0}{2}
+\beamer@sectionintoc {3}{Programa\c c\~ao Din\^amica 2D}{14}{0}{3}
+\beamer@sectionintoc {4}{Programa\c c\~ao Din\^amica em Intervalos}{27}{0}{4}
+\beamer@sectionintoc {5}{Programa\c c\~ao Din\^amica em \'arvores}{43}{0}{5}
+\beamer@sectionintoc {6}{Programa\c c\~ao Din\^amica em subconjuntos}{46}{0}{6}

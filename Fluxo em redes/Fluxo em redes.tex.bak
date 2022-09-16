@@ -1,0 +1,1256 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+%\usepackage[noend]{algorithmic}
+%\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{courier}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tkz-graph}
+\usetikzlibrary{positioning}
+
+
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+% Declare layers
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+%  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Fluxo em redes}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Fluxo em redes}
+\begin{frame}{Fluxo em redes}
+\begin{itemize}
+\item Diversas aplicações em diferentes contextos:
+\begin{itemize}
+\item Calcular a maior taxa de material que pode ser enviado desde da fonte até o sorvedouro.
+\item Enviar a maior quantidade de caminhões considerando que as estradas possuem um limite de número de caminhões por unidade de tempo.
+\item Minimizar o custo de destruir pontes a fim de desconectar duas cidades $s$ e $t$..
+\item Problema de emparelhamento de objetos (casamentos, residentes/hospitais, tarefas/máquinas)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fluxo em redes}
+
+\begin{itemize}
+  \item Uma rede de fluxo $G = (V,E)$ é um grafo dirigido em que cada arco $e$ tem uma capacidade $c(e) > 0$.
+  \item Possui dois vértices especiais fonte $s$ e sorvedouro $t$.
+  \item Problema: maximizar a quantidade total de fluxo de $s$ para $t$ satisfazendo duas restrições:
+  \begin{itemize}
+    \item o fluxo em cada aresta $e$ não excede a capacidade da aresta, ou seja, $f(u,v) \leq c(u,v)$ (Restrição de capacidade).
+    \item Para cada vértice $v \neq s$ e $v \neq t$, o fluxo de entrada é igual ao fluxo de saída, ou seja, $\sum_{v \in N^{+}(u)} f(u, v) = \sum_{v \in N^{-}(u)} f(u, v)$ (Conservação do fluxo).
+  \end{itemize}
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Fluxo em redes}
+
+
+\begin{itemize}
+
+\item Capacidade
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                            {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+        \node[vertex] (\name) at \pos {$\name$};
+
+    % Connect vertices with edges and draw weights
+    \foreach \source/ \dest /\weight in { s/c/13,
+                                          c/d/14,d/t/4,
+                                         b/c/9,d/b/7}
+        \path (\source) edge node {$\weight$} (\dest);
+
+    \path (s) edge node [above] {16} (a);
+    \path (a) edge node [above] {12} (b);
+    \path (b) edge node [above] {20} (t);
+
+
+    \path (a) edge [bend right ] node {10} (c);
+    \path (c) edge node {4} (a);
+
+        %\path (\source) -- node[weight] {$\weight$} edge (\dest);
+
+    % Start animating the vertex and edge selection.
+    %\foreach \vertex / \fr in {d/1,a/2,f/3,b/4,e/5,c/6,g/7}
+    %    \path<\fr-> node[selected vertex] at (\vertex) {$\vertex$};
+    % For convenience we use a background layer to highlight edges
+    % This way we don't have to worry about the highlighting covering
+    % weight labels.
+    %\begin{pgfonlayer}{background}
+    %    \pause
+    %    \foreach \source / \dest in {d/a,d/f,a/b,b/e,e/c,e/g}
+    %       \path<+->[selected edge] (\source.center) -- (\dest.center);
+    %    \foreach \source / \dest / \fr in {d/b/4,d/e/5,e/f/5,b/c/6,f/g/7}
+    %        \path<\fr->[ignored edge] (\source.center) -- (\dest.center);
+    %\end{pgfonlayer}
+\end{tikzpicture}
+
+
+\item Fluxo Máximo (23 unidades)
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                            {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+        \node[vertex] (\name) at \pos {$\name$};
+
+
+    \path (s) edge[blue] node [above, black] {11} (a);
+    \path (a) edge[blue] node [above, black] {12} (b);
+    \path (b) edge[blue] node [above,black] {19} (t);
+    \path (s) edge[blue] node [black]{12} (c);
+    \path (c) edge[blue] node [black]{11} (d);
+    \path (c) edge[blue] node [black]{1} (a);
+    \path (d) edge[blue] node [black]{4} (t);
+    \path (d) edge[blue] node [black]{7} (b);
+
+
+
+        %\path (\source) -- node[weight] {$\weight$} edge (\dest);
+
+    % Start animating the vertex and edge selection.
+    %\foreach \vertex / \fr in {d/1,a/2,f/3,b/4,e/5,c/6,g/7}
+    %    \path<\fr-> node[selected vertex] at (\vertex) {$\vertex$};
+    % For convenience we use a background layer to highlight edges
+    % This way we don't have to worry about the highlighting covering
+    % weight labels.
+    %\begin{pgfonlayer}{background}
+    %    \pause
+    %    \foreach \source / \dest in {d/a,d/f,a/b,b/e,e/c,e/g}
+    %       \path<+->[selected edge] (\source.center) -- (\dest.center);
+    %    \foreach \source / \dest / \fr in {d/b/4,d/e/5,e/f/5,b/c/6,f/g/7}
+    %        \path<\fr->[ignored edge] (\source.center) -- (\dest.center);
+    %\end{pgfonlayer}
+\end{tikzpicture}
+
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Corte mínimo}
+
+\begin{itemize}
+  \item Queremos remover algumas arestas do grafo tal que depois da remoção das arestas, não exista um caminho de $s$ para $t$.
+  \item O custo de remover uma aresta $e$ será igual a sua capacidade $c(e)$
+  \item O problema do custo mínimo consiste em encontrar um corte com o custo total mínimo.
+  \item Teorema 26.7 (CLRS, 2° Edição): Fluxo máximo = Custo mínimo
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Exemplo}
+
+\begin{itemize}
+
+\item Capacidade
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                            {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+        \node[vertex] (\name) at \pos {$\name$};
+
+    % Connect vertices with edges and draw weights
+    \foreach \source/ \dest /\weight in { s/c/13,
+                                          c/d/14,d/t/4,
+                                         b/c/9,d/b/7}
+        \path (\source) edge node {$\weight$} (\dest);
+
+    \path (s) edge node [above] {16} (a);
+    \path (a) edge node [above] {12} (b);
+    \path (b) edge node [above] {20} (t);
+
+
+    \path (a) edge [bend right ] node {10} (c);
+    \path (c) edge node {4} (a);
+
+ \end{tikzpicture}
+
+
+\item Corte mínimo
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                            {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+        \node[vertex] (\name) at \pos {$\name$};
+
+
+    % Connect vertices with edges and draw weights
+    \foreach \source/ \dest /\weight in { s/c/13,
+                                          c/d/14,
+                                         b/c/9}
+        \path (\source) edge node {$\weight$} (\dest);
+
+    \path (s) edge node [above] {16} (a);
+    \path (b) edge node [above] {20} (t);
+
+    \path (a) edge[dashed,red] node [above] {12} (b);
+    \path (d) edge[dashed,red] node  {7} (b);
+    \path (d) edge[dashed,red] node  {4} (t);
+
+
+
+    \path (a) edge [bend right ] node {10} (c);
+    \path (c) edge node {4} (a);
+
+
+
+        %\path (\source) -- node[weight] {$\weight$} edge (\dest);
+
+    % Start animating the vertex and edge selection.
+    %\foreach \vertex / \fr in {d/1,a/2,f/3,b/4,e/5,c/6,g/7}
+    %    \path<\fr-> node[selected vertex] at (\vertex) {$\vertex$};
+    % For convenience we use a background layer to highlight edges
+    % This way we don't have to worry about the highlighting covering
+    % weight labels.
+    %\begin{pgfonlayer}{background}
+    %    \pause
+    %    \foreach \source / \dest in {d/a,d/f,a/b,b/e,e/c,e/g}
+    %       \path<+->[selected edge] (\source.center) -- (\dest.center);
+    %    \foreach \source / \dest / \fr in {d/b/4,d/e/5,e/f/5,b/c/6,f/g/7}
+    %        \path<\fr->[ignored edge] (\source.center) -- (\dest.center);
+    %\end{pgfonlayer}
+\end{tikzpicture}
+
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Corte Mínimo}
+
+\begin{itemize}
+\item Subtraia o fluxo máximo do grafo original.
+\end{itemize}
+
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+\begin{tabular}{cc}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm, scale=0.8, swap]
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                            {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+        \node[vertex] (\name) at \pos {$\name$};
+
+
+
+    % Connect vertices with edges and draw weights
+    \foreach \source/ \dest /\weight in { s/c/13,
+                                          c/d/14,d/t/4,
+                                         b/c/9,d/b/7}
+        \path (\source) edge node {$\weight$} (\dest);
+
+    \path (s) edge node [above] {16} (a);
+    \path (a) edge node [above] {12} (b);
+    \path (b) edge node [above] {20} (t);
+
+
+    \path (a) edge [bend right ] node {10} (c);
+    \path (c) edge node {4} (a);
+\end{tikzpicture}
+&
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm, scale=0.8, swap]
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                            {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+        \node[vertex] (\name) at \pos {$\name$};
+
+
+    \path (s) edge[blue] node [above, black] {11} (a);
+    \path (a) edge[blue] node [above, black] {12} (b);
+    \path (b) edge[blue] node [above,black] {19} (t);
+    \path (s) edge[blue] node [black]{12} (c);
+    \path (c) edge[blue] node [black]{11} (d);
+    \path (c) edge[blue] node [black]{1} (a);
+    \path (d) edge[blue] node [black]{4} (t);
+    \path (d) edge[blue] node [black]{7} (b);
+\end{tikzpicture}
+\\
+
+\end{tabular}
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm, scale=1.0, swap]
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(4,3)/b},{(6,1.5)/t}}
+        \node[vertex] (\name) at \pos {$\name$};
+
+    \foreach \pos/\name in {{(0,1.5)/s}, {(2,3)/a},
+                            {(2,0)/c}, {(4,0)/d}}
+        \node[selected vertex] (\name) at \pos {$\name$};
+
+
+    % Connect vertices with edges and draw weights
+
+    \path (s) edge [bend right=10 ] node {5} (a);
+    \path (a) edge [bend right=10 ] node [above] {11} (s);
+    \path (b) edge  node [above] {12} (a);
+
+    \path (b) edge [bend right=10 ] node {1} (t);
+    \path (t) edge [bend right=10 ] node [above] {19} (b);
+
+    \path (b) edge  node {7} (d);
+    \path (t) edge  node {4} (d);
+
+    \path (c) edge [bend right=10 ] node  {3} (d);
+    \path (d) edge [bend right=10 ] node [above] {11} (c);
+
+    \path (s) edge [bend right=10 ] node  {1} (c);
+    \path (c) edge [bend right=10 ] node [above] {12} (s);
+
+    \path (c) edge [bend right=10] node  {3} (a);
+    \path (a) edge [bend  right=10] node {11} (c);
+
+
+    %\path (a) edge node [above] {12} (b);
+    %\path (b) edge node [above] {20} (t);
+
+
+    %\path (a) edge [bend right ] node {10} (c);
+    %\path (c) edge node {4} (a);
+\end{tikzpicture}
+
+
+\end{frame}
+
+
+\begin{frame}{Decomposição em Fluxos}
+\begin{itemize}
+  \item Um fluxo válido pode ser decomposto em caminhos aumentantes:
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+    % Draw a 7,11 network
+    % First we draw the vertices
+    \foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                            {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+        \node[vertex] (\name) at \pos {$\name$};
+
+
+    \path (s) edge[blue] node [above, black] {11} (a);
+    \path (a) edge[blue] node [above, black] {12} (b);
+    \path (b) edge[blue] node [above,black] {19} (t);
+    \path (s) edge[blue] node [black]{12} (c);
+    \path (c) edge[blue] node [black]{11} (d);
+    \path (c) edge[blue] node [black]{1} (a);
+    \path (d) edge[blue] node [black]{4} (t);
+    \path (d) edge[blue] node [black]{7} (b);
+
+
+
+        %\path (\source) -- node[weight] {$\weight$} edge (\dest);
+
+    % Start animating the vertex and edge selection.
+    %\foreach \vertex / \fr in {d/1,a/2,f/3,b/4,e/5,c/6,g/7}
+    %    \path<\fr-> node[selected vertex] at (\vertex) {$\vertex$};
+    % For convenience we use a background layer to highlight edges
+    % This way we don't have to worry about the highlighting covering
+    % weight labels.
+    %\begin{pgfonlayer}{background}
+    %    \pause
+    %    \foreach \source / \dest in {d/a,d/f,a/b,b/e,e/c,e/g}
+    %       \path<+->[selected edge] (\source.center) -- (\dest.center);
+    %    \foreach \source / \dest / \fr in {d/b/4,d/e/5,e/f/5,b/c/6,f/g/7}
+    %        \path<\fr->[ignored edge] (\source.center) -- (\dest.center);
+    %\end{pgfonlayer}
+\end{tikzpicture}
+
+
+\begin{itemize}
+  \item $s \to  a \to b \to t: 11$
+  \item $s \to  c \to a \to b \to t: 1$
+  \item $s \to  c \to d \to b \to t: 7$
+  \item $s \to  c \to d \to t: 4$
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Ford-Fulkerson}
+\begin{itemize}
+  \item Um algoritmo simples e prático para encontrar o fluxo máximo.
+  \item Encontre caminhos em ampliação válidos no grafo residual $G_f$ até que não exista mais nenhum e some o fluxo de todos eles.
+  \item $f$ é um fluxo máximo de $G$ então não existe nenhum caminho de ampliação em $G_f$.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Ford-Fulkerson}
+
+\begin{algorithm}[H]
+\caption{FordFulkerson(G,s,t)}
+\scriptsize
+\begin{algorithmic}[1]
+\Function {FordFulkerson} {$G,s,t$}
+
+\State $f^* \leftarrow 0$
+
+\For{ cada $(u,v) \in E(G)$ }
+    \State $f[u,v] \leftarrow 0$
+    \State $f[v,u] \leftarrow 0$
+\EndFor
+
+\While{ Enquanto existir um caminho em ampliação $p$ de $s$ até $t$ na rede residual $G_f$}
+
+\State $c_f(p) \leftarrow \min \{ c[u,v] - f[u,v] : (u,v) \in p\}$
+\State $f^* \leftarrow f^* + c_f(p)$
+\For{ cada $(u,v) \in p$ }
+    \State $f[u,v] \leftarrow f[u,v] + c_f(p)$
+    \State $f[v,u] \leftarrow -f[u,v]$
+\EndFor
+
+\EndWhile
+
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+\end{frame}
+
+
+\begin{frame}{Análise}
+\begin{itemize}
+  \item As capacidades são valores inteiros.
+  \item Encontrar o caminho em ampliação deve ter complexidade $O(n+m)$
+  \item A complexidade do algoritmo FordFulkerson é $O((n+m)f^*)$
+  \item A complexidade depende do valor do fluxo máximo.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Representação do grafo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+typedef struct Edge{
+  int from,to, rev, f, cap;
+  Edge(int from, int to, int rev, int f, int cap):
+    from(from),to(to), rev(rev), f(f), cap(cap) {};
+};
+
+vector <Edge> g[MAXN];
+
+void addEdge(int s, int t, int cap)
+{
+  g[s].push_back( Edge(s,t, g[t].size(), 0, cap)  );
+  g[t].push_back( Edge(t,s, g[s].size()-1, 0, 0)  );
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Caminho em ampliação}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+int find_path(int s, int t, int f){
+  int v, df;
+  if( s == t ) return f;
+  vis[s] = true;
+  for(int i = 0; i < g[s].size(); i++){
+    Edge & e = g[s][i];
+    if( e.cap - e.f <= 0) continue;
+    v  = e.to;
+    if( !vis[v] ){
+      df = find_path(v, t, min(f, e.cap-e.f) );
+      if( df > 0){
+        e.f += df;
+        g[v][e.rev].f -= df;
+        return df;
+      }
+    }
+  }
+  return 0;
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Ford-Fulkerson}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+/*
+Algoritmo Ford-Fulkerson
+Complexidade O((|V|+|E|)*|f|) = O(V^2*|f|)
+*/
+int ford_fulkerson(int _src, int _dest)
+{
+  int totflow, flow;
+  src = _src;
+  dest = _dest;
+  totflow = 0;
+  fill( vis, vis + nodes, false);
+  while( flow = find_path(src, dest, 0x7fffffff) )
+  {
+    totflow += flow;
+    fill( vis, vis + nodes, false);
+  }
+  printf("fluxo maximo %d\n", totflow);
+  return totflow;
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}{Execução do Ford-Fulkerson}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+\foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                        {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+    \node[vertex] (\name) at \pos {$\name$};
+\path (s) edge [bend right=10] node [above] {16} (a);
+\path (s) edge [bend right=10] node {13} (c);
+\path (a) edge [bend right=10] node [above] {12} (b);
+\path (a) edge [bend right=10] node {10} (c);
+\path (b) edge [bend right=10] node {9} (c);
+\path (b) edge [bend right=10] node [above] {20} (t);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {14} (d);
+\path (d) edge [bend right=10] node {7} (b);
+\path (d) edge [bend right=10] node {4} (t);
+\begin{pgfonlayer}{background}
+\pause
+\path<+->[selected edge] (d.center) -- (t.center);
+\path<+->[selected edge] (c.center) -- (d.center);
+\path<+->[selected edge] (b.center) -- (c.center);
+\path<+->[selected edge] (a.center) -- (b.center);
+\path<+->[selected edge] (s.center) -- (a.center);
+\end{pgfonlayer}
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}{Execução do Ford-Fulkerson}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+\foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                        {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+    \node[vertex] (\name) at \pos {$\name$};
+\path (s) edge [bend right=10] node [above] {12} (a);
+\path (s) edge [bend right=10] node {13} (c);
+\path (a) edge [bend right=10] node {4} (s);
+\path (a) edge [bend right=10] node [above] {8} (b);
+\path (a) edge [bend right=10] node {10} (c);
+\path (b) edge [bend right=10] node {4} (a);
+\path (b) edge [bend right=10] node {5} (c);
+\path (b) edge [bend right=10] node [above] {20} (t);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {4} (b);
+\path (c) edge [bend right=10] node {10} (d);
+\path (d) edge [bend right=10] node {4} (c);
+\path (d) edge [bend right=10] node {7} (b);
+\path (t) edge [bend right=10] node {4} (d);
+\begin{pgfonlayer}{background}
+\pause
+\path<+->[selected edge] (b.center) -- (t.center);
+\path<+->[selected edge] (a.center) -- (b.center);
+\path<+->[selected edge] (s.center) -- (a.center);
+\end{pgfonlayer}
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Execução do Ford-Fulkerson}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+\foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                        {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+    \node[vertex] (\name) at \pos {$\name$};
+\path (s) edge [bend right=10] node [above] {4} (a);
+\path (s) edge [bend right=10] node {13} (c);
+\path (a) edge [bend right=10] node {12} (s);
+\path (a) edge [bend right=10] node {10} (c);
+\path (b) edge [bend right=10] node {12} (a);
+\path (b) edge [bend right=10] node {5} (c);
+\path (b) edge [bend right=10] node [above] {12} (t);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {4} (b);
+\path (c) edge [bend right=10] node {10} (d);
+\path (d) edge [bend right=10] node {4} (c);
+\path (d) edge [bend right=10] node {7} (b);
+\path (t) edge [bend right=10] node {8} (b);
+\path (t) edge [bend right=10] node {4} (d);
+\begin{pgfonlayer}{background}
+\pause
+\path<+->[selected edge] (b.center) -- (t.center);
+\path<+->[selected edge] (c.center) -- (b.center);
+\path<+->[selected edge] (a.center) -- (c.center);
+\path<+->[selected edge] (s.center) -- (a.center);
+\end{pgfonlayer}
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Execução do Ford-Fulkerson}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+\foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                        {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+    \node[vertex] (\name) at \pos {$\name$};
+\path (s) edge [bend right=10] node {6} (c);
+\path (a) edge [bend right=10] node {16} (s);
+\path (a) edge [bend right=10] node {6} (c);
+\path (b) edge [bend right=10] node {12} (a);
+\path (b) edge [bend right=10] node {9} (c);
+\path (b) edge [bend right=10] node {7} (d);
+\path (b) edge [bend right=10] node [above] {1} (t);
+\path (c) edge [bend right=10] node {7} (s);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {3} (d);
+\path (d) edge [bend right=10] node {11} (c);
+\path (t) edge [bend right=10] node {19} (b);
+\path (t) edge [bend right=10] node {4} (d);
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Algoritmo Edmonds-Karp}
+\begin{itemize}
+\item O algoritmo de Edmonds-Karp é o algoritmo de Ford-Fulkerson utilizando o caminho mínimo para o caminho em ampliação.
+
+\item Esta modificação melhorar a complexidade do algoritmo para tempo polinomial.
+
+\item A distância do caminho mais curto na rede residual aumenta monotonicamente em cada ampliação do fluxo.
+
+\item O algoritmo de Edmonds-Karp executa em $O(VE^2)$
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{EdmondsKarp}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+int bfs(int src, int dest, int *pred, int *edge){
+  int q[nodes],qt;
+  bool vis[MAXN];
+  qt = 0; q[qt++] = src;
+  fill( pred, pred + nodes, -1);
+  fill( vis, vis + nodes, false);
+  for(int qh = 0; qh < qt && pred[dest] == -1; qh++){
+    int u = q[qh];
+    vis[u] = true;
+    for(int i = 0; i < (int)g[u].size(); i++){
+      Edge & e = g[u][i];
+      if( e.cap - e.f <= 0) continue;
+      int v  = e.to;
+      if( !vis[v] ){
+        pred[v] = u; edge[v] = i; q[qt++] = v;
+      }
+    }
+  }
+  if( pred[dest] == -1) return 0;
+  else return 1;
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{EdmondsKarp}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int edmonds_karp(int _src, int _dest)
+{
+  int flow, totflow;
+  int pred[nodes];
+  int edge[nodes];
+  int src, dest;
+  src = _src;
+  dest = _dest;
+  totflow = 0;
+  while( bfs(src, dest, pred, edge) > 0 ){
+    int flow = 0x7fffffff;
+    for(int v = dest; pred[v] >= 0; v = pred[v]){
+      Edge & e = g[ pred[v] ][ edge[v] ];
+      flow = min( flow, e.cap - e.f );
+    }
+    for(int v = dest; pred[v] >= 0; v = pred[v]){
+      Edge & e = g[ pred[v] ][ edge[v] ];
+      e.f += flow; g[v][e.rev].f -= flow;
+    }
+    totflow += flow;
+  }
+  return totflow;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{Execução do Edmonds-Karp}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+\foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                        {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+    \node[vertex] (\name) at \pos {$\name$};
+\path (s) edge [bend right=10] node [above] {16} (a);
+\path (s) edge [bend right=10] node {13} (c);
+\path (a) edge [bend right=10] node [above] {12} (b);
+\path (a) edge [bend right=10] node {10} (c);
+\path (b) edge [bend right=10] node {9} (c);
+\path (b) edge [bend right=10] node [above] {20} (t);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {14} (d);
+\path (d) edge [bend right=10] node {7} (b);
+\path (d) edge [bend right=10] node {4} (t);
+\begin{pgfonlayer}{background}
+\pause
+\path<+->[selected edge] (b.center) -- (t.center);
+\path<+->[selected edge] (a.center) -- (b.center);
+\path<+->[selected edge] (s.center) -- (a.center);
+\end{pgfonlayer}
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Execução do Edmonds-Karp}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+\foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                        {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+    \node[vertex] (\name) at \pos {$\name$};
+\path (s) edge [bend right=10] node [above] {4} (a);
+\path (s) edge [bend right=10] node {13} (c);
+\path (a) edge [bend right=10] node {12} (s);
+\path (a) edge [bend right=10] node {10} (c);
+\path (b) edge [bend right=10] node {12} (a);
+\path (b) edge [bend right=10] node {9} (c);
+\path (b) edge [bend right=10] node [above] {8} (t);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {14} (d);
+\path (d) edge [bend right=10] node {7} (b);
+\path (d) edge [bend right=10] node {4} (t);
+\path (t) edge [bend right=10] node {12} (b);
+\begin{pgfonlayer}{background}
+\pause
+\path<+->[selected edge] (d.center) -- (t.center);
+\path<+->[selected edge] (c.center) -- (d.center);
+\path<+->[selected edge] (a.center) -- (c.center);
+\path<+->[selected edge] (s.center) -- (a.center);
+\end{pgfonlayer}
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Execução do Edmonds-Karp}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+\foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                        {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+    \node[vertex] (\name) at \pos {$\name$};
+\path (s) edge [bend right=10] node {13} (c);
+\path (a) edge [bend right=10] node {16} (s);
+\path (a) edge [bend right=10] node {6} (c);
+\path (b) edge [bend right=10] node {12} (a);
+\path (b) edge [bend right=10] node {9} (c);
+\path (b) edge [bend right=10] node [above] {8} (t);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {10} (d);
+\path (d) edge [bend right=10] node {4} (c);
+\path (d) edge [bend right=10] node {7} (b);
+\path (t) edge [bend right=10] node {12} (b);
+\path (t) edge [bend right=10] node {4} (d);
+\begin{pgfonlayer}{background}
+\pause
+\path<+->[selected edge] (b.center) -- (t.center);
+\path<+->[selected edge] (d.center) -- (b.center);
+\path<+->[selected edge] (c.center) -- (d.center);
+\path<+->[selected edge] (s.center) -- (c.center);
+\end{pgfonlayer}
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Execução do Edmonds-Karp}
+
+\tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected vertex} = [vertex, fill=red!24]
+\tikzstyle{edge} = [draw,thick,->,fill=blue]
+\tikzstyle{weight} = [font=\small]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+\tikzstyle{ignored edge} = [draw,line width=5pt,-,black!20]
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=4cm, scale=1.0, swap]
+\foreach \pos/\name in {{(0,1)/s}, {(2,2)/a}, {(4,2)/b},
+                        {(2,0)/c}, {(4,0)/d}, {(6,1)/t}}
+    \node[vertex] (\name) at \pos {$\name$};
+\path (s) edge [bend right=10] node {6} (c);
+\path (a) edge [bend right=10] node {16} (s);
+\path (a) edge [bend right=10] node {6} (c);
+\path (b) edge [bend right=10] node {12} (a);
+\path (b) edge [bend right=10] node {9} (c);
+\path (b) edge [bend right=10] node {7} (d);
+\path (b) edge [bend right=10] node [above] {1} (t);
+\path (c) edge [bend right=10] node {7} (s);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {4} (a);
+\path (c) edge [bend right=10] node {3} (d);
+\path (d) edge [bend right=10] node {11} (c);
+\path (t) edge [bend right=10] node {19} (b);
+\path (t) edge [bend right=10] node {4} (d);
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Algoritmo de Dinics}
+
+\begin{itemize}
+
+  \item A seguinte anedota mostra como as coisas eram feitas em URSS. Um americano e um russo que trabalhavam ambos no desenvolvimento de armas durante a Guerra Fria se encontram. O americano pergunta: "Quando vocês desenvolveram a bomba, como você faziam para executar a enorme quantidade de cálculos necessária com seus computadores ruins?". O russo respondeu: "Nós usamos algoritmos melhores".
+  \item Encontrar os caminhos em ampliação no algoritmo FF é o gargalo do algoritmo.
+  \item O algoritmo BFS é usado para construir grafo em camadas.
+  \item O grafo em camadas é usado para encontrar os caminhos em ampliação.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Dinics}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.4]{dinitz.png}
+\caption{(d) A rede em camadas $\hat{L}(s,t)$ de comprimento 3 e um caminho de $s$ para $t$. (e) As arestas saturadas são removidas. (g) A nova rede em camadas de comprimento 4.}
+
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Algoritmo de Dinics}
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool bfs(int src, int dest)
+{
+  fill(dist, dist + nodes, -1);
+  dist[src] = 0;
+  int qh = 0, qt = 0;
+  int q[MAXN];
+  q[qt++] = src;
+  for(int qh = 0; qh < qt; qh++)
+  {
+    int u = q[qh];
+    for(int j = 0; j < g[u].size(); j++)
+    {
+      Edge & e = g[u][j];
+      int v = e.to;
+      if( dist[v] < 0 && e.f < e.cap )
+      {
+        dist[v] = dist[u] + 1;
+        q[qt++] = v;
+      }
+    }
+  }
+  return dist[dest] >= 0;
+}
+
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Algoritmo de Dinics}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int dfs(int src, int dest, int f){
+  if( src == dest ){
+    return f;
+  }
+  for(int i = 0; i < g[src].size(); i++)
+  {
+    Edge & e = g[src][i];
+    if( e.cap <= e.f ) continue;
+    int v = e.to;
+    if( dist[v] == dist[src] + 1){
+      int df = dfs(v, dest, min(f, e.cap-e.f) );
+      if(df > 0){
+        e.f += df;
+        g[v][e.rev].f -= df;
+        return df;
+      }
+    }
+  }
+  return 0;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Algoritmo de Dinics}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int dinics(int src, int dest)
+{
+  int flow, totflow;
+  totflow = 0;
+  while( bfs(src, dest ) )
+  {
+    while( flow = dfs(src, dest, INT_MAX) )
+    {
+      totflow += flow;
+    }
+  }
+  printf("fluxo maximo %d\n", totflow);
+  return totflow;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+
+\begin{frame}{Emparelhamento em grafos bipartidos}
+
+\begin{itemize}
+  \item Um grafo bipartido $G(V,E)$ onde $V = X \cup Y$ com $X \cap Y = \emptyset$ e $E \subseteq X \times Y$.
+  \item Grafos bipartidos modelam situações em os objetos são emparelhados com ou atribuídos para outros objetos. (Casamento, residentes/hospitais, tarefas/máquinas).
+  \item Um emparelhamento em um grafo bipartido $G$ é um conjunto $M \subseteq E$ tal que todo vértice de G incide em no máximo um elemento de $M$.
+  \item Um conjunto de arestas $M$ é um emparelhamento perfeito se todo vértice de $V$ incide em exatamente um aresta de $M$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Algoritmo para emparelhamento em grafos bipartidos}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{matching.png}
+\caption{Um grafo bipartido e a correspondente rede de fluxos com todas as capacidades iguais a 1}
+
+\end{figure}
+
+
+\begin{itemize}
+  \item Converta o grafo $G=(X \cup Y, E)$ em uma rede de fluxo $G'$: oriente as arestas de $X$ para $Y$, adicione um vértice $s$ e $t$, conecte s a cada vértice em $X$, conecte cada vértice de $Y$ ao vértice $t$ e sete todas as arestas com capacidade igual a 1.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Caminho disjuntos em arestas}
+
+\begin{itemize}
+  \item Um conjunto de caminhos em um grafo $G$ é disjuntos em arestas se cada aresta em G aparece no máximo em um caminho.
+
+
+\texttt{CAMINHO DIRECIONADO DISJUNTO EM ARESTAS}\\
+
+\textbf{INSTÂNCIA:} Grafo direcionado $G=(V,E)$ com dois nós distintos $s$ e $t$\\
+
+\textbf{SOLUÇÃO:} O número máximo de caminhos disjuntos em arestas entre $s$ e $t$.\\
+
+\end{itemize}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{edgedisjoint2.png}
+\caption{Dois caminhos disjuntos em arestas.}
+
+\end{figure}
+
+
+\end{frame}
+
+
+\begin{frame}{Problema de Circulação }
+
+\begin{itemize}
+  \item Dado um grafo direcionado $G=(V,E)$ com a função de capacidade $c: E \to \mathbb{Z}^{+}$ e uma função de demanda $d: V \to \mathbb{Z}$:
+
+\begin{itemize}
+\item $d(v) > 0$: nó destino e tem uma demanda de $d(v)$ unidade de fluxo.
+\item $d(v) < 0$: nó fonte e tem uma oferta de $-d(v)$ unidades de fluxo.
+\item $d(v) = 0$: nó recebe e transmite fluxo.
+\item S é o conjunto de vértices com demanda negativa.
+\item T é o conjunto de vértices com demanda positiva.
+\end{itemize}
+
+\item Uma circulação com demandas é uma função $f : E \to \mathbb{Z}^{+}$ que satisfaz
+
+\begin{itemize}
+  \item Para cada aresta $e \in E$, $ 0 \leq f(e) \leq c(e)$
+  \item Para cada vértice v, $\sum_{u \in N^{-}(V)} f[u,v] - \sum_{u \in N^{+}(V)} f[v,u] = d(v)$
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Redução do Problema de Circulação com demandas para o Problema do Fluxo Máximo}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{reducao.png}
+\caption{Redução do Problema de Circulação com demandas para o Problema do Fluxo Máximo}
+\end{figure}
+\begin{itemize}
+
+\item Converta o grafo $G$ em uma rede de fluxos $G'$:
+\begin{enumerate}
+  \item Adicione uma fonte $s*$ e um destino $t*$.
+  \item Conecte $s*$ a cada vértice $v \in S$ usando uma aresta com capacidade $-d(v)$.
+  \item Conecte cada vértice de $v \in T$ ao vértice $t*$ usando uma aresta com capacidade $d(v)$.
+  \item Verifique se o fluxo máximo é igual a $D = \sum_{ \{v: d(v) > 0\}} d(v)$  
+\end{enumerate}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Circulação com demandas}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{circulation.png}
+\caption{(a) Uma instância do problema de circulação de demandas com a sua solução. Os números dentro do nó representam as demandas; números rotulando as arestas são as capacidades e os números dentro das caixas representam a função de circulação. (b) O resultado da redução desta instância em um problema equivalente de fluxo máximo.
+}
+
+\end{figure}
+
+
+\end{frame}
+
+\begin{frame}{Problema de circulação com limites inferiores}
+
+\begin{itemize}
+  \item Nós queremos forçar que o fluxo em certas arestas.
+
+  \item Dado um grafo $G=(V,E)$ com a capacidade $c(e)$ e um limite inferior $ 0 \leq l(e) \leq c(e)$ para cada arestas e uma função de demanda $d: V \to \mathbb{Z}$.
+
+  \item Uma circulação é uma função $f : E \to \mathbb{Z}^{+}$ que satisfaz
+
+\begin{itemize}
+  \item Para cada aresta $e \in E$, $ l(e) \leq f(e) \leq c(e)$
+  \item Para cada vértice v, $\sum_{u \in N^{-}(V)} f[u,v] - \sum_{u \in N^{+}(V)} f[v,u] = d(v)$
+\end{itemize}
+
+\item Existe uma circulação viável para esse problema?
+ 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Redução para o problema de circulação sem limites inferiores}
+
+\begin{itemize}
+\item Seja $f_0(e) = l(e) \forall e \in E$
+\item Seja $L(v) = f_0^{in}(v) - f_0^{out}(v)$
+\item Encontre uma circulação $f_1$ tal que $f_1^{in}(v) - f_1^{out}(v) = d(v) - L(v)$
+\item A capacidade deixada em cada aresta será $c(e) - l(e)$
+\item Defina um grafo $G'$ com os mesmos vértices e arestas: a capacidade de uma aresta $e$ é $c(e)-l(e)$ e a demanda do vértice v é $d(v)-L(v)$
+\end{itemize}
+
+\end{frame}
+
+\end{document}
+
+
+
+
+
+
+
+
+

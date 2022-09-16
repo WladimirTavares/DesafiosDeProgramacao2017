@@ -1,0 +1,29 @@
+\frametitle{Implementação}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int tsp(int mask, int v){
+
+    if( mask == 0 ) return dist[0][v];
+    if( dp[mask][v] != -1) return dp[mask][v];
+    int min = INT_MAX;
+    for(int i = 0; i < n; i++)
+    {
+        if( (mask & (1<<i)) != 0 ){
+            int q = tsp(mask ^ (1<<i), i) + dist[i][v];
+            if( q < min ) min = q;
+        }
+
+    }
+    dp[mask][v] =min;
+    return dp[mask][v];
+}
+
+int main(){
+    int mask = 0;
+    for(int i = 0; i < n; i++) mask |= 1<<i;
+    for(int i=0; i<(1<<n);i++)
+        for(int j = 0; j < n; j++) dp[i][j] = -1;
+    int q = tsp( mask ^ (1<<0) , 0);
+}
+\end{lstlisting}
+}

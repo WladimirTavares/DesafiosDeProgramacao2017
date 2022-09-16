@@ -1,0 +1,297 @@
+\documentclass[onecolumn,a4paper,12pt]{report}
+%\documentclass[12pt,a4paper,twoside]{book} %twoside distingue página par de ímpar
+\usepackage{graphics} %para a inclusão de gráficos
+\usepackage[dvips,pdftex]{graphicx} %para incluir figuras gif, jpg,
+ %etc.
+\usepackage[portuges]{babel} %para separar sílabas em Português, etc...
+\usepackage[usenames,dvipsnames]{color} % para letras e caixas coloridas
+\usepackage[T1]{fontenc} %define uma codificação para os caracteres em que os acentos são digitados diretamente pelo teclado
+\usepackage{latexsym} %para fazer $\Box$ no \LaTeX2$\epsilon$
+%\usepackage{wrapfig} %define texto ao lado de figura
+\usepackage{makeidx} % índice remissivo
+\usepackage{amstext} %texto em equações: $... \text{} ...$
+\usepackage{theorem}
+\usepackage{tabularx} %tabelas ocupando toda a página
+\usepackage[all]{xy}
+\usepackage{amsfonts} %adiciona alguns estilos de letras
+\usepackage{amssymb}
+%\usepackage{a4wide} %correta formatação da página em A4
+\usepackage{indentfirst} %adiciona espaços no primeiro parágrafo
+\usepackage{amsmath}
+\usepackage{listings}
+
+%\usepackage{amscd}
+%\usepackage{amsthm} %define um estilo para a escrita dos teoremas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\parskip}{0.0cm} %espaco entre parágrafos
+\setlength{\oddsidemargin}{-1cm} %margem esquerda das páginas
+%\setlength{\unitlength}{3cm} %tamanho da figura criada
+\linespread{1.5} %distância entre linhas
+\setlength{\textheight}{25cm} %distância entre a primeira e última linha do texto(comprimento do texto)
+\setlength{\textwidth}{18cm} %indica a largura do texto
+\topmargin=-2cm %margem superior entre topo da página e o cabeçalho
+%\headsep=0.5cm %distãncia entre o cabeçalho e o corpo do texto
+%\setlength{\footskip}{27pt} %distãncia da última linha ao número da página
+%\evensidemargin=-0.2in %margem esquerda das páginas pares
+%\marginparwidth=1.7in %tamanho das notas de margem
+%\marginparsep=0.2in %distância entre a margem direita e as notas de margem
+%\topmargin=0cm
+%\stackrel{\frown}{AB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{cinza}{gray}{.8}
+\definecolor{branco}{gray}{1}
+\definecolor{preto}{gray}{0}
+\definecolor{verdemusgo}{rgb}{.3,.7,.5}
+\definecolor{vinho}{cmyk}{0,1,1,.5}
+%\setcounter{secnumdepth}{1}
+%\renewcommand{\thesection}{\textcolor{preto}{\arabic{section}}}
+%\renewcommand{\thepage}{\textcolor{preto}{\color{preto}{{\scriptsize}}}}
+{\theorembodyfont{\upshape}
+\newtheorem{Dem}{Demonstração}[chapter]}
+\newtheorem{Ex}{Exemplo}[chapter]
+\newtheorem{Exer}{Exercício}
+\newtheorem{Lista}{Lista de exercícios}
+\newtheorem{Def}{Definição}[chapter]
+
+\newtheorem{Pro}{Proposição}[chapter]
+\newtheorem{Ax}{Axioma}[chapter]
+\newtheorem{Teo}{Teorema}[chapter]
+\newtheorem{Cor}{Corolário}[chapter]
+\newtheorem{Cas}{Caso}[subsection]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{que}{Questão}[chapter]
+\newcommand{\dem}{\noindent{\bf Demonstração:}}
+\newcommand{\sol}{\noindent{\it Solução.}}
+\newcommand{\nota}{\noindent{\bf Notação:}}
+\newcommand{\ex}{\noindent{\bf Exemplos}}
+\newcommand{\Obs}{\noindent{\bf Observação:}}
+\newcommand{\fim}{\hfill $\blacksquare$}
+\newcommand{\ig}{\,\, = \,\,}
+\newcommand{\+}{\, + \,}
+\newcommand{\m}{\, - \,}
+\newcommand{\I}{\mbox{$I\kern-0.40emI$}}
+\newcommand{\Z}{\mbox{Z$\kern-0.40em$Z}}
+\newcommand{\Q}{\mbox{I$\kern-0.60em$Q}}
+\newcommand{\C}{\mbox{I$\kern-0.60em$C}}
+\newcommand{\N}{\mbox{I$\kern-0.40em$N}}
+\newcommand{\R}{\mbox{I$\kern-0.40em$R}}
+\newcommand{\Ro}{\rm{I\!R\!}}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\<}{\hspace*{-0.4cm}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ov}{\overline}
+\newcommand{\aj}{\vspace*{-0.2cm}}
+\newcommand{\pt}{\hspace{-1mm}\times\hspace{-1mm}}
+\newcommand{\cm}{\mbox{cm}}
+\newcommand{\np}{\mbox{$\in \kern-0.80em/$}}
+\newcommand{\tg} {\mbox{tg\,}}
+\newcommand{\ptm}{\hspace{-0.4mm}\cdot\hspace{-0.4mm}}
+\newcommand{\arc}{\stackrel{\;\;\frown}}
+\newcommand{\rad}{\;\mbox{rad}}
+\newcommand{\esp}{\;\;\;\;}
+\newcommand{\sen}{\mbox{sen\,}}
+\newcommand{\grau}{^{\mbox{{\scriptsize o}}}}
+\newcommand{\real} {\mbox{$I\kern-0.60emR$}}
+\newcommand{\vetor}{\stackrel{\color{vinho}\vector(1,0){15}}}
+\newcommand{\arctg}{\mbox{arctg\,}}
+\newcommand{\arcsen}{\mbox{arcsen\,}}
+\newcommand{\ordinal}{^{\underline{\scriptsize\mbox{\rmo}}}}
+\newcommand{\segundo}{$2^{\underline{o}}$ }
+\newcommand{\primeiro}{$1^{\underline{o}}$ }
+\newcommand{\nee}{\mbox{$\;=\kern-0.90em/\;$}}
+
+\lstset{language=C++,
+basicstyle=\ttfamily,
+keywordstyle=\color{blue}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+commentstyle=\color{blue}\ttfamily,
+morecomment=[l][\color{red}]{\#}
+}
+
+
+\begin{document}
+
+\begin{center}
+Universidade Federal do Ceará
+
+Campus de Quixadá
+
+QXD0153 - Desafios de Programação
+\end{center}
+
+
+Produza o código mais conciso possível para as seguintes tarefas:
+
+\begin{enumerate}
+
+\item Dado uma lista inteiros aleatórios, imprima os elementos distintos (únicos) de maneira ordenada.
+
+\textbf{Exemplo de Entrada} v = {40,20,10,20,30,10}
+
+\textbf{Exemplo de Saída} 10 20 30 40
+
+Pesquise a função unique da STL do C++.
+
+
+%\item Dado uma lista inteiros aleatórios, imprima os elementos distintos (únicos) de maneira ordenada usando a estrutura de dados set da STL do C++.
+
+Esse problema pode ser resolvido usando as funções sort e unique. 
+
+Solução Ana Paula:
+\begin{lstlisting}[language=C++]
+void unique_(vector<int>& n){
+
+  sort(n.begin(), n.end());
+  std::vector<int>::iterator it;
+  it = unique(n.begin(), n.end());
+  n.resize(distance(n.begin(), it));
+}
+\end{lstlisting}
+
+Solução Décio:
+\begin{lstlisting}[language=C++]
+list <int> lista;
+lista.sort();
+lista.unique();
+\end{lstlisting}
+	
+
+
+\item Dado uma lista ordenada de inteiros L com tamanho máximo de 1M de itens, determine quantas vezes o valor v existe em L. Pesquise a função lower\_bound da STL do C++.
+
+Esse problema pode ser resolvido em O(log n) depois do vetor ordenado. Basta utilizar a função lower\_bound e upper\_bound.
+
+Solução João Victor:
+\begin{lstlisting}[language=C++]
+  sort(v.begin(),v.end());
+  vector<int>::iterator low,up;
+  low=lower_bound (v.begin(), v.end(), valor_v); //
+  up= upper_bound (v.begin(), v.end(), valor_v); //
+  printf("%d \n\n",(up-low));
+\end{lstlisting}
+
+
+\item Gere todas as permutações de $\{'A','B','C', ..., 'J'\}$ com as das primeiras do alfabeto. Pesquise a função next\_permutation da STL do C++.
+
+O problema é resolvido através da simples aplicação da  função next\_permutation
+
+char letras [] = {'A','B','C','D','E','F','G','H','I','J'};
+	
+Solução Enoque:
+\begin{lstlisting}[language=C++]
+	
+while ( std::next_permutation(letras,letras+10) ){
+	for(int i = 0; i < 10; i++){
+	  cout << letras[i] << " ";
+	}
+	cout << endl;
+}
+\end{lstlisting}
+
+
+\item Gere todos os possíveis subconjuntos de $\{0,1,2,\ldots,N-1\}$, para $N = 20$.
+
+Dica: Use as operações bit-a-bit:
+\begin{itemize}
+  \item Cada número inteiro $[0, \ldots, (1 << N) - 1]$ representa um subconjunto de um conjunto de N elementos. Por exemplo, 0 representa o conjunto vazio e $(1 << N) - 1$ representa o conjunto de todos os elementos.
+  \item Para verificar se o elemento $j$ está no conjunto $i$, basta verificar se $(i \& (1 << j)) > 0$
+\end{itemize}
+
+Solução Vinicius:
+\begin{lstlisting}[language=C++]
+
+for(int i = 0; i < (1<<N); i++){
+    for(int j = 0; j < N; j++){
+        if((i&(1 << j)) > 0){
+            cout << j+1 << " ";
+        }
+    }
+    cout << endl;
+}
+\end{lstlisting}
+
+
+\item Determine se existe dois elementos distintos $x$ e $y$ em $L$ tal que $x+y = S$, onde n ($1 \leq n \leq 10^6$) é o tamanho do vetor.
+
+
+
+Solução Pedro Olimpío:
+
+\begin{lstlisting}[language=C++]
+sort(lista.begin(), lista.end());
+vector<int>::iterator it;
+
+//Complexidade (n log n)	
+for (it = lista.begin(); it != lista.end(); it++){
+    if (binary_search(lista.begin(), lista.end(), s - *it)){
+	  printf("%d %d\n", *it, s - *it);
+	  return 0;
+	}
+}
+printf("nao existe\n");
+\end{lstlisting}
+
+Solução Raul:
+
+\begin{lstlisting}[language=C++]
+
+sort(lista.begin(), lista.end());
+
+int ini = 0;
+int fim = lista.size()-1;
+
+//Complexidade O(n)
+while(ini < fim){
+    if(lista[ini] + lista[fim] == S){
+        cout << "Achei!" << endl;
+        cout << '[' << ini << "] = " << lista[ini] << endl;
+        cout << '[' << fim << "] = " << lista[fim] << endl;
+        break;
+    }
+    else if(lista[ini] + lista[fim] > S){
+        fim--;
+    }
+    else{
+        ini++;
+    }
+}
+\end{lstlisting}
+
+
+Solução Enoque:
+
+\begin{lstlisting}[language=C++]
+
+map <int, int> myMap;
+	
+for (int i = 0; i < TAM; i++){
+	scanf ("%d", &vetor[i]);
+	myMap[vetor[i]] = 1;
+}
+
+//Complexidade O(n log n)	
+for (int i = 0; i < TAM; i++){
+    if (myMap[s-vetor[i]] != 0){
+    	count++;
+    	break;
+    }
+}
+
+if (count == 0){
+	printf ("NAO PODE");
+}
+else{
+	printf("PODE");
+}
+\end{lstlisting}
+
+
+\end{enumerate}
+
+\end{document} 

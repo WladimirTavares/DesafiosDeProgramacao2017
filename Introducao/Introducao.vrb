@@ -1,0 +1,8 @@
+\frametitle{Domine a arte de testar}
+
+\begin{itemize}
+  \item Pense nos casos de borda.
+  \item Repita o mesmo caso de teste para checar a inicialização das variáveis.
+  \item Crie testes de casos problemáticos.
+  \item Não assuma nada de especial da entrada.
+\end{itemize}

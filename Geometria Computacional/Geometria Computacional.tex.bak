@@ -1,0 +1,987 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+%\usepackage[noend]{algorithmic}
+%\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{courier}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tkz-graph}
+\usetikzlibrary{positioning}
+
+
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+% Declare layers
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+
+\lstset{language=C++,
+basicstyle=\ttfamily,
+keywordstyle=\color{blue}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+commentstyle=\color{magenta}\ttfamily,
+morecomment=[l][\color{red}]{\#}
+}
+
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{8}{7.2}\selectfont}
+\newcommand{\azul}[1]{ {\color{blue}#1} }
+\newcommand{\BIT}{\begin{itemize}}
+\newcommand{\EIT}{\end{itemize}}
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Geometria Computacional}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Primitivas geométricas}
+
+\begin{frame}{Primitivas geométricas}
+
+\azul{Ponto}: dois números $(x,y)$
+
+\azul{Linha}: três números a, b e c $[ax + by = c]$
+
+\azul{Segmento}: dois pontos
+
+\azul{Polígono}: uma sequência de pontos
+
+\azul{Operações primitivas:}
+
+\BIT
+\item A área do triângulo formado por três pontos.
+\item Dados três pontos $p_1$,$p_2$ e $p_3$, determinar se $p_1-p_2-p_3$ está no sentido antihorário.
+\item Determinar se dois segmentos se intersectam.
+\item Compara os ângulos entre dois segmentos.
+\item Calcular o perímetro e área de um polígono.
+\item Determinar se um polígono é convexo.
+\item Determinar se um ponto está no polígono
+\EIT
+
+\end{frame}
+
+
+\section{Produto Vetorial}
+
+\begin{frame}{Produto Vetorial}
+
+\begin{itemize}
+\item Possui diversas aplicações:
+\begin{itemize}
+\item Determinar a area de um triângulo.
+\item Testar se três pontos são colineares;
+\item Determinar a orientação de três pontos (horário, anti-horário).
+\item Testar se dois segmentos intersectam.
+\end{itemize}
+
+\end{itemize}
+
+
+
+\end{frame}
+
+\begin{frame}{Produto Vetorial}
+
+O comprimento de $V \times W$ é a área do paralelogramo definido por V e W.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{paralelogramo.png}
+\end{figure}
+
+\begin{equation}
+||V \times W || = ||V|| ~||W|| ~sen(\theta)
+\end{equation}
+
+\end{frame}
+
+\begin{frame}{Produto Vetorial}
+
+O sentido de $V \times W$ é tal que $V$, $W$ e $V \times W$ , nesta ordem, satisfazem a regra da mão direita.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.8]{regra_mao_direita.png}
+\end{figure}
+
+
+\end{frame}
+
+
+\begin{frame}{Produto Vetorial}
+
+O produto vetorial 2D pode ser calculado da seguinte maneira:
+\begin{equation}
+(x_1, y_1) \times (x_2, y_2) = \left| \begin{array}{cc} x_1 & x_2 \\ y_1 & y_2 \end{array}\right| = x_1 y_2 - x_2 y_1
+\end{equation}
+
+O produto vetorial 3D pode ser calculado da seguinte maneira:
+
+
+\begin{tabular}{lll}
+$(x_1, y_1,z_1) \times (x_2, y_2,z_2)$ &=& $\left| \begin{array}{ccc} x_1 & x_2 & 1 \\ y_1 & y_2 & 1 \\z_1 & z_2& 1\\ \end{array}\right|$ \\
+                                     &=& $x_1 y_2 + x_2z_1 + y_1z_2 - z_2x_1 - z_1y_2 - x_2y_1$
+\end{tabular}
+
+
+\end{frame}
+
+\subsection{Área do Triângulo}
+
+\begin{frame}{Área do Triângulo}
+\begin{itemize}
+  \item Dados três pontos A, B e C.
+
+\begin{equation}
+area(\Delta ABC) = \frac{1}{2} || \overrightarrow{AB} \times \overrightarrow{AC} ||
+\end{equation}
+
+\BIT
+\item Se area > 0 então A-B-C está no sentido anti-horário.
+\item Se area < 0 então A-B-C está no sentido horário.
+\item Se area == 0 então A-B-C são colineares.
+\EIT
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{area.png}
+\end{figure}
+
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Área do Triângulo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+#include <math.h>
+#include <stdio.h>
+#include <algorithm>
+#include <vector>
+#include<iostream>
+using namespace std;
+const double EPSILON = 1.0e-7;
+typedef struct Point{
+  int x,y;
+  Point(){};
+  Point(int _x, int _y) : x(_x), y(_y){};
+  Point operator +(const Point &that) const { return Point(x+that.x, y+that.y);}
+  Point operator -(const Point &that) const { return Point(x-that.x, y-that.y);}
+  Point& operator =(const Point &that){
+    x = that.x; y = that.y;
+    return *this;
+  }
+  friend ostream& operator << (ostream& os, const Point &p)
+  {
+      os << "x: " << p.x << "  y: " << p.y << endl;
+      return os;
+  }
+} Point;
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Área do Triângulo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+
+int cross_product(int x1, int y1, int x2, int y2){
+  return x1*y2 - x2*y1;
+}
+
+double signed_area_triangulo(Point p0, Point p1, Point p2){
+  int dx1 = p1.x - p0.x;
+  int dy1 = p1.y - p0.y;
+  int dx2 = p2.x - p0.x;
+  int dy2 = p2.y - p0.y;
+  return 0.5*cross_product(dx1,dy1,dx2,dy2);
+}
+
+double area_triangulo(Point p0, Point p1, Point p2){
+  return fabs( signed_area_triangulo(p0,p1,p2) );
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\subsection{DIREÇÃO}
+
+\begin{frame}{Direção}
+
+\begin{itemize}
+  \item Dado três pontos $A$,$B$ e $C$
+  \item Se $\overrightarrow{AB} \times \overrightarrow{AC} > 0$ então  $\overrightarrow{AC}$ está à esquerda em relação a $\overrightarrow{AB}$ (sentido anti-horário).
+  \item Se $\overrightarrow{AB} \times \overrightarrow{AC} < 0$ então  $\overrightarrow{AC}$ está à direita em relação a $\overrightarrow{AB}$ (sentido horário).
+  \item Se $\overrightarrow{AB} \times \overrightarrow{AC} == 0$ então os pontos A, B e C são colineares.
+\end{itemize}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{direcao.png}
+\end{figure}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Direção}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+int DIRECTION(Point p0, Point p1, Point p2){
+  int dx1 = p1.x - p0.x;
+  int dy1 = p1.y - p0.y;
+  int dx2 = p2.x - p0.x;
+  int dy2 = p2.y - p0.y;
+
+  int val = cross_product(dx1,dy1,dx2,dy2);
+  if( val > 0) return 1;
+  else if( val < 0) return -1;
+  else return 0;
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+\subsection{Cruzamento entre dois segmentos}
+
+\begin{frame}{Checar se dois segmentos se cruzam}
+
+\begin{itemize}
+  \item Um segmento $\overrightarrow{p_1p_2}$ intercepta um outro segmento se o ponto $p_1$ reside de um lado do segmento e o ponto $p_2$ reside do outro lado.
+  \item Um caso limite surge se $p_1$ e $p_2$ residem sobre a linha (pontos colineares).
+  \item Dois segmentos se cruzam se somente se:
+  \begin{itemize}
+    \item Cada segmento intercepta a linha que contém o outro.
+    \item Uma extremidade de um segmento reside no outro segmento.
+  \end{itemize}
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Determina se dois segmentos se cruzam}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool INTERSECT(Point p1, Point p2, Point p3, Point p4){
+  int d1 = DIRECTION(p1,p2,p3);
+  int d2 = DIRECTION(p1,p2,p4);
+  int d3 = DIRECTION(p3,p4,p1);
+  int d4 = DIRECTION(p3,p4,p2);
+
+  if( d1*d2 < 0 && d3*d4 < 0) return true;
+  else if(d1==0 && ON_SEGMENT(p1,p2,p3) ) return true;
+  else if(d2==0 && ON_SEGMENT(p1,p2,p4) ) return true;
+  else if(d3==0 && ON_SEGMENT(p3,p4,p1) ) return true;
+  else if(d4==0 && ON_SEGMENT(p3,p4,p2) ) return true;
+  else return false;
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Determina se dois segmentos se cruzam}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+int ccw(Point p0, Point p1, Point p2){
+  int dx1 = p1.x - p0.x;
+  int dy1 = p1.y - p0.y;
+  int dx2 = p2.x - p0.x;
+  int dy2 = p2.y - p0.y;
+  /*Comparando os angulos dy1/dx1 e dy2/dx2*/
+  if( dx1*dy2 > dy1*dx2) return 1;
+  if( dx1*dy2 < dy1*dx2) return -1;
+  /*pontos colineares*/
+  /*ponto p0 está entre p1 e p2*/
+  if( (dx1*dx2 < 0) || (dy1*dy2 < 0)) return -1;
+  /*ponto p1 está mais próximo de p0 
+  está no sentido anti-horário*/
+  if( dx1*dx1 + dy1*dy1 <  dx2*dx2 + dy2*dy2 ) return 1;
+  return 0;
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Determina se dois segmentos se cruzam}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+/*p1,p2,p3 e p4 nao podem ser colineares*/
+bool intersect(Point p1, Point p2, Point p3, Point p4){
+  return (ccw(p1,p2,p3)*ccw(p1,p2,p4) <=0) 
+         && (ccw(p3,p4,p1)*ccw(p3,p4,p2) <=0)
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\subsection{Ordenação polar}
+
+\begin{frame}{Ordenação polar}
+\begin{itemize}
+  \item Escreva um algoritmo $O(n~log~n)$ para ordenar uma sequência $<p_1,p_2,\ldots,p_n>$ de $n$ pontos de acordo com seus ângulos polares com relação a um determinado ponto de origem $p_0$.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Determina se dois segmentos se cruzam}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool compare(const Point & p1, const Point & p2){
+ if ( cross_product(p1.x,p1.y,p2.x,p2.y) < 0)
+  return false;
+ else
+  return true;
+}
+
+void ordenacao_polar(vector <Point> & P){
+  for(int i = 1; i < P.size(); i++){
+    P[i] = P[i] - P[0];
+  }
+  sort(P.begin()+1, P.end(), compare);
+  for(int i = 1; i < P.size(); i++){
+    P[i] = P[i] + P[0];
+  }
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\section{Polígono}
+\begin{frame}{Polígono}
+
+Considere o polígono formado pelos pontos (1,1),(9,1),(12,4),(9,7) e (1,7).
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{poligono1.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Polígono}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int main(){
+
+  vector <Point> P;
+
+  P.push_back( Point(1,1) );
+  P.push_back( Point(1,7) );
+  P.push_back( Point(9,1) );
+  P.push_back( Point(9,7) );
+  P.push_back( Point(12,4) );
+
+  ordenacao_polar(P);
+
+  for(int i = 0; i < P.size(); i++)
+    cout << P[i] << endl;
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Polígono}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+x: 1  y: 1
+
+x: 9  y: 1
+
+x: 12  y: 4
+
+x: 9  y: 7
+
+x: 1  y: 7
+
+\end{lstlisting}
+}
+
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{poligono1.png}
+\end{figure}
+
+
+\end{frame}
+
+\subsection{Polígono}
+
+\begin{frame}[fragile]{Perímetro}
+
+\begin{itemize}
+  \item O perímetro de um poligono (concâvo ou convexo) com n vértices dado alguma ordem dos vértices pode ser computada da seguinte maneira:
+\end{itemize}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+double dist(Point p1, Point p2){
+  int dx = p1.x - p2.x;
+  int dy = p1.y - p2.y;
+  return hypot(dx,dy);
+}
+double perimetro(const vector <Point> & P){
+  double result = 0.0;
+  for(int i = 0; i < P.size(); i++){
+    result += dist(P[i],P[(i+1)%P.size()]);
+  }
+  return result;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{Propriedades}
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{propriedades.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Exemplo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+int main(){
+  vector <Point> P;
+  P.push_back( Point(1,1) );
+  P.push_back( Point(1,7) );
+  P.push_back( Point(9,1) );
+  P.push_back( Point(9,7) );
+  P.push_back( Point(12,4) );
+  ordenacao_polar(P);
+  cout << "perimetro " << perimetro(P) << endl;
+}
+\end{lstlisting}
+}
+
+Saída:
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+perimetro 30.4853
+\end{lstlisting}
+}
+\end{frame}
+
+\subsection{Área}
+
+\begin{frame}{Área}
+\begin{itemize}
+  \item A área com sinal de polígono de $n$ vértices dado uma ordem dos vértices pode ser computada pela determinante da matriz abaixo:
+
+\begin{tabular}{lll}
+$A$ &=& $\frac{1}{2}\left|
+\begin{array}{cc}
+x_0 & y_0\\
+x_1 & y_1 \\
+x_2 & y_2 \\
+\ldots & \ldots \\
+x_{n-1} & y_{n-1}\\
+\end{array}\right|$ \\
+&=& $\frac{1}{2}(x_0y_1+x_1y_2+\ldots+x_{n-1}y_0 - y_0x_1 - y_1x_2 - \ldots - y_{n-1}x_0 )$
+\end{tabular}
+
+
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Área}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+double area(const vector <Point> &P){
+  double result = 0.0;
+  double x1,y1,x2,y2;
+  for(int i = 0; i < P.size(); i++){
+    x1 = P[i].x;
+    y1 = P[i].y;
+    x2 = P[(i+1)%P.size()].x;
+    y2 = P[(i+1)%P.size()].y;
+    result += (x1*y2 - x2*y1);
+  }
+  return fabs(result)/2.0;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\subsection{Convexidade}
+
+\begin{frame}{Polígono Convexo}
+
+\begin{itemize}
+  \item Um polígono é convexo se todos três pontos consecutivos de um polígono estão na mesma direção (todo no sentido horário ou anti-horário). Se encontrarmos pelo menos uma tripla onde esta condição é falsa, então o polígono é côncavo.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Polígono Convexo}
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool isConvex(const vector <Point> &P){
+  int sz = (int) P.size();
+  if(sz <= 2) return false;
+  bool isLeft = DIRECTION(P[0],P[1],P[2]) > 0;
+  for(int i = 1; i < sz-1; i++){
+    if( (DIRECTION(P[i],P[i+1],P[(i+2)%sz]) > 0) != isLeft ){
+      return false;
+    }
+  }
+  return true;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Polígono Convexo}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int main(){
+  vector <Point> P;
+  P.push_back( Point(1,1) );
+  P.push_back( Point(9,1) );
+  P.push_back( Point(12,4) );
+  P.push_back( Point(9,7) );
+  P.push_back( Point(1,7) );
+  cout << "isConvex "   << isConvex(P) << endl; //1
+  P.clear();
+  P.push_back( Point(1,1) );
+  P.push_back( Point(3,3) );
+  P.push_back( Point(9,1) );
+  P.push_back( Point(12,4) );
+  P.push_back( Point(9,7) );
+  P.push_back( Point(1,7) );
+  cout << "isConvex "   << isConvex(P) << endl; //0
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+\begin{frame}{Ângulo entre três pontos}
+
+\begin{itemize}
+  \item Dados três pontos $P_0,P_1$ e $P2$:
+  \item Seja $V = P_1-P_0$ e $W = P_2-P_0$
+  \item $V \cdot W = |V||W| cos (\theta)$
+  \item $|V \times W| = |V||W| sen (\theta)$
+  \item $tan(\theta) = \frac{|V \times W|}{V \cdot W}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Polígono Convexo}
+\Fontvi{
+\begin{lstlisting}[language=C]
+double dot(Point a, Point b){
+  return a.x*b.x + a.y*b.y;
+}
+double cross(Point a, Point b){
+  return a.x*b.y - a.y*b.x;
+}
+double angle(Point p1, Point p2, Point p3){
+  Point v1 = p2-p1;
+  Point v2 = p3-p1;
+  return acos( dot(v1,v2)/(lenght(v1)*lenght(v2)));
+}
+double angle2(Point p1, Point p2, Point p3){
+  Point v1 = p2-p1;
+  Point v2 = p3-p1;
+  return atan2( (double)cross(v1,v2), dot(v1,v2) );
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{Rotaciona um ponto por um ângulo $\theta$}
+
+Um ponto pode ser rotacionado por um ângulo $\theta$ no sentido anti-horário usando a matriz de rotação
+
+\begin{equation}
+\left|
+\begin{array}{c}
+x'\\
+y' \\
+\end{array}\right|=
+\left|
+\begin{array}{cc}
+cos(\theta) & -sen(\theta)\\
+sen(\theta) & cos(\theta)\\
+\end{array}\right|\times
+\left|
+\begin{array}{c}
+x\\
+y\\
+\end{array}\right|
+\end{equation}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Polígono Convexo}
+\Fontvi{
+\begin{lstlisting}[language=C]
+double DEG2RAD(double theta){
+  return (theta*PI)/180;
+}
+Point rotate(Point p, double theta){
+  double rad = DEG2RAD(theta);
+  return Point(p.x*cos(rad) - p.y*sin(rad),
+               p.x*sin(rad) + p.y * cos(rad) );
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+\subsection{Ponto no Polígono}
+
+\begin{frame}[fragile]{Ponto no polígono}
+\begin{itemize}
+  \item O algoritmo winding number permite checar se um ponto $pt$ está em um polígono convexo ou côncavo.
+  \item O algoritmo calcula a soma dos ângulos entre três pontos \{P[i],pt,P[i+1]\} consecutivos de $P$.
+  \item Se a soma final for igual $2\pi$ então $pt$ está dentro do polígono;
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Ponto no polígono}
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool inPolygon(Point pt, const vector <Point> &P){
+  int sz = (int)P.size();
+  if( sz <= 2) return false;
+  double sum = 0;
+
+  for(int i=0; i < sz; i++){
+    sum += fabs( angle(pt,P[i],P[(i+1)%sz]));
+  }
+  return fabs(sum - 2*PI) < EPSILON;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{Ponto no polígono}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int main(){
+  vector <Point> P;
+  P.push_back( Point(1,1) );
+  P.push_back( Point(9,1) );
+  P.push_back( Point(12,4) );
+  P.push_back( Point(9,7) );
+  P.push_back( Point(1,7) );
+  Point pt(2,2);
+  cout << "isConvex "   << isConvex(P) << endl; //1
+  cout << "inPolygon " << inPolygon(pt,P) << endl;//1
+  P.clear();
+  P.push_back( Point(1,1) );
+  P.push_back( Point(3,3) );
+  P.push_back( Point(9,1) );
+  P.push_back( Point(12,4) );
+  P.push_back( Point(9,7) );
+  P.push_back( Point(1,7) );
+  cout << "isConvex "   << isConvex(P) << endl; //0
+  cout << "inPolygon " << inPolygon(pt,P) << endl;//0
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{Ponto no polígono}
+\begin{itemize}
+  \item O que acontece no procedimento \emph{inPolygon} se o ponto pt está em uma aresta do Polígono P ou se pt está no ponto médio entre P[i] e P[i+2]? Como essa situação pode ser corrigida?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ponto no polígono}
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool inPolygon2(Point pt, const vector <Point> &P){
+  int sz = (int)P.size();
+  if( sz <= 2) return false;
+  Point extreme(1000000, pt.y);
+  int count=0;
+  for(int i = 0; i < sz; i++){
+    if( INTERSECT(P[i], P[(i+1)%sz], pt, extreme) ){
+      if( DIRECTION(P[i], P[(i+1)%sz],pt) == 0)
+        return ON_SEGMENT(P[i], P[(i+1)%sz],pt);
+      count++;
+    }
+  }
+  return (count%2)==1;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+\begin{frame}[fragile]{Ponto no polígono}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{inPolygon.png}
+\end{figure}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool inPolygon3(Point pt, vector<Point> P){
+    int sz = P.size();
+    int crossing = 0;
+    for(int i = 0; i < sz; i++){
+        if( P[(i+1)%sz].x == P[i].x) continue;
+        double slope = (P[(i+1)%sz].y-P[i].y)/(P[(i+1)%sz].x-P[i].x);
+        bool cond1 = (P[i].x <= pt.x) && (pt.x < P[(i+1)%sz].x);
+        bool cond2 = (P[(i+1)%sz].x <= pt.x) && (pt.x < P[i].x);
+        bool above = (pt.y < slope*(pt.x-P[i].x) +P[i].y);
+        if( (cond1 || cond2) && above ) crossing++;
+    }
+    return ( (crossing % 2) != 0 );
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+\begin{frame}{Fecho convexo}
+\begin{itemize}
+  \item Dado n pontos em um plano, encontre o menor polígono convexo contendo todos os pontos.
+\end{itemize}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{fecho_convexo.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Algoritmo Simples}
+\begin{itemize}
+  \item O segmento AB está no fecho convexo se somente se DIRECTION(A,B,C) tem o mesmo sinal para todos os pontos C
+  \item Para cada ponto A e B:
+    \begin{itemize}
+      \item Se DIRECTION(A,B,C) > 0 para todo $C \neq A,B$ então insira os pontos A,B
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Algoritmo Graham Scan}
+\begin{itemize}
+  \item Sabemos que o ponto mais à esquerda está no fecho convexo.
+  \item Coloque o ponto mais à esquerda como origem.
+  \item Ordene os pontos usando o produto vetorial.
+  \item Incrementalmente construa o fecho convexo usando uma pilha
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pseudocódigo}
+
+\begin{itemize}
+  \item Mantenha uma lista de pontos com a propriedade convexa
+  \item Para cada ponto $i$ faça:
+    \begin{itemize}
+      \item Se o novo ponto faz um canto concavo remova o vértice que causa isso.
+      \item Repita até que a lista de pontos tenha a propriedade convexa.
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Fecho Convexo}
+\Fontvi{
+\begin{lstlisting}[language=C]
+vector<Point> convex_hull(vector <Point> & P){
+  int n = (int)P.size();
+  if( n <= 2 ){
+    if( P[0] == P[1]  ) P.pop_back();
+    return P;
+  }
+  int pivot = 0;
+  for(int i = 1; i < n; i++){
+    if( P[i].y < P[pivot].y ||
+      (P[i].y == P[pivot].y && P[i].x < P[pivot].x))
+      pivot = i;
+  swap(P[0],P[pivot]);
+  ordenacao_polar(P);
+  vector <Point> S;
+  S.push_back(P[0]); S.push_back(P[1]);S.push_back(P[2]);
+  int i = 3;
+  while(i < n){
+    int j = (int) S.size() - 1;
+    if( DIRECTION(S[j-1],S[j],P[i])>0 )
+        S.push_back(P[i++]);
+    else S.pop_back();
+  }
+  return S;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\section{Reta}
+\begin{frame}[fragile]{Reta}
+\Fontvi{
+\begin{lstlisting}[language=C]
+
+typedef struct Line{
+  double a,b,c;
+  friend ostream& operator << (ostream& os, const Line &l)
+  {
+      os << l.a << "x + " << l.b << " y + " << l.c << " = 0 " << endl;
+      return os;
+  }
+}Line;
+
+
+void pointsToLine(Point p1,Point p2, Line &l){
+  if( fabs(p1.x - p2.x) < EPSILON ){
+    l.a = 1.0;
+    l.b = 0.0;
+    l.c = -p1.x;
+  }else{
+    l.a = -(double)(p1.y-p2.y)/(p1.x-p2.x);
+    l.b = 1.0;
+    l.c = -(double)(l.a*p1.x) - p1.y;
+  }
+}
+
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Reta}
+\Fontvi{
+\begin{lstlisting}[language=C]
+
+bool areParallel(Line l1, Line l2){
+  return ( fabs(l1.a-l2.a) < EPSILON) && (fabs(l1.b - l2.b) < EPSILON);
+}
+
+bool areSame(Line l1, Line l2){
+  return areParallel(l1,l2) && ( fabs(l1.c-l2.c) < EPSILON);
+}
+
+
+
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Reta}
+\Fontvi{
+\begin{lstlisting}[language=C]
+
+bool areParallel(Line l1, Line l2){
+  return ( fabs(l1.a-l2.a) < EPSILON) && (fabs(l1.b - l2.b) < EPSILON);
+}
+
+bool areSame(Line l1, Line l2){
+  return areParallel(l1,l2) && ( fabs(l1.c-l2.c) < EPSILON);
+}
+
+
+
+\end{lstlisting}
+}
+\end{frame}
+
+
+\end{document}
+
+
+
+
+
+
+
+
+

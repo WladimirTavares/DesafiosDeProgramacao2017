@@ -1,0 +1,200 @@
+\documentclass[onecolumn,a4paper,12pt]{report}
+%\documentclass[12pt,a4paper,twoside]{book} %twoside distingue página par de ímpar
+\usepackage{graphics} %para a inclusão de gráficos
+\usepackage[dvips,pdftex]{graphicx} %para incluir figuras gif, jpg,
+ %etc.
+\usepackage[portuges]{babel} %para separar sílabas em Português, etc...
+\usepackage[usenames,dvipsnames]{color} % para letras e caixas coloridas
+\usepackage[T1]{fontenc} %define uma codificação para os caracteres em que os acentos são digitados diretamente pelo teclado
+\usepackage{latexsym} %para fazer $\Box$ no \LaTeX2$\epsilon$
+%\usepackage{wrapfig} %define texto ao lado de figura
+\usepackage{makeidx} % índice remissivo
+\usepackage{amstext} %texto em equações: $... \text{} ...$
+\usepackage{theorem}
+\usepackage{tabularx} %tabelas ocupando toda a página
+\usepackage[all]{xy}
+\usepackage{amsfonts} %adiciona alguns estilos de letras
+\usepackage{amssymb}
+%\usepackage{a4wide} %correta formatação da página em A4
+\usepackage{indentfirst} %adiciona espaços no primeiro parágrafo
+\usepackage{amsmath}
+\usepackage{listings}
+
+%\usepackage{amscd}
+%\usepackage{amsthm} %define um estilo para a escrita dos teoremas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\parskip}{0.0cm} %espaco entre parágrafos
+\setlength{\oddsidemargin}{-1cm} %margem esquerda das páginas
+%\setlength{\unitlength}{3cm} %tamanho da figura criada
+\linespread{1.5} %distância entre linhas
+\setlength{\textheight}{25cm} %distância entre a primeira e última linha do texto(comprimento do texto)
+\setlength{\textwidth}{18cm} %indica a largura do texto
+\topmargin=-2cm %margem superior entre topo da página e o cabeçalho
+%\headsep=0.5cm %distãncia entre o cabeçalho e o corpo do texto
+%\setlength{\footskip}{27pt} %distãncia da última linha ao número da página
+%\evensidemargin=-0.2in %margem esquerda das páginas pares
+%\marginparwidth=1.7in %tamanho das notas de margem
+%\marginparsep=0.2in %distância entre a margem direita e as notas de margem
+%\topmargin=0cm
+%\stackrel{\frown}{AB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{cinza}{gray}{.8}
+\definecolor{branco}{gray}{1}
+\definecolor{preto}{gray}{0}
+\definecolor{verdemusgo}{rgb}{.3,.7,.5}
+\definecolor{vinho}{cmyk}{0,1,1,.5}
+%\setcounter{secnumdepth}{1}
+%\renewcommand{\thesection}{\textcolor{preto}{\arabic{section}}}
+%\renewcommand{\thepage}{\textcolor{preto}{\color{preto}{{\scriptsize}}}}
+{\theorembodyfont{\upshape}
+\newtheorem{Dem}{Demonstração}[chapter]}
+\newtheorem{Ex}{Exemplo}[chapter]
+\newtheorem{Exer}{Exercício}
+\newtheorem{Lista}{Lista de exercícios}
+\newtheorem{Def}{Definição}[chapter]
+
+\newtheorem{Pro}{Proposição}[chapter]
+\newtheorem{Ax}{Axioma}[chapter]
+\newtheorem{Teo}{Teorema}[chapter]
+\newtheorem{Cor}{Corolário}[chapter]
+\newtheorem{Cas}{Caso}[subsection]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{que}{Questão}[chapter]
+\newcommand{\dem}{\noindent{\bf Demonstração:}}
+\newcommand{\sol}{\noindent{\it Solução.}}
+\newcommand{\nota}{\noindent{\bf Notação:}}
+\newcommand{\ex}{\noindent{\bf Exemplos}}
+\newcommand{\Obs}{\noindent{\bf Observação:}}
+\newcommand{\fim}{\hfill $\blacksquare$}
+\newcommand{\ig}{\,\, = \,\,}
+\newcommand{\+}{\, + \,}
+\newcommand{\m}{\, - \,}
+\newcommand{\I}{\mbox{$I\kern-0.40emI$}}
+\newcommand{\Z}{\mbox{Z$\kern-0.40em$Z}}
+\newcommand{\Q}{\mbox{I$\kern-0.60em$Q}}
+\newcommand{\C}{\mbox{I$\kern-0.60em$C}}
+\newcommand{\N}{\mbox{I$\kern-0.40em$N}}
+\newcommand{\R}{\mbox{I$\kern-0.40em$R}}
+\newcommand{\Ro}{\rm{I\!R\!}}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\<}{\hspace*{-0.4cm}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ov}{\overline}
+\newcommand{\aj}{\vspace*{-0.2cm}}
+\newcommand{\pt}{\hspace{-1mm}\times\hspace{-1mm}}
+\newcommand{\cm}{\mbox{cm}}
+\newcommand{\np}{\mbox{$\in \kern-0.80em/$}}
+\newcommand{\tg} {\mbox{tg\,}}
+\newcommand{\ptm}{\hspace{-0.4mm}\cdot\hspace{-0.4mm}}
+\newcommand{\arc}{\stackrel{\;\;\frown}}
+\newcommand{\rad}{\;\mbox{rad}}
+\newcommand{\esp}{\;\;\;\;}
+\newcommand{\sen}{\mbox{sen\,}}
+\newcommand{\grau}{^{\mbox{{\scriptsize o}}}}
+\newcommand{\real} {\mbox{$I\kern-0.60emR$}}
+\newcommand{\vetor}{\stackrel{\color{vinho}\vector(1,0){15}}}
+\newcommand{\arctg}{\mbox{arctg\,}}
+\newcommand{\arcsen}{\mbox{arcsen\,}}
+\newcommand{\ordinal}{^{\underline{\scriptsize\mbox{\rmo}}}}
+\newcommand{\segundo}{$2^{\underline{o}}$ }
+\newcommand{\primeiro}{$1^{\underline{o}}$ }
+\newcommand{\nee}{\mbox{$\;=\kern-0.90em/\;$}}
+
+\begin{document}
+
+\begin{center}
+Universidade Federal do Ceará
+
+Campus de Quixadá
+
+QXD0153 - Desafios de Programação
+\end{center}
+
+\begin{center}
+Lista $3$ - Estruturas de Dados
+\end{center}
+
+
+
+\begin{enumerate}
+
+\item Implemente uma pilha de inteiros que tem a operação minimo() que devolve o menor inteiro da pilha em tempo constante O(1) mantendo a complexidade de tempo das outras operações.
+
+\item Desenvolva um algoritmo de complexidade $O(n)$ que dado um vetor de inteiros com elementos repetidos, encontre a soma de todos os elementos distintos no vetor.
+
+\item Desenvolva um algoritmo de complexidade $O(n^2)$ que dado um vetor de inteiros distintos, encontre dois pares $(x,y)$ e $(z,w)$ tal que $xy = zw$, onde $x,y,z$ e $w$ são elementos distintos.
+
+\item Suponha que você tem dois animais de estimação e você ama ambos muito. Você vai a uma loja de animal de estimação para comprar artigos diferentes para seus animais de estimação. Mas você pergunta ao vendedor apenas os artigos que estão realmente em pares. Nesta loja, os artigos são identificados por números inteiros. Então você que contar o número de artigos que você pode comprar para seus animais de estimação.
+
+    A primeira linha da entrada contém um inteiro N representando o número de artigos da loja. A segunda linha contém $N$ inteiros separados que descrevem os artigos da loja.
+
+\begin{tabular}{|p{5cm}|p{5cm}|}
+\hline
+Entrada & Saída\\
+7       &  6  \\
+10 10 10 20 20 10 20 & \\
+\hline
+\end{tabular}
+
+Posso comprar 6 pares de produtos (10,10),(10,10),(20,20).
+
+
+\item Desenvolva um algoritmo  que dado um vetor de dígitos (valores de 0 até 9), encontre a menor soma possível de dois números formados a partir dos dígitos do vetor. Todos os dígitos do vetor devem ser usados para forma os dois números.
+
+\begin{tabular}{lll}
+\textbf{Entrada:} [7,8,4,5,2,3]\\
+\textbf{Saída:} 605\\
+A soma mínima é formada pela soma dos números 358 e 247.\\
+\end{tabular}
+
+\item Dado $n$ cordas de diferentes tamanhos, nós precisamos conectá-las em uma única corda. O custo para conectar duas cordas é igual a soma dos seus comprimentos. Desenvolva um algoritmo para conectar n cordas com o custo mínimo.
+
+\begin{tabular}{ll}
+\textbf{Entrada:} [4,3,2,6]\\
+\textbf{Saída:} 29\\
+\end{tabular}
+
+\item Dado um fluxo (=stream) de n números inteiros. Considere o problema de inserir um inteiro no fluxo e imprimir a mediana do fluxo formado pela inserção desse inteiro. A mediana deve ser encontrada de maneira incremental, ou seja, online. Se o tamanho do vetor é ímpar, então a mediana é elemento do meio do vetor depois de ordenado. Se o tamanho do vetor é par, então a mediana é a média dos dois valores do meio do vetor depois de ordenado. Desenvolva um algoritmo de complexidade $O(n log n)$ para encontrar a mediana de um fluxo de n inteiros de maneira incremental.
+
+\begin{tabular}{l}
+\textbf{Entrada:} n=4 v = [5,15,1,3]\\
+\textbf{Saída } [5,10,5,4]\\
+\end{tabular}
+
+\item Dado k vetores ordenados, sua tarefa é realizar a impressão do entrelaçamento("merge") dos vetores resultando em um vetor ordenado.
+
+\begin{enumerate}
+\item Desenvolva um algoritmo $O(n \mbox{ lg } n)$, onde n é o número total de elementos.
+\item Desenvolva um algoritmo $O(n \mbox{ lg } k)$, onde n é o número total de elementos.
+\end{enumerate}
+
+\item Dado uma sequência $A[1],\ldots,A[n]$. Uma pergunta pode ser definida da seguinte maneira:
+\begin{center}
+$pergunta(i,j) = max \{ \sum_{k=x}^{y} A[k] | i\leq x \leq y \leq j\}$
+\end{center}
+Dado M perguntas, desenvolva um algoritmo que responde estas perguntas.
+
+
+
+\item Dado um vetor de $n$ números inteiros e um inteiro $k$, desenvolva um algoritmo de complexidade $O(n ( \mbox{ lg } n)^2)$ para encontrar o comprimento do menor segmento com mdc igual k.
+
+\begin{tabular}{l}
+Entrada:\\
+v=\{6,9,7,10,12,24,36,27\}\\
+k=3\\
+Saída\\
+mdc(\{6,9\})=3\\
+Observe que o mdc({24,36,27}) é 3 também, mas \{6,9\} é o menor segmento.\\
+\end{tabular}
+
+Dica: Construa uma árvore de segmento, onde cada nó da árvore tem o mdc do segmento. Depois, faça uma busca binária para encontrar o menor segmento em cada $[i..n]$ para $i=1$ até $n$. Observe que se o mdc de um segmento $[i..j]$ for menor que k então nenhum subsegmento pode ter o mdc igual a k.
+
+\end{enumerate}
+
+\end{document} 

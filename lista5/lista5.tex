@@ -1,0 +1,219 @@
+\documentclass[onecolumn,a4paper,10pt]{report}
+%\documentclass[12pt,a4paper,twoside]{book} %twoside distingue página par de ímpar
+\usepackage{graphics} %para a inclusão de gráficos
+\usepackage[dvips,pdftex]{graphicx} %para incluir figuras gif, jpg,
+ %etc.
+\usepackage[portuges]{babel} %para separar sílabas em Português, etc...
+\usepackage[usenames,dvipsnames]{color} % para letras e caixas coloridas
+\usepackage[T1]{fontenc} %define uma codificação para os caracteres em que os acentos são digitados diretamente pelo teclado
+\usepackage{latexsym} %para fazer $\Box$ no \LaTeX2$\epsilon$
+%\usepackage{wrapfig} %define texto ao lado de figura
+\usepackage{makeidx} % índice remissivo
+\usepackage{amstext} %texto em equações: $... \text{} ...$
+\usepackage{theorem}
+\usepackage{tabularx} %tabelas ocupando toda a página
+\usepackage[all]{xy}
+\usepackage{amsfonts} %adiciona alguns estilos de letras
+\usepackage{amssymb}
+%\usepackage{a4wide} %correta formatação da página em A4
+\usepackage{indentfirst} %adiciona espaços no primeiro parágrafo
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{hyperref}
+
+
+%\usepackage{amscd}
+%\usepackage{amsthm} %define um estilo para a escrita dos teoremas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\parskip}{0.0cm} %espaco entre parágrafos
+\setlength{\oddsidemargin}{-1cm} %margem esquerda das páginas
+%\setlength{\unitlength}{3cm} %tamanho da figura criada
+\linespread{1.5} %distância entre linhas
+\setlength{\textheight}{25cm} %distância entre a primeira e última linha do texto(comprimento do texto)
+\setlength{\textwidth}{18cm} %indica a largura do texto
+\topmargin=-2cm %margem superior entre topo da página e o cabeçalho
+%\headsep=0.5cm %distãncia entre o cabeçalho e o corpo do texto
+%\setlength{\footskip}{27pt} %distãncia da última linha ao número da página
+%\evensidemargin=-0.2in %margem esquerda das páginas pares
+%\marginparwidth=1.7in %tamanho das notas de margem
+%\marginparsep=0.2in %distância entre a margem direita e as notas de margem
+%\topmargin=0cm
+%\stackrel{\frown}{AB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{cinza}{gray}{.8}
+\definecolor{branco}{gray}{1}
+\definecolor{preto}{gray}{0}
+\definecolor{verdemusgo}{rgb}{.3,.7,.5}
+\definecolor{vinho}{cmyk}{0,1,1,.5}
+%\setcounter{secnumdepth}{1}
+%\renewcommand{\thesection}{\textcolor{preto}{\arabic{section}}}
+%\renewcommand{\thepage}{\textcolor{preto}{\color{preto}{{\scriptsize}}}}
+{\theorembodyfont{\upshape}
+\newtheorem{Dem}{Demonstração}[chapter]}
+\newtheorem{Ex}{Exemplo}[chapter]
+\newtheorem{Exer}{Exercício}
+\newtheorem{Lista}{Lista de exercícios}
+\newtheorem{Def}{Definição}[chapter]
+
+\newtheorem{Pro}{Proposição}[chapter]
+\newtheorem{Ax}{Axioma}[chapter]
+\newtheorem{Teo}{Teorema}[chapter]
+\newtheorem{Cor}{Corolário}[chapter]
+\newtheorem{Cas}{Caso}[subsection]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{que}{Questão}[chapter]
+\newcommand{\dem}{\noindent{\bf Demonstração:}}
+\newcommand{\sol}{\noindent{\it Solução.}}
+\newcommand{\nota}{\noindent{\bf Notação:}}
+\newcommand{\ex}{\noindent{\bf Exemplos}}
+\newcommand{\Obs}{\noindent{\bf Observação:}}
+\newcommand{\fim}{\hfill $\blacksquare$}
+\newcommand{\ig}{\,\, = \,\,}
+\newcommand{\+}{\, + \,}
+\newcommand{\m}{\, - \,}
+\newcommand{\I}{\mbox{$I\kern-0.40emI$}}
+\newcommand{\Z}{\mbox{Z$\kern-0.40em$Z}}
+\newcommand{\Q}{\mbox{I$\kern-0.60em$Q}}
+\newcommand{\C}{\mbox{I$\kern-0.60em$C}}
+\newcommand{\N}{\mbox{I$\kern-0.40em$N}}
+\newcommand{\R}{\mbox{I$\kern-0.40em$R}}
+\newcommand{\Ro}{\rm{I\!R\!}}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\<}{\hspace*{-0.4cm}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ov}{\overline}
+\newcommand{\aj}{\vspace*{-0.2cm}}
+\newcommand{\pt}{\hspace{-1mm}\times\hspace{-1mm}}
+\newcommand{\cm}{\mbox{cm}}
+\newcommand{\np}{\mbox{$\in \kern-0.80em/$}}
+\newcommand{\tg} {\mbox{tg\,}}
+\newcommand{\ptm}{\hspace{-0.4mm}\cdot\hspace{-0.4mm}}
+\newcommand{\arc}{\stackrel{\;\;\frown}}
+\newcommand{\rad}{\;\mbox{rad}}
+\newcommand{\esp}{\;\;\;\;}
+\newcommand{\sen}{\mbox{sen\,}}
+\newcommand{\grau}{^{\mbox{{\scriptsize o}}}}
+\newcommand{\real} {\mbox{$I\kern-0.60emR$}}
+\newcommand{\vetor}{\stackrel{\color{vinho}\vector(1,0){15}}}
+\newcommand{\arctg}{\mbox{arctg\,}}
+\newcommand{\arcsen}{\mbox{arcsen\,}}
+\newcommand{\ordinal}{^{\underline{\scriptsize\mbox{\rmo}}}}
+\newcommand{\segundo}{$2^{\underline{o}}$ }
+\newcommand{\primeiro}{$1^{\underline{o}}$ }
+\newcommand{\nee}{\mbox{$\;=\kern-0.90em/\;$}}
+
+\begin{document}
+
+\begin{center}
+Universidade Federal do Ceará
+
+Campus de Quixadá
+
+QXD0153 - Desafios de Programação
+\end{center}
+
+\begin{center}
+Lista $5$ - Backtracking
+\end{center}
+
+
+
+\begin{enumerate}
+\item (Expressões) Faça um algoritmo para, dados n+1 números inteiros positivos,
+verificar se é possível escrever o primeiro como uma combinação linear dos n restantes (usando somas e subtrações, apenas).
+Exemplo: para \{13, 9, 5, 11, 20\} é possível, pois 13 = 9 - 5 - 11 + 20; já para \{3, 200,150, 8, 15\} não é possível.
+
+Restrições N $\leq $10
+
+\item (Jogo do Palito) Implementar um programa para o Jogo do Último palito, onde dois jogadores iniciam com uma pilha de 24 palitos e, alternadamente, cada um pode retirar 1 a 3 palitos, vencendo o último a retirar palitos.
+
+
+
+\item (Vasos) Dados 3 vasos contendo água, com capacidades $(c_1, c_2, c_3)$, situação inicial
+$(s_1, s_2, s_3)$, quer-se determinar qual o número mínimo de operações de transferência, para se atingir o objetivo $(o_1, o_2, o_3)$ dado. Cada transferência têm um vaso de origem e um vaso de destino. Se a água do vaso de origem não é suficiente para completar a capacidade do vaso de destino, então toda a água do vaso de origem é transferida para o vaso de destino. Caso contrário, somente a quantidade de água necessária para completar o vaso de destino é transferida. Toda quantidade de água é mantida no processo. Observe que pode não haver solução.
+
+
+\begin{center}
+\begin{tabular}{cccccccccc}
+\hline
+$c_1$ & $c_2$ & $c_3$ &  $s_1$ & $s_2$ & $s_3$ & $o_1$ & $o_2$ & $o_3$ & movimentos \\
+\hline
+5 & 4 &1 & 1 &0 &1  &0 &2& 0 & 2  \\
+5 & 4 &1 & 1 &0 &1  &0 &3& 0 & -1 \\
+5 & 4 &1 & 1 &0 &1  &0 &0& 2 & -1 \\
+5 & 4 &1 & 1 &0 &1  &1 &0& 1 & 0  \\
+5 & 4 &1 & 0 &4 &0  &3 &0& 1 & 2 \\
+\hline
+\end{tabular}
+\end{center}
+
+
+\item Dada uma sequência de n números inteiros (n < 101), quer-se determinar a ordem de contrações a serem feitas, tal que o resultado final seja um número p dado. Cada contração toma dois elementos vizinhos da sequência, substitui o primeiro pela diferença entre ele e seguinte, e elimina o elemento seguinte.
+
+Formalmtente, a operação de contração pode ser definida como:
+
+$con(a, i) = [ a_1, \ldots,a_{i-1},a_i - a_{i+1}, a_{i+2},\ldots,a_n ]$
+
+Por exemplo, aplicando as contrações 2,3,2 e 1 na sequência [12,10,4,3,5] obtemos o número 4:
+
+\begin{center}
+\begin{tabular}{lll}
+con( [12,10,4,3,5], 2) & = &  [12,10-4,3,5]\\
+con( [12,6,3,5], 3) & = &  [12,6,3-5]\\
+con( [12,6,-2], 2) & = &  [12,6-(-2)]\\
+con( [12,8], 1) & = &  [4]\\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+n & p & $[a_1,\ldots,a_n]$ & $[c_1,\ldots,c_{n-1}]$ \\
+\hline
+4 & 5 & [10,2,5,2] & [1,2,1] \\
+\hline
+5 & 4 & [12,10,4,3,5] & [2,3,2,1]\\
+\hline
+\end{tabular}
+\end{center}
+
+\item (Sodoku solver) Sudoku é uma tarefa muito simples. Um tabela quadrada com 9 linhas e 9 colunas é
+dividida em 9 quadrados menores de 3 x 3 como mostrado na figura. Em algumas das celulas estão escritos digitos de 1 a 9. As outras celulas são vazias. O objetivo é preencher as celulas vazias com digitos decimais de 1 a 9, um digito por celula, de tal modo que em cada linha, em cada coluna, e em cada subquadrado 3 x 3, todos os digitos de 1 a 9 apareçam. Escreva um programa que resolva um Sudoku.
+
+\begin{lstlisting}[language=C]
+Entrada:
+103000509
+002109400
+000704000
+300502006
+060000050
+700803004
+000401000
+009205800
+804000107
+
+Saída:
+143628579
+572139468
+986754231
+391542786
+468917352
+725863914
+237481695
+619275843
+854396127
+\end{lstlisting}
+
+
+\end{enumerate}
+
+
+
+\end{document}
+

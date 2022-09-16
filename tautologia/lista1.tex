@@ -1,0 +1,206 @@
+\documentclass[onecolumn,a4paper,12pt]{report}
+%\documentclass[12pt,a4paper,twoside]{book} %twoside distingue página par de ímpar
+\usepackage{graphics} %para a inclusão de gráficos
+\usepackage[dvips,pdftex]{graphicx} %para incluir figuras gif, jpg,
+ %etc.
+\usepackage[portuges]{babel} %para separar sílabas em Português, etc...
+\usepackage[usenames,dvipsnames]{color} % para letras e caixas coloridas
+\usepackage[T1]{fontenc} %define uma codificação para os caracteres em que os acentos são digitados diretamente pelo teclado
+\usepackage{latexsym} %para fazer $\Box$ no \LaTeX2$\epsilon$
+%\usepackage{wrapfig} %define texto ao lado de figura
+\usepackage{makeidx} % índice remissivo
+\usepackage{amstext} %texto em equações: $... \text{} ...$
+\usepackage{theorem}
+\usepackage{tabularx} %tabelas ocupando toda a página
+\usepackage[all]{xy}
+\usepackage{amsfonts} %adiciona alguns estilos de letras
+\usepackage{amssymb}
+%\usepackage{a4wide} %correta formatação da página em A4
+\usepackage{indentfirst} %adiciona espaços no primeiro parágrafo
+\usepackage{amsmath}
+%\usepackage{amscd}
+%\usepackage{amsthm} %define um estilo para a escrita dos teoremas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\parskip}{0.0cm} %espaco entre parágrafos
+\setlength{\oddsidemargin}{-1cm} %margem esquerda das páginas
+%\setlength{\unitlength}{3cm} %tamanho da figura criada
+\linespread{1.5} %distância entre linhas
+\setlength{\textheight}{25cm} %distância entre a primeira e última linha do texto(comprimento do texto)
+\setlength{\textwidth}{18cm} %indica a largura do texto
+\topmargin=-2cm %margem superior entre topo da página e o cabeçalho
+%\headsep=0.5cm %distãncia entre o cabeçalho e o corpo do texto
+%\setlength{\footskip}{27pt} %distãncia da última linha ao número da página
+%\evensidemargin=-0.2in %margem esquerda das páginas pares
+%\marginparwidth=1.7in %tamanho das notas de margem
+%\marginparsep=0.2in %distância entre a margem direita e as notas de margem
+%\topmargin=0cm
+%\stackrel{\frown}{AB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{cinza}{gray}{.8}
+\definecolor{branco}{gray}{1}
+\definecolor{preto}{gray}{0}
+\definecolor{verdemusgo}{rgb}{.3,.7,.5}
+\definecolor{vinho}{cmyk}{0,1,1,.5}
+%\setcounter{secnumdepth}{1}
+%\renewcommand{\thesection}{\textcolor{preto}{\arabic{section}}}
+%\renewcommand{\thepage}{\textcolor{preto}{\color{preto}{{\scriptsize}}}}
+{\theorembodyfont{\upshape}
+\newtheorem{Dem}{Demonstração}[chapter]}
+\newtheorem{Ex}{Exemplo}[chapter]
+\newtheorem{Exer}{Exercício}
+\newtheorem{Lista}{Lista de exercícios}
+\newtheorem{Def}{Definição}[chapter]
+
+\newtheorem{Pro}{Proposição}[chapter]
+\newtheorem{Ax}{Axioma}[chapter]
+\newtheorem{Teo}{Teorema}[chapter]
+\newtheorem{Cor}{Corolário}[chapter]
+\newtheorem{Cas}{Caso}[subsection]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{que}{Questão}[chapter]
+\newcommand{\dem}{\noindent{\bf Demonstração:}}
+\newcommand{\sol}{\noindent{\it Solução.}}
+\newcommand{\nota}{\noindent{\bf Notação:}}
+\newcommand{\ex}{\noindent{\bf Exemplos}}
+\newcommand{\Obs}{\noindent{\bf Observação:}}
+\newcommand{\fim}{\hfill $\blacksquare$}
+\newcommand{\ig}{\,\, = \,\,}
+\newcommand{\+}{\, + \,}
+\newcommand{\m}{\, - \,}
+\newcommand{\I}{\mbox{$I\kern-0.40emI$}}
+\newcommand{\Z}{\mbox{Z$\kern-0.40em$Z}}
+\newcommand{\Q}{\mbox{I$\kern-0.60em$Q}}
+\newcommand{\C}{\mbox{I$\kern-0.60em$C}}
+\newcommand{\N}{\mbox{I$\kern-0.40em$N}}
+\newcommand{\R}{\mbox{I$\kern-0.40em$R}}
+\newcommand{\Ro}{\rm{I\!R\!}}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\<}{\hspace*{-0.4cm}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ov}{\overline}
+\newcommand{\aj}{\vspace*{-0.2cm}}
+\newcommand{\pt}{\hspace{-1mm}\times\hspace{-1mm}}
+\newcommand{\cm}{\mbox{cm}}
+\newcommand{\np}{\mbox{$\in \kern-0.80em/$}}
+\newcommand{\tg} {\mbox{tg\,}}
+\newcommand{\ptm}{\hspace{-0.4mm}\cdot\hspace{-0.4mm}}
+\newcommand{\arc}{\stackrel{\;\;\frown}}
+\newcommand{\rad}{\;\mbox{rad}}
+\newcommand{\esp}{\;\;\;\;}
+\newcommand{\sen}{\mbox{sen\,}}
+\newcommand{\grau}{^{\mbox{{\scriptsize o}}}}
+\newcommand{\real} {\mbox{$I\kern-0.60emR$}}
+\newcommand{\vetor}{\stackrel{\color{vinho}\vector(1,0){15}}}
+\newcommand{\arctg}{\mbox{arctg\,}}
+\newcommand{\arcsen}{\mbox{arcsen\,}}
+\newcommand{\ordinal}{^{\underline{\scriptsize\mbox{\rmo}}}}
+\newcommand{\segundo}{$2^{\underline{o}}$ }
+\newcommand{\primeiro}{$1^{\underline{o}}$ }
+\newcommand{\nee}{\mbox{$\;=\kern-0.90em/\;$}}
+
+\begin{document}
+
+\begin{center}
+Universidade Federal do Ceará
+
+Campus de Quixadá
+
+QXD0153 - Desafios de Programação
+\end{center}
+
+\begin{center}
+Lista $1$
+\end{center}
+
+9 verdades e 1 mentira:
+\begin{enumerate}
+\item $P \rightarrow (P \vee Q)$
+\item $(P \wedge Q) \rightarrow P$
+\item $(P \wedge (P \rightarrow Q)) \rightarrow Q$
+\item $\neg (P \rightarrow Q) \rightarrow (P \wedge \neg Q)$
+\item $(P \rightarrow Q) \rightarrow (\neg Q \rightarrow \neg P)$
+\item $((P \vee Q) \wedge \neg P) \rightarrow Q$
+\item $(P \rightarrow Q) \wedge Q) \rightarrow P$
+\item $((P \vee \neg Q) \wedge Q) \rightarrow P$
+\item $((P \wedge Q) \wedge (P \rightarrow R) \wedge (\neg Q \vee S)) \rightarrow (R \wedge S)$
+\item $((A \vee B) \wedge (C \vee \neg B)) \rightarrow (A \vee C)$
+\end{enumerate}
+
+Responda as seguintes perguntas utilizando o seu conhecimento atual sobre algoritmos clássicos e suas complexidades.
+
+\begin{enumerate}
+
+\item Existem $n$ páginas na internet $(1 \leq n \leq 10^7)$. Cada página
+$i$ tem um page rank diferente $r_i$. Encontre as 10 páginas
+com os maiores page rank. Qual método é mais recomendada? Justifique sua resposta.
+
+\begin{enumerate}
+\item Leia n páginas e ordene e escolha 10 maiores.
+\item Use uma fila de prioridade (heap).
+\end{enumerate}
+
+\item Dado um vetor estático $L$ com 10K inteiros, você precisa frequentemente obter $sum(i,j) = L[i] + L[i+1] + \ldots + L[j]$. Qual é a estrutura de dados mais recomendada? Justifique sua resposta.
+
+\begin{enumerate}
+\item Para cada consulta, utilize um vetor simples para calcular $L[i] + L[i+1] + \ldots + L[j]$ em $O(N)$.
+\item Para cada consulta, utilize um vetor pré-processado usando \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ em $O(1)$.
+\end{enumerate}
+
+\item Seja Q uma matriz $M \times N$ ($1 \leq M,N \leq 30$), determine se existe uma sub-matriz de $Q'$ de tamanho $A \times B$ ($1 \leq A \leq M, 1 \leq B \leq N$), onde $media(Q') = 7$
+
+\begin{enumerate}
+\item Tente todas as possíveis sub-matrizes e cheque se a média de cada submatriz é 7. Este algoritmo roda em $O(M^3 \times N^3)$
+\item Tente todas as possíveis sub-matrizes, mas em $O(M^2 \times N^2)$ usando \_\_\_\_\_\_\_\_\_\_\_.
+\end{enumerate}
+
+\item Qual algoritmo produz uma lista dos primeiros 10K números primos com a melhor complexidade de tempo?
+
+\item Você quer saber quantos zeros tem no final de $100!$. O que você deve fazer?
+
+\item Você quer testar se o fatorial de $n$ é divisível por $m$, onde $1 \leq n \leq 10000$. O que você deve fazer?
+
+\item Você quer enumerar todas as ocorrências de uma substring $P$ (de tamanho $m$) em uma string $T$ (de tamanho $n$). Ambos $n$ e $m$ tem no máximo 1M de caracteres. O que você deve fazer?
+
+\item Dado um conjunto de S de N pontos aleatoriamente espalhados em um plano 2D ($2 \leq N \leq 1000000$), encontre dois pontos em S com a maior distância euclidiana entre eles. O que você deve fazer?
+
+
+\end{enumerate}
+
+Produza o código mais conciso possível para as seguintes tarefas:
+
+\begin{enumerate}
+
+\item Dado uma lista inteiros aleatórios, imprima os elementos distintos (únicos) de maneira ordenada.
+
+\textbf{Exemplo de Entrada} v = {40,20,10,20,30,10}
+
+\textbf{Exemplo de Saída} 10 20 30 40
+
+Pesquise a função unique da STL do C++.
+
+\item Dado uma lista inteiros aleatórios, imprima os elementos distintos (únicos) de maneira ordenada usando a estrutura de dados set da STL do C++.
+
+
+\item Dado uma lista ordenada de inteiros L com tamanho máximo de 1M de itens, determine quantas vezes o valor v existe em L. Pesquise a função lower\_bound da STL do C++.
+
+\item Gere todas as permutações de $\{'A','B','C', ..., 'J'\}$ com as das primeiras do alfabeto. Pesquise a função next\_permutation da STL do C++.
+
+\item Gere todos os possíveis subconjuntos de $\{0,1,2,\ldots,N-1\}$, para $N = 20$.
+
+Dica: Use as operações bit-a-bit:
+\begin{itemize}
+  \item Cada número inteiro $[0, \ldots, (1 << N) - 1]$ representa um subconjunto de um conjunto de N elementos. Por exemplo, 0 representa o conjunto vazio e $(1 << N) - 1$ representa o conjunto de todos os elementos.
+  \item Para verificar se o elemento $j$ está no conjunto $i$, basta verificar se $(i \& (1 << j)) > 0$
+\end{itemize}
+
+\item Determine se existe dois elementos distintos $x$ e $y$ em $L$ tal que $x+y = S$, onde n ($1 \leq n \leq 10^6$) é o tamanho do vetor.
+
+\end{enumerate}
+
+\end{document} 

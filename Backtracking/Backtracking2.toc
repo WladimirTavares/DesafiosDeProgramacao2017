@@ -1,0 +1,10 @@
+\beamer@endinputifotherversion {3.36pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Backtracking}{2}{0}{1}
+\beamer@sectionintoc {2}{Problema 1: Soma de subconjuntos}{5}{0}{2}
+\beamer@sectionintoc {3}{Problema 2: N-Queen}{9}{0}{3}
+\beamer@subsectionintoc {3}{1}{Solu\c c\~ao baseada em vetores}{11}{0}{3}
+\beamer@sectionintoc {4}{Problema 3 - Resta um}{16}{0}{4}
+\beamer@sectionintoc {5}{Problema 4: Passeio do Cavalo}{21}{0}{5}
+\beamer@sectionintoc {6}{Problema 5: Flood Fill}{26}{0}{6}
+\beamer@sectionintoc {7}{Problema 6: Maior clique}{30}{0}{7}

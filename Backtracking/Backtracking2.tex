@@ -1,0 +1,933 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+%\usepackage{graphicx,color}
+
+%\usepackage[noend]{algorithmic}
+%\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+%\usepackage[all]{xy}
+%\usepackage{caption}
+%\usepackage{etex}
+%\usepackage{empheq}
+%\usepackage{fancybox}
+%\usepackage{graphicx}
+%\usepackage{marvosym}
+%\usepackage{multirow}
+%\usepackage{textcomp}
+%\usepackage{wasysym}
+%\usepackage{verbatim}
+%\usepackage[all]{xy}
+%\usepackage{ctable}
+%\usepackage{textpos}
+%\usepackage{multicol}
+%\usepackage{cancel}
+\usepackage{listings}
+%\usepackage{verbatim}
+%\usepackage{courier}
+%\usepackage{hyperref}
+
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+%  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\usepackage{tikz}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Backtracking}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\section{Backtracking}
+
+\begin{frame}{O que é Backtracking?}
+
+\begin{itemize}
+\item Backtracking é um algoritmo genérico para encontrar todas ( ou algumas ) soluções para algum problema computacional.
+\item O algoritmo constrói incrementalmente possíveis candidatos para a solução e abandona candidatos que não podem gerar soluções para o problema.
+\item É um refinamento do método de enumeração bruta.
+\item É uma importante ferramenta para resolver problemas de satisfação de restrições.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Algoritmo Genérico}
+
+\begin{algorithm}[H]
+\caption{Algoritmo Genérico de Backtracking}
+\begin{algorithmic}[1]
+
+\Function {solve} {$c$}
+\If{completo(c)}
+  \If{ aceita(c) }
+  \State imprima(c)
+  \State \Return true
+  \Else
+  \State \Return false
+  \EndIf
+\EndIf
+
+\For{ cada filho $c'$ de $c$ }
+    \If{solve(c')}
+    \State \Return true
+    \EndIf
+\EndFor
+
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+\section{Problema 1: Soma de subconjuntos}
+
+
+\begin{frame}{Problema 1: Soma de subconjuntos}
+
+\begin{itemize}
+  \item[P1] Enoque e Leonardo encontraram um tesouro secreto no campus de Quixadá. O tesouro é composto por $n$ itens de valores diferentes $v_1,v_2,\ldots,v_n$. Eles querem saber se é possível particionar os itens do tesouro em dois subconjuntos de tal maneira que ambos recebam o mesmo valor.
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Problema 1: Soma de subconjuntos}
+\Fontvi{
+\begin{lstlisting}[language=C]
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+using namespace std;
+int solve(vector <int> & objetos, int meta, int i, int soma);
+int main(){
+    int n,meta;
+    vector <int> objetos;
+    cin >> n;
+    objetos.resize(n);
+    meta = 0;
+    for(int i = 0; i < n; i++){
+        cin >> objetos[i];
+        meta += objetos[i];
+    }
+    if(meta%2!= 0) cout << "N" << endl;
+    else {
+        meta = meta/2;
+        cout << (solve(objetos,meta,0,0) ? "S" : "N") << endl;
+    }
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Problema 1: Soma de subconjuntos}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int solve(vector <int> & objetos, int meta, int i, int soma){
+    if( i == (int)objetos.size() ){
+        if( soma == meta ) return 1;
+        else return 0;
+    }
+    if( solve(objetos, meta, i+1, soma) )
+        return true;
+    if( solve(objetos, meta, i+1, soma + objetos[i]) )
+        return true;
+    return false;
+}
+
+\end{lstlisting}
+}
+\end{frame}
+
+\section{Problema 2: N-Queen}
+
+\begin{frame}{Problema 2: N-Queen}
+
+\begin{itemize}
+
+\item[P2] Determine quantas maneiras podemos colocar 8 rainhas em tabuleiro de xadrez de maneira que nenhuma rainha ataque as outras rainhas do tabuleiro.
+
+\end{itemize}
+\end{frame}
+
+\subsection{Solução baseada em vetores}
+
+\begin{frame}{Problema 2: N-Queen}
+
+Variáveis booleanas:
+\begin{itemize}
+  \item diagonais principais:  $d1[-(N-1) \ldots N-1]$
+  \item diagonais secundarias: $d2[0 \ldots 2 \times (n-1)]$
+  \item linha: $linha [0 \ldots n]$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Problema 2: N-Queen}
+
+\begin{algorithm}[H]
+\caption{N-Queen}
+\begin{algorithmic}[1]
+\Function{queen}{j}
+\If{Se solução completa válida}
+\State registre solução
+\EndIf
+
+\For{ cada i tal que $linha[i] == true$ }
+\If{ $d1[i-j] == true$ E $d2[i+2] == true$}
+\State $d1[i-j] \leftarrow false$
+\State $d2[i+j] \leftarrow false$
+\State $linha[i] \leftarrow false$
+\State queen(j+1)
+\State $d1[i-j] \leftarrow true$
+\State $d2[i+j] \leftarrow true$
+\State $linha[i]\leftarrow true$
+
+\EndIf
+\EndFor
+
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Problema 2: N-Queen}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int contador;
+vb linha, d1, d2;
+vector <int> x;
+void queen(int j, int n);
+int main(){
+  int n;
+  cin >> n;
+  linha.assign(n, true);
+  d1.assign(2*n-1, true);
+  d2.assign(2*n-1 , true);
+  x.resize(n);
+  contador = 0;
+  clk = clock();
+  queen(0, n);
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Problema 2: N-Queen}
+\Fontvi{
+\begin{lstlisting}[language=C]
+void queen(int j, int n){
+  if( j == n ){
+        contador++;
+    }else{
+        for(int i = 0; i < n; i++){
+            if(  linha[i] && d1[i-j+n-1] && d2[i+j]){
+                linha[i] = false;
+                d1[i-j+n-1] = false;
+                d2[i+j] = false;
+                x[j] = i;
+                queen(j+1, n);
+                linha[i] = true;
+                d1[i-j+n-1] = true;
+                d2[i+j] = true;
+            }
+        }
+    }
+}
+
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Problema 2: N-Queen}
+\Fontvi{
+\begin{lstlisting}[language=C]
+4
+-----------------------------
+..Q.
+Q...
+...Q
+.Q..
+[2 , 0 , 3 , 1]
+-----------------------------
+-----------------------------
+.Q..
+...Q
+Q...
+..Q.
+[1 , 3 , 0 , 2]
+-----------------------------
+2
+\end{lstlisting}
+}
+\end{frame}
+
+% \subsection{Solução usando Dancing Links}
+% 
+% 
+% \begin{frame}[fragile]{Problema 2: N-Queen}
+% 
+% \scalebox{0.8}{
+% \begin{tabular}{|l|l|l|}
+% \hline
+% Linhas Ativas & Tabuleiro & Linhas Ativas Atualizado\\
+% \hline
+% \only<1,2,3,4>{
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & \circled{1} & 2 & 3 & 4 & 0\\
+% pred & 4 & 0 & 1 & 2 & 3\\
+% \end{tabular}
+% &
+% \begin{tabular}{llll}
+% Q & . & . & .\\
+% . & . & . & .\\
+% . & . & . & .\\
+% . & . & . & .\\
+% \end{tabular}
+% &
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 2 & 2 & 3 & 4 & 0\\
+% pred & 4 & 0 & 0 & 2 & 3\\
+% \end{tabular}
+% 
+% \\
+% \hline
+% }
+% 
+% \only<2,3,4>{
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & \circled{2} & 2 & 3 & 4 & 0\\
+% pred & 4 & 0 & 0 & 2 & 3\\
+% \hline
+% \end{tabular}
+% &
+% 
+% &
+% \\
+% \hline
+% }
+% 
+% \only<3,4>{
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 2 & 2 & \circled{3} & 4 & 0\\
+% pred & 4 & 0 & 0 & 2 & 3\\
+% \hline
+% \end{tabular}
+% &
+% \begin{tabular}{llll}
+% Q & . & . & .\\
+% . & . & . & .\\
+% . & Q & . & .\\
+% . & . & . & .\\
+% \end{tabular}
+% &
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 2 & 2 & 4 & 4 & 0\\
+% pred & 4 & 0 & 0 & 2 & 2\\
+% \hline
+% \end{tabular}
+% \\
+% \hline
+% 
+% }
+% 
+% \only<4>{
+% 
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 2 & 2 & 3 & \circled{4} & 0\\
+% pred & 4 & 0 & 0 & 2 & 3\\
+% \hline
+% \end{tabular}
+% &
+% \begin{tabular}{llll}
+% Q & . & . & .\\
+% . & . & . & .\\
+% . & . & . & .\\
+% . & Q & . & .\\
+% \end{tabular}
+% &
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 2 & 2 & 3 & 0 & 0\\
+% pred & 3 & 0 & 0 & 2 & 3\\
+% \hline
+% \end{tabular}
+% \\
+% \hline
+% }
+% 
+% \end{tabular}
+% }
+% 
+% \end{frame}
+% 
+% \begin{frame}[fragile]{Problema 2: N-Queen}
+% 
+% \scalebox{0.8}{
+% \begin{tabular}{|l|l|l|}
+% \hline
+% Linhas Ativas & Tabuleiro & Linhas Ativas Atualizado\\
+% \hline
+% 
+% \only<1,2,3,4>{
+% 
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 2 & 2 & 3 & \circled{4} & 0\\
+% pred & 4 & 0 & 0 & 2 & 3\\
+% \hline
+% \end{tabular}
+% &
+% \begin{tabular}{llll}
+% Q & . & . & .\\
+% . & . & . & .\\
+% . & . & . & .\\
+% . & Q & . & .\\
+% \end{tabular}
+% &
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 2 & 2 & 3 & 0 & 0\\
+% pred & 3 & 0 & 0 & 2 & 3\\
+% \hline
+% \end{tabular}
+% \\
+% \hline
+% }
+% 
+% \only<2,3,4>{
+% 
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & \circled{2} & 2 & 3 & 0 & 0\\
+% pred & 3 & 0 & 0 & 2 & 3\\
+% \hline
+% \end{tabular}
+% &
+% \begin{tabular}{llll}
+% Q & . & . & .\\
+% . & . & Q & .\\
+% . & . & . & .\\
+% . & Q & . & .\\
+% \end{tabular}
+% &
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 3 & 2 & 3 & 0 & 0\\
+% pred & 3 & 0 & 0 & 0 & 3\\
+% \hline
+% \end{tabular}
+% \\
+% \hline
+% }
+% 
+% \only<3,4>{
+% 
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 1 & \circled{2} & 3 & 4 & 0\\
+% pred & 4 & 0 & 1 & 2 & 3\\
+% \end{tabular}
+% &
+% \begin{tabular}{llll}
+% . & . & . & .\\
+% Q & . & . & .\\
+% . & . & . & .\\
+% . & . & . & .\\
+% \end{tabular}
+% &
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 1 & 3 & 3 & 4 & 0\\
+% pred & 4 & 0 & 1 & 1 & 3\\
+% \end{tabular}
+% \\
+% \hline
+% }
+% 
+% \only<4>{
+% 
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 1 & 3 & 3 & \circled{4} & 0\\
+% pred & 4 & 0 & 1 & 1 & 3\\
+% \end{tabular}
+% &
+% \begin{tabular}{llll}
+% . & . & . & .\\
+% Q & . & . & .\\
+% . & . & . & .\\
+% . & Q & . & .\\
+% \end{tabular}
+% &
+% \begin{tabular}{cccccc}
+% \hline
+%      & 0 & 1 & 2 & 3 & 4\\
+% \hline
+% prox & 1 & 3 & 3 & 0 & 0\\
+% pred & 3 & 0 & 1 & 1 & 3\\
+% \end{tabular}
+% \\
+% \hline
+% }
+% 
+% \end{tabular}
+% }
+% 
+% \end{frame}
+% 
+% \begin{frame}[fragile]{Problema 2: N-Queen}
+% \Fontvi{
+% \begin{lstlisting}[language=C]
+% int main(){
+%   scanf("%d", &n);
+%   prox.resize(n+1);
+%   pred.resize(n+1);
+%   for(int k = 0; k < n; k++){
+%     prox[k]=k+1;
+%     pred[k+1]=k;
+%   }
+%   prox[n] = 0;
+%   pred[0] = n;
+%   up.assign(2*n-1 , true);
+%   down.assign(2*n-1, true);
+%   x.resize(n);
+%   contador = 0;
+%   m = 0;
+%   searchrow();
+%   printf("contador %d\n", contador );
+% }
+% 
+% \end{lstlisting}
+% }
+% \end{frame}
+% 
+% 
+% \begin{frame}[fragile]{Problema 2: N-Queen}
+% \Fontvi{
+% \begin{lstlisting}[language=C]
+% void searchrow(){
+%   int h = prox[0];
+%   do{
+%     if( up[m - (h-1) + n - 1] && down[m + (h-1)]){
+%       x[m] = h;
+%       prox[pred[h]]=prox[h];
+%       pred[prox[h]]=pred[h];
+%       up[m-(h-1)+n-1] = false;
+%       down[ m + (h-1) ] = false;
+%       m = m + 1;
+%       if( m == n ) contador++;
+%       else searchrow();
+%       m = m - 1;
+%       up[m-(h-1)+n-1] = true;
+%       down[ m + (h-1) ] = true;
+%       pred[prox[h]]=h;
+%       prox[pred[h]]=h;
+%     }
+%     h = prox[h];
+%   }while( h > 0);
+% }
+% \end{lstlisting}
+% }
+% \end{frame}
+
+
+\section{Problema 3 - Resta um}
+
+\begin{frame}{Problema 3 - Resta um}
+
+\begin{itemize}
+
+\item[P3] Resta um é jogo interessante. Neste jogo, você tem um tabuleiro com dozes buracos em
+uma linha. No começo de cada jogo, alguns buracos estão ocupados por pedrinhas. Um movimento é possível se há uma linha reta de três buracos adjacentes, chamados A, B e C, onde A e B estão com uma pedrinha e C está vazio. O movimento consiste em mover a pedrinha de A para C e retirar a pedrinha que está em B. Sua missão é encontrar uma sequência de movimentos tal que reste o menor número de pedrinhas no tabuleiro.
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Problema 3 - Resta um}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{restaUm.png}
+\caption{Em a), dois movimentos são possíveis $8 \to 6$ e $7 \to 9$. Em b), o resultado do movimento de $8 \to 6$ sobre tabuleiro em a) pode ser visto. Em c), o resultado do movimento $5 \to 7$ sobre o tabuleiro b) é mostrado.}
+
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Problema 3 - Resta um}
+
+\begin{tabular}{p{5cm}l}
+\hline
+Entrada      & Saída\\
+\hline
+\texttt{5}            & \\
+\texttt{----oo----------} & 1\\
+\texttt{-o---o-oo------} & 2\\
+\texttt{-o------ooo----} & 3\\
+\texttt{oooooooooooo} & 12\\
+\texttt{oooooooooo-o} & 1\\
+\end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]{Problema 3 : RestaUm}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int cnt;
+void restaUm(char * aux){
+  int n = strlen(aux);
+  int contador = 0;
+  for( int i = 0; i < n; i++){
+      if( aux[i] == 'o'){
+          contador++;
+      }
+  }
+  if(contador < cnt) cnt = contador;
+  for(int i = 0; i < n; i++){
+    if( aux[i] == 'o'){
+      if( i+2 < n && aux[i+1] == 'o' && aux[i+2]=='-'){
+        aux[i]  = '-'; aux[i+1] = '-'; aux[i+2] = 'o';
+        restaUm(aux);
+        aux[i]  = 'o'; aux[i+1] = 'o'; aux[i+2] = '-';
+      }
+      if(i-2 >= 0 && aux[i-1]=='o' && aux[i-2]=='-'){
+        aux[i]  = '-'; aux[i-1] = '-'; aux[i-2] = 'o';
+        restaUm(aux);
+        aux[i]  = 'o'; aux[i-1] = 'o'; aux[i-2] = '-';
+      }
+    }
+  }
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\section{Problema 4: Passeio do Cavalo}
+
+\begin{frame}{Problema 4: Passeio do Cavalo}
+
+\begin{itemize}
+  \item[P4] Faça um cavalo percorrer todas as casas de um tabuleiro de xadrez de forma a não repetir nenhuma posição pela qual já passou começando da posição (0,0).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Problema 4: Passeio do cavalo}
+
+\begin{algorithm}[H]
+\caption{Passeio do cavalo}
+\begin{algorithmic}[1]
+\Function{cavalo}{}
+\If{tabuleiro  está completo }
+\State imprima tabuleiro
+\State \Return sucesso
+\EndIf
+
+\While{ existe movimento não realizado }
+\State selecione um movimento
+\If{ movimento aceitável}
+\State registre movimento
+\State chamada recursiva cavalo
+\If { chamada não sucedida }
+\State desfaz movimento
+\Else 
+\State \Return sucesso
+\EndIf
+\EndIf
+\EndWhile
+
+\State \Return fracasso
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Problema 4 : Passeio do Cavalo}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int t[8][8];
+int dx[8] = {2, 1,-1,-2, -2, -1, 1,  2};
+int dy[8] = {1, 2, 2, 1, -1, -2,-2, -1};
+int cavalo(int i, int x, int y){
+ int u,v,k,q;
+ if(i==65){ imprime(); return 1;}
+ for(k=0;k<8;k++){
+  u = x + dx[k];  v = y + dy[k];
+  if( (u>=0 && u<=7) && (v>=0 && v<=7)){ //testa limites
+   if(t[u][v]==0){ //posicao livre
+    t[u][v]=i; //registre o movimento
+    q = cavalo(i+1,u,v);
+    if(q==0) t[u][v]=0; //se não alcançou todos, desfaça
+    else return 1; // se alcançou todos, retorne 1
+   }
+  }
+ }
+ return 0;
+}
+int main(){
+ memset(t,0,sizeof(t));
+ t[0][0]=1;
+ cavalo(2,0,0);
+}
+
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Problema 4 : Passeio do Cavalo}
+\Fontvi{
+\begin{lstlisting}[language=C]
+  1 60 39 34 31 18  9 64
+ 38 35 32 61 10 63 30 17
+ 59  2 37 40 33 28 19  8
+ 36 49 42 27 62 11 16 29
+ 43 58  3 50 41 24  7 20
+ 48 51 46 55 26 21 12 15
+ 57 44 53  4 23 14 25  6
+ 52 47 56 45 54  5 22 13
+\end{lstlisting}
+}
+\end{frame}
+
+\section{Problema 5: Flood Fill}
+
+\begin{frame}{Problema 5: Flood Fill}
+
+\begin{itemize}
+  \item[P5] Você deve analisar uma imagem de uma zona rural, gerada por satélite, para determina quantas construções existem na área da imagem. Uma célula escura adjacentes pertecem à uma mesma construção. Células adjacentes são vizinhas imediatas nas direções horizontal, vertical ou diagonal.
+\end{itemize}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{satelite.png}
+\caption{Imagem com 4 construções.}
+
+\end{figure}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Problema 5: Flood Fill}
+\Fontvi{
+\begin{lstlisting}[language=C]
+Entrada
+9 15
+000000000000000
+007677888000080
+008000000900000
+006003300080000
+005003300800000
+004000009000600
+034556780005000
+300000000004400
+020000000000000
+
+Saída
+4
+
+\end{lstlisting}
+}
+
+
+
+\end{frame}
+
+
+\begin{frame}{Problema 5: Flood Fill}
+
+\begin{algorithm}[H]
+\caption{FloodFill}
+\begin{algorithmic}[1]
+\Function{construções}{}
+\State $cont \leftarrow 0$
+\For{cada construção na posição (i,j) }
+\State apaga(i,j)
+\State $cont \leftarrow cont + 1$
+\EndFor
+\Return cont
+\EndFunction
+\Function{apaga}{int i, int j}
+\State $imagem[i][j] \leftarrow 0$
+\For{cada $(u,v) \leftarrow adjacente(i,j)$ }
+\If{ $(u,v)$ está no tabuleiro }
+\If{ $imagem[u][v] \neq 0$}
+\State apaga(u,v)
+\EndIf
+\EndIf
+\EndFor
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\end{frame}
+
+
+\section{Problema 6: Maior clique}
+
+\begin{frame}{Problema 6: Maior clique}
+
+\begin{itemize}
+  \item[P6] Encontre a maior clique em um grafo.
+\end{itemize}
+
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Problema 6: Maior Clique}
+\Fontvi{
+\begin{lstlisting}[language=C]
+Entrada
+5 6
+0 1
+0 3
+1 2
+2 3
+2 4
+3 4
+Saída
+3
+
+\end{lstlisting}
+}
+
+
+
+\end{frame}
+
+
+\begin{frame}{Problema 6: Maior Clique}
+
+\begin{algorithm}[H]
+\caption{Maior Clique}
+\begin{algorithmic}[1]
+\Function{CLIQUE}{C, P}
+\If{ |C| > |best|}
+\State $best \leftarrow C$
+\EndIf
+
+\If{$|C| + |P| > |best|$} 
+
+\State Escolha $v \in P$
+
+\State CLIQUE($C \cup \{v\}$, $P \cap N(v)$)
+\State CLIQUE($C$, $P \setminus \{v\}$)
+
+
+\EndIf
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\end{frame}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+

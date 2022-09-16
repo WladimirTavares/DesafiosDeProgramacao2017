@@ -1,0 +1,24 @@
+\frametitle{Grafo : Matriz Lista de Adjacência}
+\Fontvi{
+\begin{lstlisting}[language=C]
+void dfs(Graph & G, vector<int> &visited, int i){
+ if(!visited[i]){
+  cout << "visitando " << i << endl;
+  visited[i] = true;
+  for(int j = 0; j < G.adj[i].size(); j++){
+   int u = G.adj[i][j];
+   dfs(G, visited, u);
+  }
+ }
+}
+
+bool conexo(Graph & G){
+  vector <int> visited;
+  visited.assign(G.N, false);
+  dfs(G, visited, 0);
+  for(int i = 0; i < (int)visited.size(); i++)
+   if(!visited[i]) return false;
+  return true;
+}
+\end{lstlisting}
+}

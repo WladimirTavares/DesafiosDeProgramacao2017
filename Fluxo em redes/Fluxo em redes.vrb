@@ -1,0 +1,19 @@
+\frametitle{Algoritmo de Dinics}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int dinics(int src, int dest)
+{
+  int flow, totflow;
+  totflow = 0;
+  while( bfs(src, dest ) )
+  {
+    while( flow = dfs(src, dest, INT_MAX) )
+    {
+      totflow += flow;
+    }
+  }
+  printf("fluxo maximo %d\n", totflow);
+  return totflow;
+}
+\end{lstlisting}
+}

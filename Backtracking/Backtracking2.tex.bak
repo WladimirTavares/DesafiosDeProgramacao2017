@@ -1,0 +1,126 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage{pbox}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+\usepackage{listings}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{wasysym}
+\usepackage{minitoc}
+\usepackage{graphicx,color}
+\usepackage[all]{xy}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{framed}
+\usepackage{longtable}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tkz-graph}
+\usepackage{minitoc}
+\usepackage{makecell}
+\renewcommand\theadalign{cb}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+%  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+
+
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Backtracking}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\section{Backtracking}
+
+\begin{frame}{O que é Backtracking?}
+
+\begin{itemize}
+\item Backtracking é um algoritmo genérico para encontrar todas ( ou algumas ) soluções para algum problema computacional.
+\item O algoritmo constrói incrementalmente possíveis candidatos para a solução e abandona candidatos que não podem gerar soluções para o problema.
+\item É um refinamento do método de enumeração bruta.
+\item É uma importante ferramenta para resolver problemas de satisfação de restrições.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Algoritmo Genérico}
+
+\begin{algorithm}
+\end{algorithm}
+
+\end{frame}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+

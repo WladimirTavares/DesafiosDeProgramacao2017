@@ -1,0 +1,26 @@
+\frametitle{Exponenciação rápida de matriz}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int fibonacci(int n){
+
+ matrix<int> M(2,2);
+ M[0][0] = 1;
+ M[0][1] = 1;
+ M[1][0] = 1;
+ M[1][1] = 0;
+
+ if(n==0||n==1) return n;
+
+ M = M.power(M, n-1);
+ //[ F_{n}     F_{n-1} ]
+ //[ F_{n-1}   F_{n-2} ]
+ for(int i=0;i<2;i++){
+  for(int j=0;j<2;j++) printf("%d ", M[i][j]);
+  printf("\n");
+ }
+
+ return M[0][0];
+}
+
+\end{lstlisting}
+}

@@ -1,0 +1,980 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+\usepackage[noend]{algorithmic}
+\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{hyperref}
+
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+%  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Desafios de Programação \\ Programação Dinâmica}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\section{Programação Dinâmica}
+
+\begin{frame}{O que é programação dinâmica?}
+
+\begin{itemize}
+  \item Wikipédia: Método para resolver problemas complexos dividindo-os em subproblemas mais simples.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Passos para resolver problemas de PD}
+
+\begin{itemize}
+  \item Definir os subproblemas
+  \item Escrever a relação de recorrência que relaciona os subproblemas
+  \item Reconhecer e resolver os casos bases
+\end{itemize}
+
+\end{frame}
+
+\section{Programação Dinâmica 1D}
+
+\begin{frame}{Coin Change}
+
+\begin{itemize}
+  \item Problema: Dado n, encontre o número de diferentes maneiras de escrever n como soma de 1, 3 e 4
+
+  \item Exemplo: para n=5, a resposta é 6
+
+\begin{center}
+\begin{tabular}{lll}
+5 &  = & 1 + 1 + 1 + 1 + 1\\
+  &  = & 1 + 1 + 3\\
+  &  = & 1 + 3 + 1\\
+  &  = & 3 + 1 + 1\\
+  &  = & 1 + 4\\
+  &  = & 4 + 1\\
+\end{tabular}
+\end{center}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Coin Change}
+
+\begin{itemize}
+  \item Definir subproblemas
+   \begin{itemize}
+     \item  Seja $D_n$ o número de maneira de escrever n como a soma de 1, 3 e 4
+   \end{itemize}
+  \item Encontre a recorrência
+  \begin{itemize}
+    \item Considere um possível solução $n = x_1 + \ldots + x_m$
+    \item Se $x_m=1$ então a soma do resto dos termos é n-1.
+    \item Assim, todas as somas ($n = x_1 + \ldots + x_m$) terminadas com $x_m=1$ é igual a $D_{n-1}$
+  \end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Coin Change}
+
+\begin{itemize}
+  \item Encontre a recorrência
+   \begin{itemize}
+     \item $D_n = D_{n-1} + D_{n-3} + D_{n-4}$
+   \end{itemize}
+  \item Resolver os casos bases
+\begin{itemize}
+  \item $D_0 = 1$
+  \item $D_1 = D_2 = 1$
+  \item $D_3 = 2$
+\end{itemize}
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+
+ D[0] = D[1] = D[2] = 1;
+ D[3] = 2;
+ for(int i = 4; i <= n; i++){
+  D[i] = D[i-1] + D[i-3] + D[i-4];
+ }
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{LIS}
+
+\begin{itemize}
+  \item Problema: Dado uma sequência $a[0 \ldots n-1]$, encontre a maior subsequência crescente de a.
+
+  \item Exemplo: a[] = \{2,5,3,8,4,6\}.
+
+\begin{center}
+\begin{tabular}{l}
+Subsequência crescente de a\\
+\hline
+2\\
+2,5\\
+2,5,8\\
+2,5,6\\
+2,3,8\\
+2,3,4\\
+2,3,4,6\\
+5\\
+5,8\\
+5,6\\
+\vdots
+\end{tabular}
+\end{center}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{LIS}
+
+\begin{itemize}
+  \item Definir subproblemas
+   \begin{itemize}
+     \item  Seja $C_i$ o tamanho da maior subsequência crescente de $a[0 \ldots i]$ que contém $a_i$ como último elemento.
+   \end{itemize}
+  \item Encontre a recorrência
+  \begin{itemize}
+    \item $C_i = max \{ C_j + 1 | a_j < a_i, 0 \leq j \leq i\}$
+  \end{itemize}
+  \item Resolva os casos bases
+  \begin{itemize}
+    \item $C_0 = 1$
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+    C[0] = 1;
+    for(int i = 1; i < n; i++){
+        C[i]=1;
+        for(int j = 0; j < i; j++){
+            if( a[j] < a[i])
+                C[i] = C[i] > C[j]+1 ? C[i] : C[j]+1;
+        }
+    }
+    ans = 0;
+    for(int i = 0; i < n; i++) ans = ans > C[i] ? ans : C[i];
+
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+    set <int> st;
+    set <int>::iterator it;
+
+    st.clear();
+    for(int i = 0; i < n; i++){
+        st.insert(a[i]);
+        it = st.find(a[i]);
+        it++;
+        if( it != st.end() )
+            st.erase(it);
+    }
+    ans = st.size();
+
+\end{lstlisting}
+}
+\end{frame}
+
+
+
+\section{Programação Dinâmica 2D}
+
+\begin{frame}{LCS}
+
+\begin{itemize}
+\item Problema: Dado duas strings $x$ e $y$, encontre o tamanho da  maior subsequência comum (LCS)
+\item Exemplo:
+\begin{itemize}
+\item x: A\textbf{BC}BD\textbf{AB}
+\item y: \textbf{B}D\textbf{CAB}C
+\item BCAB é a maior subsequência encontrada e o seu tamanho é 4
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{LCS}
+
+\begin{itemize}
+\item Defina os subproblemas
+
+    \begin{itemize}
+        \item Seja $D_{ij}$ o comprimento da LCS de $x[1\ldots i]$ e $y[1\ldots j]$
+    \end{itemize}
+
+\item Encontre a recorrência
+
+    \begin{itemize}
+
+    \item Se $x_i=y_j$, então o caractere está na LCS
+        \begin{itemize}
+        \item $D_{ij} = D_{i-1,j-1} + 1$
+        \end{itemize}
+
+    \item Caso contrário, $x_i$ ou $y_j$ não contribuem para o LCS, então ele pode ser removido
+        \begin{itemize}
+          \item $D_{ij} = max(D_{i-1,j}, D_{i,j-1})$
+        \end{itemize}
+
+    \end{itemize}
+
+
+\item Resolva os casos bases:
+    \begin{itemize}
+    \item $D_{i0} = D_{0j} = 0$
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+    int D[1001][1001];
+
+    n = strlen(x);
+    m = strlen(y);
+
+    for(int i = 0; i <= n; i++) D[i][0] = 0;
+    for(int j = 0; j <= m; j++) D[0][j] = 0;
+
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= m; j++)
+            if( x[i-1] == y[j-1] )
+                D[i][j] = D[i-1][j-1] + 1;
+            else
+                D[i][j] = max(D[i-1][j], D[i][j-1]);
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{LCS}
+
+\begin{center}
+\begin{tabular}{l|lllllll}
+\hline
+   & $\varepsilon$  & B & D & C & A & B & C \\
+\hline
+$\varepsilon$   & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ A & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\
+ B & 0 & 1 & 1 & 1 & 1 & 2 & 2 \\
+ C & 0 & 1 & 1 & 2 & 2 & 2 & 3 \\
+ B & 0 & 1 & 1 & 2 & 2 & 3 & 3 \\
+ D & 0 & 1 & 2 & 2 & 2 & 3 & 3 \\
+ A & 0 & 1 & 2 & 2 & 3 & 3 & 3 \\
+ B & 0 & 1 & 2 & 2 & 3 & 4 & 4 \\
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Reduzindo os requisitos de memória}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+    int D[2][1001];
+    int ans;
+    n = strlen(x);
+    m = strlen(y);
+
+    for(int j = 0; j <= m; j++) D[0][j] = 0;
+
+    for(int i = 1; i <= n; i++){
+        int ii = i&1;
+        D[ii][0] = 0;
+        for(int j = 1; j <= m; j++){
+            if( x[i-1] == y[j-1] )
+                D[ii][j] = D[1-ii][j-1] + 1;
+            else
+                D[ii][j] = max(D[1-ii][j], D[ii][j-1]);
+        }
+    }
+    ans = D[n&1][m];
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{Variações}
+\begin{enumerate}
+  \item Resolva o problema LIS usando LCS.
+  \item Dado duas strings x e y encontre o comprimento da menor string z tal que x e y são subsequência de z.
+  \item Dado duas strings s1 e s2 e as operações INSERÇÃO, REMOÇÃO e SUBSTITUIÇÃO pode ser executada na string s1. Encontre o número mínimo de operações necessárias para converter s1 em s2.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Subset sum}
+
+\begin{itemize}
+\item Problema: Dado um conjunto de $n$ números $a_i$ cuja a soma é L e $K \leq L$. Existe um subconjunto de números $a_i$ cuja soma é $K$?
+\item Exemplo: a[] = \{1,3,4,7\}
+
+\begin{tabular}{lll}
+ K  & RESPOSTA & PROVA \\
+ 8  & SIM      & \{1,7\}\\
+ 9  & NÃO      & \\
+ 10 & SIM      & \{7,3\}\\
+\end{tabular}
+
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Subset Sum}
+
+\begin{itemize}
+\item Defina os subproblemas
+
+    \begin{itemize}
+        \item Seja $M_{ij} =
+        \begin{cases}
+        1, & \mbox{ se existe um subconjunto $a[1 \ldots i]$ cuja soma é j}\\
+        0, & \mbox{caso contrário}
+        \end{cases}
+        $
+    \end{itemize}
+
+\item Encontre a recorrência
+
+    \begin{itemize}
+        \item Seja $M_{ij} = M_{i-1, j} \quad || \quad M_{i-1, j-a_i} $
+    \end{itemize}
+
+
+\item Resolva os casos bases:
+    \begin{itemize}
+    \item $M_{i0} = 1,  0 \leq i \leq n$
+    \item $M_{0j} = 0,  1 \leq j \leq K$
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Implementação}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+    for(int i=0; i <= n; i++) M[i][0] = 1;
+    for(int j=1; j <= K; j++) M[0][j] = 0;
+
+    for(int i = 1; i <= n; i++){
+        for(int j = 1; j <= K; j++){
+            if( j < a[i-1])
+                M[i][j] = M[i-1][j];
+            else
+                M[i][j] = M[i-1][j] || M[i-1][j-a[i-1]];
+        }
+    }
+
+    ans = M[n][K];
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{Tabela de subproblemas}
+
+\begin{center}
+\begin{tabular}{l|llllllllll}
+   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+\hline
+ 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ 2 & 1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\
+ 3 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 0 \\
+ 4 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 1 & 0 \\
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+    for(int i=0; i <= K; i++) m[i] = 0;
+    m[0] = 1;
+    for(int i = 0; i < n; i++){
+        for(int j = K; j >= a[i]; j--){
+            m[j] = m[j] | m[j-a[i]];
+        }
+    }
+    ans = m[K];
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}{Variações}
+
+\begin{enumerate}
+  \item Suponha que $a_i$ represente o número de doces de caixa. Você quer dividir o mais justo possível entre duas crianças.
+  \item Cada $a_i$ pode ser usado mais de uma vez para alcançar um valor K.
+  \item Suponha que $a_i$ represente moedas, você quer minimizar o número de moedas para dar o troco de valor K.
+  \item Você quer dividir os doces de maneira mais justa possível entre três crianças. [Dica: Resolva o seguinte subproblema m[b][c] indica se podemos dividir os doces tal que a primeira criança recebe b e a segunda recebe c].
+  \item Problema da mochila com repetição de objetos.
+\end{enumerate}
+
+\end{frame}
+
+\section{Programação Dinâmica em Intervalos}
+
+\begin{frame}{Maior substring palindrome}
+
+\begin{itemize}
+\item Problema: Dado uma string, encontre o tamanho da maior substring que é palindrome.
+\item Por exemplo, se a string é "desproggorpdes", a maior string palindrome é "proggorp".
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Maior substring palindrome}
+
+\begin{itemize}
+    \item Defina os subproblemas
+
+    \begin{itemize}
+        \item Seja $D_{ij} =
+        \begin{cases}
+        1, & \mbox{ se s[i \ldots j] é palindrome}\\
+        0, & \mbox{ caso contrário}
+        \end{cases}
+        $
+    \end{itemize}
+
+
+
+    \item Recorrência
+
+    \begin{itemize}
+    \item Seja $D_{ij} = D_{i-1,j-1} \&\& s[i] == s[j]$
+    \end{itemize}
+
+    \item Resolva os casos bases:
+
+    \begin{itemize}
+    \item $D_{ii} = 1$
+    \item $D_{i,i+1} = s[i]==s[i+1]$
+    \end{itemize}
+
+    \item A tabela é preenchida diagonalmente.
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Execução d = 0}
+\begin{center}
+\begin{tabular}{l|llllll}
+\hline
+   & a & b & b & a & a & b \\
+\hline
+ a & 1 &   &   &   &   &   \\
+ b &   & 1 &   &   &   &   \\
+ b &   &   & 1 &   &   &   \\
+ a &   &   &   & 1 &   &   \\
+ a &   &   &   &   & 1 &   \\
+ b &   &   &   &   &   & 1 \\
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}{Execução d = 1}
+\begin{center}
+\begin{tabular}{l|llllll}
+\hline
+   & a & b & b & a & a & b \\
+\hline
+ a & 1 & 0 &   &   &   &   \\
+ b &   & 1 & 1 &   &   &   \\
+ b &   &   & 1 & 0 &   &   \\
+ a &   &   &   & 1 & 1 &   \\
+ a &   &   &   &   & 1 & 0 \\
+ b &   &   &   &   &   & 1 \\
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}{Execução d = 2}
+\begin{center}
+\begin{tabular}{l|llllll}
+\hline
+   & a & b & b & a & a & b \\
+\hline
+ a & 1 & 0 & 0 &   &   &   \\
+ b &   & 1 & 1 & 0 &   &   \\
+ b &   &   & 1 & 0 & 0 &   \\
+ a &   &   &   & 1 & 1 & 0 \\
+ a &   &   &   &   & 1 & 0 \\
+ b &   &   &   &   &   & 1 \\
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}{Execução d = 3}
+\begin{center}
+\begin{tabular}{l|llllll}
+\hline
+   & a & b & b & a & a & b \\
+\hline
+ a & 1 & 0 & 0 & 1 &   &   \\
+ b &   & 1 & 1 & 0 & 0 &   \\
+ b &   &   & 1 & 0 & 0 & 1 \\
+ a &   &   &   & 1 & 1 & 0 \\
+ a &   &   &   &   & 1 & 0 \\
+ b &   &   &   &   &   & 1 \\
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}{Execução d = 4}
+\begin{center}
+\begin{tabular}{l|llllll}
+\hline
+   & a & b & b & a & a & b \\
+\hline
+ a & 1 & 0 & 0 & 1 & 0 &   \\
+ b &   & 1 & 1 & 0 & 0 & 0 \\
+ b &   &   & 1 & 0 & 0 & 1 \\
+ a &   &   &   & 1 & 1 & 0 \\
+ a &   &   &   &   & 1 & 0 \\
+ b &   &   &   &   &   & 1 \\
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}{Execução d = 5}
+\begin{center}
+\begin{tabular}{l|llllll}
+\hline
+   & a & b & b & a & a & b \\
+\hline
+ a & 1 & 0 & 0 & 1 & 0 & 0 \\
+ b &   & 1 & 1 & 0 & 0 & 0 \\
+ b &   &   & 1 & 0 & 0 & 1 \\
+ a &   &   &   & 1 & 1 & 0 \\
+ a &   &   &   &   & 1 & 0 \\
+ b &   &   &   &   &   & 1 \\
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int maior_palindrome_substring(char * s){
+    int n =  strlen(s);
+    vector <vector <char> > D;
+    D.resize(n);
+    for(int i = 0; i < n; i++) D[i].assign(n, 0);
+    int maxLenght = 1;
+    for(int i = 0; i < n; i++) D[i][i] = 1;
+    for(int i = 0; i < n-1; i++){
+        if( s[i] == s[i+1] ){
+            D[i][i+1] = 1;
+            maxLenght = 2;
+        }
+    }
+    for(int d = 3; d <= n; d++){
+        for(int i = 0; i < n-d+1; i++){
+            int j = i + d -1;
+            if( D[i+1][j-1] && s[i] == s[j]){
+                D[i][j] = 1;
+                maxLenght = d > maxLenght ? d : maxLenght;
+            }
+        }
+    }
+    return maxLenght;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+\begin{frame}{Palindrome}
+
+\begin{itemize}
+    \item Problema: Dado uma string x, encontre o número mínimo de caracteres que precisa ser inserido para que x torne-se palindrome.
+    \item Exemplo:
+    \begin{itemize}
+    \item x = "Ab3bd"
+    \item Inserindo dois caracteres podemos obter "dAb3bAd" ou "Adb3bdA"
+    \end{itemize}
+\end{itemize}
+
+\begin{enumerate}
+  \item Resolva usando programação dinâmica em intervalos.
+  \item Resolva usando LCS.
+\end{enumerate}
+
+
+\end{frame}
+
+\begin{frame}{Multiplicações de cadeia de matrizes}
+\begin{itemize}
+\item Problema: Dado uma sequência de matrizes,
+encontre uma maneira eficiente de multiplicar essas matrizes. O problema não é executar os multiplicações, mas apenas decidir a ordem em que as multiplicações serão executadas.
+
+\item Exemplo: ABCD
+\begin{enumerate}
+\item (A(BC))D
+\item ((AB)C)D
+\item (AB)(CD)
+\item (A(BC)D)
+\item A(B(CD))
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Multiplicação de Matrizes}
+
+\begin{itemize}
+\item Defina os subproblemas
+\begin{itemize}
+\item $M_{i,j}$ = número mínimo de operações de multiplicações necessárias para computar
+$A_i A_{i+1} \ldots A_{j}$ sendo que as dimensões da matriz $A_i$ é dado por $p_{i-1} \times p_{i}$.
+\end{itemize}
+
+\item Defina a recorrência
+\begin{itemize}
+\item $M_{ij} = min_{ \{i\leq k \leq j-1\}  } { M_{ik} + M_{k+1,j} + p_{i-1}p_{k}p_j }$
+\end{itemize}
+
+\item Resolva os casos bases
+\begin{itemize}
+\item $M_{ii} = 0$
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+\Fontvi{
+\begin{lstlisting}[language=C]
+#include<stdio.h>
+#include<limits.h>
+
+int MatrixChainOrder(int p[], int n){
+    int m[n][n];
+    for (int i=1; i<n; i++) m[i][i] = 0;
+    for (int L=2; L<n; L++){
+        for (int i=1; i<n-L+1; i++){
+            int j = i+L-1;
+            m[i][j] = INT_MAX;
+            for (int k=i; k<=j-1; k++){
+                int q = m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j];
+                if (q < m[i][j])
+                    m[i][j] = q;
+            }
+        }
+    }
+    return m[1][n-1];
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+\Fontvi{
+\begin{lstlisting}[language=C]
+#include<stdio.h>
+#include<limits.h>
+int NaiveMatrixChainOrder(int p[], int i, int j){
+    if(i == j) return 0;
+    int min = INT_MAX;
+    for (int k = i; k <j; k++){
+        int q = NaiveMatrixChainOrder(p, i, k) +
+                NaiveMatrixChainOrder(p, k+1, j) +
+                p[i-1]*p[k]*p[j];
+
+        if ( q < min) min = q;
+    }
+    return min;
+}
+
+int main(){
+    int arr[] =  {40, 20, 30, 10, 30};
+    int n = sizeof(arr)/sizeof(int);
+    printf("Minimum number of multiplications is %d ",
+    NaiveMatrixChainOrder(arr, 1, n-1));
+    return 0;
+}
+
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+\Fontvi{
+\begin{lstlisting}[language=C]
+#include<stdio.h>
+#include<limits.h>
+#include <vector>
+using namespace std;
+vector < vector <int> > M;
+int MemoMatrixChainOrder(int p[], int i, int j)
+{
+    if(i == j) return 0;
+    if( M[i][j] != -1 ) return M[i][j];
+    int min = INT_MAX;
+    for (int k = i; k <j; k++){
+        int q = MemoMatrixChainOrder(p, i, k) +
+        MemoMatrixChainOrder(p, k+1, j) +p[i-1]*p[k]*p[j];
+        if ( q < min) min = q;
+    }
+    return M[i][j] = min;
+}
+int main(){
+    int arr[] =  {40, 20, 30, 10, 30};
+    int n = sizeof(arr)/sizeof(int); M.resize(n);
+    for(int i = 0; i < n; i++) M[i].assign(n, -1);
+    printf("Minimum number of multiplications is %d ",
+                       MemoMatrixChainOrder(arr, 1, n-1));
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\section{Programação Dinâmica em árvores}
+
+\begin{frame}{Conjunto Independente Máximo}
+
+\begin{itemize}
+
+\item Problema: dado uma árvore, encontre o maior conjunto independente nela.
+
+\item Subproblemas
+
+\begin{itemize}
+\item Decida arbitrariamente a raiz da árvore.
+\item $B_v$: solução ótima para a subárvore tendo v como raiz e incluindo v no conjunto independente.
+\item $W_v$: solução ótima para a subárvore tendo v como raiz e não incluindo v no conjunto independente.
+\item Resposta é $max \{B_r,W_r\}$
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conjunto Independente Máximo}
+
+\begin{itemize}
+\item Recorrência
+
+\begin{itemize}
+
+\item Se v é escolhido, então seus filhos não podem ser escolhidos
+
+\begin{equation}
+B_v = 1 + \sum_{ u \in netos(v) } B_u
+\end{equation}
+
+\item Se v não é escolhido, então seus filhos podem ou não serem escolhidos.
+
+\begin{equation}
+B_v = 1 + \sum_{ u \in filhos(v) } max \{B_u, W_u\}
+\end{equation}
+
+\end{itemize}
+
+\item Casos Bases: Folhas.
+
+\end{itemize}
+
+\end{frame}
+
+\section{Programação Dinâmica em subconjuntos}
+\begin{frame}{Problema do caixeiro viajante}
+
+\begin{itemize}
+\item Problema: Dado um grafo ponderado com n vértices, encontre o menor caminho que visita todos os nós exatamente uma vez começando e terminando no vértice 0.
+
+\item Esse problema não é NP-difícil?
+
+\begin{itemize}
+\item Sim, mas pode ser resolvido em $O(n2^n)$
+\item O algoritmo de força bruta roda em $O(n!)$
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Problema do caixeiro viajante}
+
+\begin{itemize}
+
+    \item Subproblema
+    \begin{itemize}
+        \item $D_{S,v}$ comprimento do caminho mínimo que visita todos os vértices do conjunto $S$ exatamente uma única vez e termina em $v$.
+        \item Existem aproximadamente $n2^n$ subproblemas
+        \item A resposta é $D_{V-\{0\},0}$ onde $V$ é o conjunto de vértices.
+    \end{itemize}
+
+    \item Recorrência:
+    \begin{equation}
+    D_{S,v} = min_{ u \in S } ( D_{S - \{u\},u} + dist[u][v] )
+    \end{equation}
+
+    \item Caso Base:
+    \begin{equation}
+    D_{\emptyset,v} = dist[0][v]
+    \end{equation}
+
+\end{itemize}
+
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+\Fontvi{
+\begin{lstlisting}[language=C]
+#include <stdio.h>
+#include<limits.h>
+int n = 4;
+int dist[][4] = { {0,12,11,16}, {15,0,15,10} , 
+                  {8,14,0,18}, {9,11,17,0} };
+int dp[1<<4][4];
+int tsp(int mask, int v){
+    if( mask == 0 ) return dist[0][v];
+    int min = INT_MAX;
+    for(int i = 0; i < n; i++){
+        if( (mask & (1<<i)) != 0 ){
+            int q = tsp(mask ^ (1<<i), i) + dist[i][v];
+            if( q < min ) min = q;
+        }
+    }
+    return min;
+}
+int main(){
+    int mask = 0;
+    for(int i = 0; i < n; i++) mask |= 1<<i;
+    for(int i=0; i<(1<<n);i++)
+        for(int j = 0; j < n; j++) dp[i][j] = -1;
+    int q = tsp( mask ^ (1<<0) , 0);
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Implementação}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int tsp(int mask, int v){
+
+    if( mask == 0 ) return dist[0][v];
+    if( dp[mask][v] != -1) return dp[mask][v];
+    int min = INT_MAX;
+    for(int i = 0; i < n; i++)
+    {
+        if( (mask & (1<<i)) != 0 ){
+            int q = tsp(mask ^ (1<<i), i) + dist[i][v];
+            if( q < min ) min = q;
+        }
+
+    }
+    dp[mask][v] =min;
+    return dp[mask][v];
+}
+
+int main(){
+    int mask = 0;
+    for(int i = 0; i < n; i++) mask |= 1<<i;
+    for(int i=0; i<(1<<n);i++)
+        for(int j = 0; j < n; j++) dp[i][j] = -1;
+    int q = tsp( mask ^ (1<<0) , 0);
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+\end{document}
+

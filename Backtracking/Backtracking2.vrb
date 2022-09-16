@@ -1,0 +1,19 @@
+\frametitle{Problema 6: Maior Clique}
+\Fontvi{
+\begin{lstlisting}[language=C]
+Entrada
+5 6
+0 1
+0 3
+1 2
+2 3
+2 4
+3 4
+Saída
+3
+
+\end{lstlisting}
+}
+
+
+

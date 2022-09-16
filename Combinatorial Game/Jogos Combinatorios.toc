@@ -1,0 +1,3 @@
+\beamer@endinputifotherversion {3.12pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Jogo Nim}{18}{0}{1}

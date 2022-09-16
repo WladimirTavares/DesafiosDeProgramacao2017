@@ -1,0 +1,626 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+\usepackage[noend]{algorithmic}
+\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{hyperref}
+
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+%  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Desafios de Programação \\ Introdução}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Por que fazer Desafios de Programação?}
+
+
+\begin{frame}{Por que fazer Desafios de Programação?}
+
+\begin{itemize}
+  \item Você pode aprender
+  \begin{itemize}
+    \item Muitos algoritmos úteis e vários insights matemáticos
+    \item Como programar/debugar rapidamente
+    \item Como trabalhar em equipe
+
+  \end{itemize}
+
+  \item Aumentar a capacidade de avaliação de tempo e memória de algoritmos.
+  \item Um treinamento para entrevistas de empregos.
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Pré-requisitos}
+
+\begin{itemize}
+  \item QXD0010 - Estrutura de Dados
+  \item QXD0041 - Projeto e Análise de Algoritmos
+  \item Bom conhecimento matemático
+  \item Avidez por conhecimento
+\end{itemize}
+
+\end{frame}
+
+\section{Tópicos}
+
+\begin{frame}{Tópicos}
+\begin{enumerate}
+  \item Estrutura de Dados
+  \item Matemáticos
+  \item Backtracking
+  \item Programação Dinâmica
+  \item Algoritmos em Grafos
+  \item Fluxos em redes
+  \item Algoritmos para IA
+  \item Algoritmos em cadeias de caracteres
+  \item Algoritmos Geométricos
+  \item Jogos Combinatórios
+\end{enumerate}
+
+\end{frame}
+
+\section{Bibliografia}
+
+\begin{frame}
+
+
+\end{frame}
+
+\section{Competições}
+
+\begin{frame}{Competições}
+\begin{itemize}
+  \item Maratona de Programação
+  \item TopCoder
+  \item Codeforces
+  \item Google Code Jam
+\end{itemize}
+\end{frame}
+
+
+\section{Como praticar}
+
+\begin{frame}{Como praticar}
+\begin{itemize}
+  \item URI Online Judge
+  \item SPOJ
+  \item Project Euler
+  \item Code Chef
+  \item Competições semanais
+\end{itemize}
+\end{frame}
+
+\section{Competições semanais}
+
+\begin{frame}{Competições semanais}
+\begin{itemize}
+  \item Toda às quarta-feira
+  \item Aberto para qualquer pessoa
+  \item Pelo URI Online Judge
+\end{itemize}
+\end{frame}
+
+
+\section{Problema 1}
+
+\begin{frame}{Problema 1}
+Dado N-1 números distintos entre 1 e N, descubra o número que está faltando?
+
+Restrições:
+
+N $\leq$ 1000000
+
+\end{frame}
+
+\begin{frame}[fragile]{Solução 1}
+
+\begin{lstlisting}[frame=single,language=C]
+#include <stdio.h>
+#include <string.h>
+#define MAX 1000000
+char table[MAX]; //~1MB
+int N,x;
+int main(){
+  scanf("%d", &N);
+  memset(table, sizeof(table), 0);
+  for(int i = 0; i < N-1; i++){
+    scanf("%d", &x);
+    table[--x] = 1;
+  }
+  for(int i = 0; i < N; i++)
+    if(table[i] == 0)
+      printf("%d\n", i+1);
+}
+\end{lstlisting}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Solução 2}
+
+\begin{lstlisting}[frame=single,language=C]
+#include <stdio.h>
+#include <string.h>
+int S,N,x;
+int main(){
+  scanf("%lld", &N);
+  S = ((N+1)*N)/2LL;
+  //printf("%lld\n", S);
+  for(int i = 0; i < N-1;i++)
+  {
+    scanf("%lld", &x);
+    S = S - x;
+  }
+  printf("%lld\n", S);
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+\begin{frame}{ Limites de representação de dados}
+
+\begin{tabular}{llll}
+tipo            & bits & [min .. max] & precisão \\
+char            & 8    & $[0 \ldots 127]$ & 2 \\
+signed char     & 8    & $[-128 \ldots 127]$ & 2 \\
+unsigned short  & 16   & $[0 \ldots 65.535]$ & 4 \\
+unsigned int    & 32   & $[0 \ldots 4 \times 10^9]$ & 9\\
+int             & 32   &  $[-2 \times 10^9 \ldots 2 \times 10^9]$ & 9\\
+int64\_t         & 64   & $[-9 \times 10^{18} \ldots 9 \times 10^{18}]$ & 18  \\
+uint64\_t        & 64   & $[0 .. $18 \times 10^18$] & 19\\
+\end{tabular}
+  
+\begin{tabular}{llll}
+tipo & bits¨& expoente & precisão \\
+float & 32 & 38 & 6\\
+double & 64 & 308 & 15\\
+long double & 80 & 19.728 & 18\\  
+\end{tabular}
+
+  
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Solução 3}
+
+\begin{lstlisting}[frame=single,language=C]
+#include <stdio.h>
+#include <string.h>
+long long int S,N,x;
+int main(){
+  scanf("%lld", &N);
+  S = ((N+1)*N)/2LL;
+  printf("%lld\n", S);
+  for(int i = 0; i < N-1;i++)
+  {
+    scanf("%lld", &x);
+    S = S - x;
+  }
+  printf("%lld\n", S);
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+
+\begin{frame}{Solução 4 XOR Ring}
+
+Propriedades $\bigoplus$:
+\begin{itemize}
+  \item A $\bigoplus$ A = 0 (Elemento Inverso)
+  \item A $\bigoplus$ 0 = A (Elemento Neutro)
+  \item A $\bigoplus$ B = B $\bigoplus$ A (Comutatividade)
+\end{itemize}
+
+Algoritmo:
+\begin{enumerate}
+  \item Faça $S \leftarrow 1 \bigoplus$ 2 $\bigoplus$ \ldots $\bigoplus$ N.
+  \item Para cada valor dado x, faça $S \leftarrow S \bigoplus x$.
+  \item Imprima S.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]{Solução 4}
+
+\begin{lstlisting}[frame=single,language=C]
+#include <stdio.h>
+int S,N,x;
+int main(){
+  scanf("%d", &N);
+  S = 0;
+  for(int i = 1; i <= N;i++){
+    S = S ^ i;
+  }
+  for(int i = 1; i <= N-1;i++)
+  {
+    scanf("%d", &x);
+    S = S ^ x;
+  }
+  printf("%d\n", S);
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+
+\section{Problema 2}
+
+\begin{frame}{Problema 2}
+Dado N+1 números no intervalo [1..N], somente um valor está duplicado, descubra qual é o valor duplicado.
+
+\textbf{Exemplo de Entrada}
+N = 5, vetor de valores = {1, 3, 4, 3, 5, 2}.
+
+\textbf{Exemplo de Saída}
+duplicado = 3
+
+Restrições:
+
+N $\leq$ 1000000
+
+\end{frame}
+
+
+
+\section{Dicas para ser Competitivo}
+
+\begin{frame}{Dica 1: Digite rápido}
+\begin{itemize}
+  \item Typing test: \url{http://www.typingtest.com/}
+  \item Typing Speed: 44 WPM
+  \item Errors: 5 mistyped words
+  \item Adjusted Speed: 39 WPM
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Dica 2: Identifique rapidamente o tipo de problema}
+
+\begin{table}
+\begin{tabular}{l}
+Categorias \\
+\hline
+Ad Hoc\\
+Força Bruta\\
+Divisão e conquista\\
+Guloso\\
+Programação Dinâmica\\
+Grafos\\
+Matemática\\
+Processamento de String\\
+Geometria Computacional\\
+\hline
+\end{tabular}
+\caption{Tipos de Problemas}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Dica 3: Domine Análise do algoritmo}
+
+\begin{itemize}
+  \item Computadores modernos realizam em torno de $ \approx 100M (10^8)$ por segundos.
+  \item Se o tamanho máximo de sua entrada é  $ \approx 100K (10^5)$ e seu algoritmo tem complexidade $O(n^2)$ então seu algoritmo realiza $10^10$ operações.
+  \item Isso significa que seu algoritmo requer na ordem de centenas de segundos para resolver o problema.
+  \item Se seu algoritmo tem complexidade $O(n log_2 n)$ então seu algoritmo realiza $1.7 \times 10^6$ então seu algoritmo consegue rodar em menos de 1 segundo.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+\begin{table}
+\begin{tabular}{cc}
+Tamanho da Entrada & Complexidade do Algoritmo \\
+\hline
+$\leq 10$           & $O(n!)$ \\
+$\leq 20$           & $O(2^n)$ \\
+$\leq 50$           & $O(n^4)$ \\
+$\leq 100$          & $O(n^3)$ \\
+$\leq 10^3$         & $O(n^2)$ \\
+$\leq 10^5$         & $O(n log_2 n)$ \\
+$\leq 10^6$         & $O(n), O(log_2 n)$ \\
+\hline
+\end{tabular}
+\caption{Análise do Algoritmo}
+\end{table}
+
+\end{frame}
+
+
+
+\begin{frame}{Exercício 1}
+
+Existem $n$ páginas na internet $(1 \leq n \leq 10^7)$. Cada página
+$i$ tem um page rank diferente $r_i$. Encontre as 10 páginas
+com os maiores page rank. Qual método é mais viável?
+
+\begin{enumerate}
+\item Leia n páginas e ordene e escolha 10 maiores.
+\item Use uma fila de prioridade (heap).
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}{Exercício 2}
+
+Dada uma lista L com até $10^4$ inteiros, você quer saber freqüentemente o valor $sum(i,j) = L[i] + \ldots + L[j]$.
+Qual é a estrutura de dados viável?
+
+\begin{enumerate}
+\item Um vetor simples.
+\item Um vetor simples com pré-processamento.
+\item Um segtree
+\end{enumerate}
+
+\end{frame}
+
+
+\begin{frame}{Exercício 3}
+Receba um vetor $A[0..N-1]$ e devolva os elemento de $A[0..N-1]$ em ordem
+crescente. Sabendo que cada $A[i]$ está em $\{0,...,K\}$.
+Restrições:
+1 $\leq$ K $\leq$ N $\leq 10^8$
+\end{frame}
+
+
+\begin{frame}[fragile]{Counting Sort}
+\Fontvi{
+\begin{lstlisting}[frame=single,language=C]
+#include <stdio.h>
+#include <algortihm>
+using namespace std;
+int main()
+{
+  int A[] = {3, 1, 4, 5, 7, 2};
+  int K = max_element(myints,myints+7);
+  int N = 6;
+  int C[k+1];
+  int B[N];
+  for(int i = 0; i <= K; i++) C[i] = 0;
+  for(int i = 0; i <  N; i++)  C[ A[i] ]++;
+  for(int i = 1; i <= K; i++) C[i] = C[i] + C[i-1];
+  for(int j = N-1; j >= 0; j--)
+  {
+     B[C[A[j]]]  = A[j];
+     C[A[j]]--;
+  }
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Dica 4: Domine várias linguagens de programação}
+\begin{itemize}
+  \item Conheça STL do C++.
+  \item Conheça as bibliotecas BigInteger/BigDecimal, GregorianCalendar,Regex do Java
+  \item Conheça os recursos de sua linguagem de programação
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Dica 4: Domine várias linguagens de programação}
+
+\begin{itemize}
+  \item Temos N linhas,cada linha começa com '0' seguido de '.' uma quantidade de dígitos x terminada com "...\\
+2\\
+0.1227...\\
+0.517611738...\\
+\end{itemize}
+
+\begin{lstlisting}[frame=single,language=C]
+#include <iostream> // or <cstdio>
+using namespace std;
+// using global variables in contests can be a good strategy
+char digits[100];
+int main() {
+  scanf("%d", &N);
+  while (N--) { // we simply loop from N, N-1, N-2, ... 0
+    scanf("0.%[0-9]...", &digits); // surprised?
+    printf("the digits are 0.%s\n", digits);
+  }
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+\begin{frame}{Dica 4:Domine várias linguagens de programação}
+\begin{enumerate}
+  \item Desenvolva um código mais conciso possível para a seguinte tarefa:
+Dado uma lista de inteiros ordenada L de tamanho 1M de itens, determine se o valor v existe na lista L com no mais de 20 comparações?
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+\Fontvi{
+\begin{lstlisting}[frame=single,language=C]
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#define all(c) (c).begin(), (c).end()
+#define tr(c,i)\
+for(typeof((c).begin()) i =(c).begin(); i != (c).end(); i++)
+using namespace std;
+bool compare(int i, int j){ return (i<j);}
+int main(){
+  ios::sync_with_stdio(false);
+  int vetint[] = {4,1,4,7,6,4};
+  vector <int> v(vetint, vetint+6);
+  vector <int>::iterator it;
+  sort(all(v), compare);
+  tr(v,it) cout << *it << endl;
+  binary_search(all(v), 6, compare) ?
+  cout << "encontrado" << endl :
+  cout << "nao encontrado" << endl;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}[fragile]
+\Fontvi{
+\begin{lstlisting}[frame=single,language=C]
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#define all(c) (c).begin(), (c).end()
+#define tr(c,it)\
+for(auto it = (c).begin(); it != (c).end(); it++)
+using namespace std;
+bool compare(int i, int j){ return (i<j);}
+int main(){
+  ios::sync_with_stdio(false);
+  int vetint[] = {4,1,4,7,6,4};
+  vector <int> v(vetint, vetint+6);
+  sort(all(v), compare);
+  tr(v,it) cout << *it << endl;
+  binary_search(all(v), 6, compare) ?
+  cout << "encontrado" << endl :
+  cout << "nao encontrado" << endl;
+}
+\end{lstlisting}
+}
+\end{frame}
+
+
+\begin{frame}{Dica 4:Domine várias linguagens de programação}
+\begin{table}
+\begin{tabular}{cc}
+Método & Time(s) \\
+cin    & 2.70 \\
+scanf  & 0.84 \\
+\end{tabular}
+\caption{Performance na leitura $10^7$ inteiros}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Dica 4: Domine várias linguagens de programação}
+
+Adicione \texttt{ios::sync\_with\_stdio(false)} no início do seu programa para melhorar a performance da entrada.
+
+\begin{table}
+\begin{tabular}{cc}
+Método & Time(s) \\
+cin             & 2.70 \\
+cin sync false  & 0.78 \\
+\end{tabular}
+\caption{Performance na leitura $10^7$ inteiros}
+\end{table}
+\end{frame}
+
+
+\subsection{Dica 5: Domine a arte de testar}
+
+
+\begin{frame}[fragile]{Domine a arte de testar}
+
+\begin{itemize}
+  \item Pense nos casos de borda.
+  \item Repita o mesmo caso de teste para checar a inicialização das variáveis.
+  \item Crie testes de casos problemáticos.
+  \item Não assuma nada de especial da entrada.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{10 mandamentos}
+
+\begin{enumerate}
+\item Não dividirás por zero.
+\item Não alocarás dinamicamente a menos que seja necessário.
+\item Compararás números de ponto flutuante usando cmp()
+\item Verificarás se o grafo pode ser desconexo.
+\item Verificarás se as arestas do grafo podem ter peso negativo.
+\item Verificarás se pode haver mais de uma aresta ligando dois vértices.
+\item Conferirás todos os índices de uma programação dinâmica.
+\item Reduzirás o branching factor da DFS.
+\item Farás todos os cortes possíveis em uma DFS.
+\item Tomarás cuidado com pontos coincidentes e com pontos colineares.
+\end{enumerate}
+Extraído do caderno de código da PUC RIO 2006.
+\end{frame}
+
+
+\end{document}
+

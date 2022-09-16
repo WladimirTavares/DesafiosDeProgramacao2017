@@ -1,0 +1,187 @@
+\documentclass[a4paper,9,5pt]{article}%
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+%\usepackage[noend]{algorithmic}
+%\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{courier}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tkz-graph}
+\usetikzlibrary{positioning}
+
+
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+% Declare layers
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+
+\lstset{language=C++,
+basicstyle=\ttfamily,
+keywordstyle=\color{blue}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+commentstyle=\color{blue}\ttfamily,
+morecomment=[l][\color{red}]{\#}
+}
+
+
+
+\setcounter{MaxMatrixCols}{30}
+
+
+
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\begin{document}
+
+
+\section{Caminho mínimo entre todos os pares de vértices com Floyd-Warshall}
+
+Nós temos um grafo e queremos encontrar o menor caminho a partir de $u$ até $v$ para todos os pares $(u,v)$. Note que esta tarefa pode ser resolvida $O(n^3)$, executando o algoritmo de Djikstra $O(n^2)$ para cada um dos $n$ vértices. Contudo, um algoritmo Floyd-Warshall faz o mesmo trabalho em 4 linhas.
+
+\begin{lstlisting}[language=C++]
+
+int graph[128][128], n; // a weighted graph and its size
+void floydWarshall() {
+  for( int k = 0; k < n; k++ )
+    for( int i = 0; i < n; i++ )
+      for( int j = 0; j < n; j++ )
+        graph[i][j] = min( graph[i][j], graph[i][k] + graph[k][j] );
+}
+int main {
+  // initialize the graph[][] adjacency matrix and 
+  //n adjacency matrix and n
+  // graph[i][i] should be zero for all i.
+  // graph[i][j] should be "infinity" if edge (i, j) does not exist
+  // otherwise, graph[i][j] is the weight of the edge (i, j)
+  floydWarshall();
+  // now graph[i][j] is the length of the shortest path from i to j
+}
+\end{lstlisting}
+
+Inicialização:
+
+$graph[i][j]$ deve ser inicializado com o peso da aresta (i,j). Para as arestas não existentes, o valor deve ser inicializado com INF. O valor de INF não pode ser maior que $INT\_MAX/2$ para evitar overflow. O algoritmo tem duas entradas: $graph[][]$ e o número de vertices $n$. $graph[][]$ é modificado para guardar o comprimento do menor caminho entre todos os pares de vértices. Este algoritmo funciona para grafos direcionados e não-direcionados. A ordem dos 3 loops é importante. Note que a ordem i,j,k não funciona.
+
+\section{Fecho transitivo de uma relação com Floyd-Warshall}
+
+\begin{lstlisting}[language=C++]
+bool graph[128][128], n;
+int transitividade() {
+  for( int k = 0; k < n; k++ )
+    for( int i = 0; i < n; i++ )
+      for( int j = 0; j < n; j++ )
+        graph[i][j] = graph[i][j] || (graph[i][k] && graph[k][j]);
+}
+\end{lstlisting}
+
+Depois transitividade(), $graph[][]$ armazena o fecho transitivo da relação inicial, ou seja, $graph[i][j]$ é verdade se existe um caminho a partir de $i$ até $j$. A função acima pode ser modificada para verificar se uma relação tem a propriedade transitiva.
+
+\section{Floyd-Warshall com recuperação de caminho}
+
+O Algoritmo de Floyd-Warshall pode ser modificado para facilitar o processo de recuperação do caminho mínimo. $parent[i][j]$ representa o último vértice antes de $j$ no caminho mínimo de $i$ até $j$. $parent[i][j]$ é setado com $i$ quando temos uma aresta $i$ até $j$, caso contrário, é setado com -1. O processo de atualização do vetor parent é realizado da seguinte maneira: "Se o caminho de $i$ até $j$ passando por $k$" é melhor que o atual, então setamos $parent[i][j]$ com o $parent[k][j]$
+
+
+\begin{lstlisting}[language=C++]
+int graph[128][128], n; // a weighted graph and its size
+int parent[128][128];
+void floydWarshall() {
+  for( int i = 0; i < n; i++ )
+    for( int j = 0; j < n; j++ )
+      if ( i == j || graph[i][j] == Inf )
+        parent[i][j] = -1;
+      else parent[i][j] = i;
+
+  for( int k = 0; k < n; k++ )
+    for( int i = 0; i < n; i++ )
+      for( int j = 0; j < n; j++ ) {
+        int newD = graph[i][k] + graph[k][j];
+        if( newD < graph[i][j] ) {
+          graph[i][j] = newD;
+          parent[i][j] = parent[k][j];
+        }
+      }
+}
+\end{lstlisting}
+
+\section{Problema minmax}
+
+Considere um mapa de uma cidade onde as arestas representam ruas e os vértices representam cruzamento. Um inteiro em cada aresta representa o nível de intensidade média do som da rua correspondente. Determine o menor nível de intensidade do som que você deve tolerar para conseguir ir de um cruzamento para outro.
+
+\begin{center}
+\includegraphics[scale=0.8]{floyd}
+\end{center}
+
+Por exemplo, para ir do cruzamento A até G, podemos seguir os seguintes caminhos: ACFG (maior intensidade 140 decibéis), ABEG(90 decibéis),ABDG(120 decibéis) e ACFDG(80 decibéis). O caminho mais confortável é o caminho com o menor nível de intensidade do som.
+
+\begin{lstlisting}[language=C++]
+
+int intensidade[128][128], n; // a weighted graph and its size
+void floydWarshall() {
+  for( int k = 0; k < n; k++ )
+    for( int i = 0; i < n; i++ )
+      for( int j = 0; j < n; j++ )
+        intensidade[i][j] = min( intensidade[i][j], max(intensidade[i][k],intensidade[k][j]) );
+}
+\end{lstlisting}
+
+
+Outros exemplos:
+
+\begin{itemize}
+\item Maximizar a carga transportada por um caminhão quando as estradas ao longo de um caminho podem ter um limite de peso.
+\item Encontra uma rota em uma rede que atenda um requisito mínimo de largura de banda para algum aplicativo.
+\end{itemize}
+
+\section{Caminho mais seguro}
+
+Neste problema, precisamos maximizar a probabilidade de sobrevivência entre um caminho.
+
+\begin{lstlisting}[language=C++]
+// Safest path variant of Floyd-Warshall example
+// input: p is an probability matrix (probability of survival) for n nodes
+//     e.g. p[i][j] is the probability of survival moving directly from i to j.
+//     the probability from a node to itself e.g. p[i][i] should be initialized to 1
+// output: p[i][j] will contain the probability of survival using the safest path from i to j.
+for (k=0; k<n; k++)
+  for (i=0; i<n; i++)
+    for (j=0; j<n; j++)
+      p[i][j] = max(p[i][j], p[i][k] * p[k][j]);
+\end{lstlisting}
+
+
+
+
+
+\end{document} 

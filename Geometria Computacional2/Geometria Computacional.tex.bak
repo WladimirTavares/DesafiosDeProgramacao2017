@@ -1,0 +1,1185 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+%\usepackage[noend]{algorithmic}
+%\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{courier}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tkz-graph}
+\usetikzlibrary{positioning}
+
+
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+% Declare layers
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+
+\lstset{language=C++,
+basicstyle=\ttfamily,
+keywordstyle=\color{blue}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+commentstyle=\color{magenta}\ttfamily,
+morecomment=[l][\color{red}]{\#}
+}
+
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{8}{7.2}\selectfont}
+\newcommand{\azul}[1]{ {\color{blue}#1} }
+\newcommand{\BIT}{\begin{itemize}}
+\newcommand{\EIT}{\end{itemize}}
+
+\newcommand{\BE}{\begin{enumerate}}
+\newcommand{\EE}{\end{enumerate}}
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Geometria Computacional}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Problemas clássicos}
+
+
+\subsection{Problema: Círculo passando por três pontos}
+
+
+\begin{frame}{Problema: Círculo passando por três pontos}
+
+\begin{columns}[T] % align columns
+
+\begin{column}{.68\textwidth}
+
+\begin{algorithm}[H]
+\caption{Algoritmo CirculoTresPontos}
+\begin{algorithmic}[1]
+
+\Function {CirculoTresPontos}{$P,Q,R,C,raio$}
+
+\State Encontre a reta PQ
+\State Encontre a reta PR
+\State Seja $L_1 \perp PQ$ e $L_2 \perp PR$
+\State Seja $S$ a intersecção entre $L_1$ e $L_2$
+\State $C \leftarrow (P+S)/2.0$
+\State $raio \leftarrow dist(P,S)/2.0$
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{column}%
+\hfill%
+\begin{column}{.32\textwidth}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.4]{circle1.png}
+\end{figure}
+
+\end{column}%
+\end{columns}
+
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Círculo passando por três pontos}
+\Fontvi{
+\begin{lstlisting}[language=C]
+void circleByThreePoint(PointD P, PointD Q,
+                        PointD R, PointD &C,
+                        double &radius){
+  Line PQ;
+  Line PR;
+  Line L1;
+  Line L2;
+  PointD S;
+  pointsToLine(P,Q,PQ);
+  pointsToLine(P,R,PR);
+  pointAndSlopeLine(Q, 1.0/PQ.a, L1);
+  pointAndSlopeLine(R, 1.0/PR.a, L2);
+  areIntersect(L1,L2, S);
+  C.x = midPoint(P,S);
+  radius = dist(P,S)/2;
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\begin{frame}{Problema: Círculo passando por três pontos}
+
+\begin{columns}[T] % align columns
+
+\begin{column}{.68\textwidth}
+
+\begin{algorithm}[H]
+\caption{Algoritmo CirculoTresPontos}
+\begin{algorithmic}[1]
+
+\Function {CirculoTresPontos}{$A,B,C,O,raio$}
+
+\State $midAB \leftarrow (A+B)/2.0$
+\State $midBC \leftarrow (B+C)/2.0$
+\State Encontre a reta $L_1 \perp AB$ passando por midPQ
+\State Encontre a reta $L_2 \perp BC$ passando por midPR
+\State $O \leftarrow L_1 \cap L_2$
+\State $raio \leftarrow dist(O,B)$
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{column}%
+\hfill%
+\begin{column}{.32\textwidth}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.3]{circle2.png}
+\end{figure}
+
+\end{column}%
+\end{columns}
+
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Círculo passando por três pontos}
+\Fontvi{
+\begin{lstlisting}[language=C]
+void circleByThreePoint2(PointD P,
+                         PointD Q,
+                         PointD R,
+                         PointD &C,
+                         double &radius){
+
+  Line PQ;
+  Line PR;
+  Line L1;
+  Line L2;
+  PointD S;
+
+  pointsToLine(P,Q,PQ);
+  pointsToLine(P,R,PR);
+  PointD midPQ = midPoint(P,Q);
+  PointD midPR = midPoint(P,R);
+  pointAndSlopeLine(midPQ, 1.0/PQ.a, L1);
+  pointAndSlopeLine(midPR, 1.0/PR.a, L2);
+  areIntersect(L1,L2, C);
+  radius = dist(C,P);
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+
+
+
+\subsection{Smallest Circle Enclosing Problem}
+
+\begin{frame}{Smallest Circle Enclosing Problem}
+
+\begin{algorithm}[H]
+\caption{Algoritmo SmallestCircleEnclosingProblem}
+\begin{algorithmic}[1]
+
+\Function {SmallestCircleEnclosingProblem}{$P, centro, raio$}
+
+\State $centro \leftarrow P[0]$, $raio \leftarrow MaxValue$
+
+\For{$p,q \in P$}
+\State $c \leftarrow (p+q)/2.0$, $r \leftarrow dist(p,q)/2.0$
+
+\If{$r < raio$}
+\If{Se todos os pontos estão no círculo $(c,r)$ }
+\State $raio \leftarrow r$, $centro \leftarrow c$
+\EndIf
+\EndIf
+
+\EndFor
+
+\For{$p,q,r \in P$}
+\State CirculoTresPontos(p,q,r,c,r)
+
+\If{$r < raio$}
+\If{Se todos os pontos estão no círculo $(c,r)$ }
+\State $raio \leftarrow r$, $centro \leftarrow c$
+\EndIf
+\EndIf
+
+\EndFor
+
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+
+
+
+
+
+\end{frame}
+
+
+
+\subsection{Intersecção de Segmentos}
+
+\begin{frame}{Intersecção de Segmentos}
+
+Suponha dois segmentos $p-p+r$ e $q - q + s$. Todos os pontos do primeiro segmento podem ser representados por $p+tr$, onde $t \in [0,1]$ e qualquer ponto do segundo segmento pode ser representado por $q + us$, onde $u \in [0,1]$
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{seg1.png}
+\end{figure}
+
+
+\end{frame}
+
+\begin{frame}{Interseção de Segmentos}
+
+As duas linhas se cruzam se podemos encontrar $t$ e $u$ tal que $p + tr = q + us$
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{seg2.png}
+\end{figure}
+
+
+\end{frame}
+
+
+\begin{frame}{Interseção de Segmentos}
+
+\BIT
+\item Realizando o produto vetorial por $s$ em ambos os lados, temos
+
+\begin{tabular}{lll}
+$|(p + tr) \times s|$           & = & $|(q + us) \times s|$\\
+$|p \times s| + |t (r \times s)|$ & = & $|q \times s| + |u (s \times s)|$\\
+\end{tabular}
+
+\item Como $|s \times s| = 0$, temos
+
+\begin{tabular}{lll}
+$t |(r \times s)|$ & = & $|q \times s - p \times s|$\\
+$t |(r \times s)|$ & = & $|(q - p) \times s|$\\
+$t $ & = & $ \displaystyle \frac{|(q - p) \times s|}{|r \times s|}$\\
+\end{tabular}
+
+\item Realizando o produto vetorial por $r$ em ambos os lados, temos
+
+\begin{tabular}{lll}
+$u $ & = & $ \displaystyle \frac{|(q - p) \times r|}{|r \times s|}$\\
+\end{tabular}
+
+\item Verifique se $t \in [0,1]$ e $u \in [0,1]$
+
+\EIT
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Intersecção de Segmentos}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool IntersectSegment(PointD p0, PointD p1,PointD p2, PointD p3, PointD & pt){
+  PointD r = p1-p0; //p2 = p1 + r
+  PointD s = p3-p2; //p4 = p3 + s
+  double denom = cross(r,s);
+  if( fabs(denom) < EPSILON) return false;
+  bool denomPositivo = denom > EPSILON;
+
+  PointD v = p0-p2; //v  = p3-p1
+
+  double s_number = cross(r,v);
+
+  if( (s_number < 0) == denomPositivo)
+    return false;
+
+  double t_number = cross(s,v);
+
+  if( (t_number < 0) == denomPositivo)
+    return false;
+
+  if( ((s_number > denom) == denomPositivo) ||
+      ((t_number > denom) == denomPositivo) )
+        return false;
+
+  double t = t_number/denom;
+
+  pt.x = p0.x + (t * r.x);
+  pt.y = p0.y + (t * r.y);
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\begin{frame}{Distância de um ponto para uma Reta}
+\begin{columns}[T] % align columns
+\begin{column}{.68\textwidth}
+\begin{algorithm}[H]
+\caption{Algoritmo DistânciaPontoReta}
+\begin{algorithmic}[1]
+\Function {DistânciaPontoReta}{$p,p0,p1$}
+\State $v \leftarrow p1-p0$
+\State $w \leftarrow p-p0$
+\State \Return $\frac{|v \times w|}{|v|}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\end{column}%
+\hfill%
+\begin{column}{.32\textwidth}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.4]{distance.png}
+\end{figure}
+
+\end{column}%
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Distância de um ponto para uma Reta}
+\begin{columns}[T] % align columns
+\begin{column}{.68\textwidth}
+\begin{algorithm}[H]
+\caption{Algoritmo PontoMaisProximoReta}
+\begin{algorithmic}[1]
+\Function {PontoMaisProximoReta}{$p,p0,p1$}
+\State $v \leftarrow p1-p0$
+\State $w \leftarrow p-p0$
+\State $c1 \leftarrow v \cdot w$
+\State $c2 \leftarrow v \cdot v$
+\State $k \leftarrow \frac{c1}{c2}$
+\State \Return $p1 + kv$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\end{column}%
+\hfill%
+\begin{column}{.32\textwidth}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.4]{distance.png}
+\end{figure}
+
+\end{column}%
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Distância Ponto Reta}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+double distPointToLine(PointD p, PointD p1, PointD p2){
+   PointD v = p2-p1;
+   PointD w = p-p1;
+   return fabs(cross(v,w)/lenght(v));
+}
+PointD closestPointToLine(PointD p, PointD p1, PointD p2){
+  PointD v = p2-p1;
+  PointD w = p-p1;
+  double c1 = dot(w,v);
+  double c2 = dot(v,v);
+  double k = c1 / c2;
+  PointD Pc;
+  Pc.x = p1.x + k*v.x;
+  Pc.y = p1.y + k*v.y;
+  return Pc;
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\subsection{Mínimo de Retas para cobrir todos os pontos}
+
+\begin{frame}{Mínimo de Retas para cobrir todos os pontos}
+
+\BIT
+\item Dado n pontos, queremos encontrar o número mínimo de retas que passa por um ponto específico $(x_0,y_0)$ e cruza todos os pontos.
+
+\item Podemos resolver este problema, calculando o ângulo entre todos os pontos com $(x_0,y_0)$.
+
+\item Se dois pontos distintos tem o mesmo ângulo então eles podem ser cobertos pela mesma linha.
+
+\item Problemas de precisão para o cálculo do ângulo podem ser evitados guardando $dy$ e $dx$.
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Mínimo de Retas para cobrir todos os pontos}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{minimumLines.png}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Mínimo de Retas para cobrir todos os pontos}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int gcd(int a, int b)
+{
+    if (b == 0)
+        return a;
+    return gcd(b, a % b);
+}
+pair<int, int> getReducedForm(int dy, int dx)
+{
+    int g = gcd(abs(dy), abs(dx));
+    bool sign = (dy > 0) == (dx > 0);
+    if( sign )
+      return make_pair( abs(dy)/g, abs(dx)/g);
+    else
+      return make_pair( -abs(dy)/g, abs(dx)/g);
+
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Mínimo de Retas para cobrir todos os pontos}
+\Fontvi{
+\begin{lstlisting}[language=C]
+int minLinesToCoverPoints(vector <Point> P, int x0, int y0)
+{
+    //  set to store slope as a pair
+    set< pair<int, int> > st;
+    pair<int, int> temp;
+    int minLines = 0;
+    int N = P.size();
+
+    //  loop over all points once
+    for (int i = 0; i < N; i++)
+    {
+        //  get x and y co-ordinate of current point
+        int curX = P[i].x;
+        int curY = P[i].y;
+        temp = getReducedForm(curY-y0, curX-x0);
+        // if this slope is not there in set,
+        // increase ans by 1 and insert in set
+        if (st.find(temp) == st.end())
+        {
+            st.insert(temp);
+            minLines++;
+        }
+    }
+    return minLines;
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+
+\subsection{Varredura de Graham}
+
+\begin{frame}{Varredura de Graham}
+
+\BIT
+\item O algoritmo de varredura de Grahan soluciona o problema da obtenção do fecho
+convexo mantendo uma pilha de candidatos.
+
+\item Cada ponto é testado para verificar se faz parte do fecho.
+
+\item Em caso negativo, o ponto é retirado da pilha.
+
+\item Ao término do algoritmo, a pilha contém exatamento os vértices que fazem parte do fecho convexo ordenado da direita para a esquerda.
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Varredura de Graham}
+
+\begin{algorithm}[H]
+\caption{Algoritmo Varredura de Graham}
+\begin{algorithmic}[1]
+
+\Function {Varredura de Graham}{$P$}
+\State $P_0 \leftarrow$ ponto mais à esquerda de P.
+
+\State $P \leftarrow$ ordenação do conjunto P com relação ao ângulo formado por $P_0P_i$
+
+\State Empilhe $P_0$ e $P_1$ em hull
+\State $topo \leftarrow 2$
+\While{$i < n$}
+\If{$DIRECAO(hull[topo-1],hull[topo],P[i]) > 0$}
+\State $hull[topo] \leftarrow  P[i]$
+\State $topo \leftarrow topo +1$
+\State $i \leftarrow i + 1$
+\Else
+\State $topo \leftarrow topo -1$
+\EndIf
+
+\EndWhile
+
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+
+\end{frame}
+
+
+\begin{frame}{Execução da Varredura de Graham}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{graham1.png}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Execução da Varredura de Graham}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{graham2.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Execução da Varredura de Graham}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{graham3.png}
+\end{figure}
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Varredura de Graham}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+
+//p1 vem antes de p2
+bool compare(const Point & p1, const Point & p2){
+  int val = cross_product(p1.x,p1.y,p2.x,p2.y);
+  if(val == 0){
+    if( lenght(p1) <= lenght(p2) ) return true;
+    else return false;
+  }
+  if( val > 0) return true;
+  else return false;
+}
+void ordenacao_polar(vector <Point> & P){
+  for(int i = 1; i < P.size(); i++){
+    P[i] = P[i] - P[0];
+  }
+  sort(P.begin()+1, P.end(), compare);
+  for(int i = 1; i < P.size(); i++){
+    P[i] = P[i] + P[0];
+  }
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Fecho Convexo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+
+vector<Point> convex_hull(vector <Point> & P){
+  int n = (int)P.size();
+  if( n <= 2 ){
+    if( P[0] == P[1]  ) P.pop_back();
+    return P;
+  }
+  //Encontre o ponto com o menor y em caso de empate o menor x
+  int pivot = 0;
+  for(int i = 1; i < n; i++){
+    if( P[i].y < P[pivot].y || (P[i].y == P[pivot].y && P[i].x < P[pivot].x))
+      pivot = i;
+  }
+  swap(P[0],P[pivot]);
+  ordenacao_polar(P);
+  vector <Point> S;
+  S.push_back(P[0]);
+  S.push_back(P[1]);
+  int i = 2;
+  while(i < n){
+    int j = (int) S.size() - 1;
+    int dir = DIRECTION(S[j-1],S[j],P[i]);
+    if( dir >0 ) S.push_back(P[i++]);
+    else S.pop_back();
+  }
+  return S;
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\subsection{Marcha de Jarvis}
+
+
+\begin{frame}{Marcha de Jarvis}
+
+\BIT
+\item A marcha de Jarvis é um algoritmo simples usado para resolver o problema da obtenção do fecho convexo.
+
+\item O algoritmo é análogo ao algoritmo de ordenação por seleção.
+
+\item A cada passo, escolhe-se um vértice para ser acrescentado ao fecho convexo.
+
+\item A escolha do próximo vértice é realizada $O(n)$.
+
+\item Se o fecho convexo tem $h$ vértices, então o algoritmo tem complexidade $O(nh)$
+\EIT
+
+\end{frame}
+
+\begin{frame}{Marcha de Jarvis}
+
+\begin{algorithm}[H]
+\caption{Algoritmo Marcha de Jarvis}
+\begin{algorithmic}[1]
+
+\Function {MarchaJarvis}{$P$}
+\State $PontoNoFecho \leftarrow$ o ponto mais à esquerda de $P$.
+\State $i \leftarrow 0$
+\Repeat
+\State $S[i] \leftarrow PontoNoFecho$
+\State $next \leftarrow P[0]$
+\For{$j \leftarrow 1$ até $|P|$}
+\If{($next == pontoNoFecho$) ou ($P[j]$ está à esquerda da linha de $S[i]$ até próximo)}
+\State $next \leftarrow P[j]$
+\EndIf
+\EndFor
+\State $i \leftarrow i + 1$
+\State $pontoNoFecho \leftarrow next$
+\Until{$next == S[0]$}
+\State \Return S
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+
+\end{frame}
+
+\begin{frame}{Execução da Marcha de Jarvis}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{Jarvis.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Marcha de Jarvis}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+vector <Point> convexHull(vector <Point> P){
+    vector<Point> hull;
+    int n = P.size();
+    if (n < 3) return hull;
+    // Encontre o ponto mais à esquerda
+    int l = 0;
+    for (int i = 1; i < n; i++) if (P[i].x < P[l].x) l = i;
+    //Este loop roda em tempo O(h), onde h é o numero de vértices
+    // do fecho
+    int p = l, q;
+    do
+    {
+        hull.push_back(P[p]);
+        //Procure o ponto q que está à esquerda para todos os pontos x
+        //A ideia é manter o último visitado mais à esquerda em q
+        q = (p+1)%n;
+        for (int i = 0; i < n; i++)
+           // Se i está mais à esquerda que o ponto atual
+           if (orientation(P[p], P[i], P[q]) == 2) q = i;
+        //Agora q está mais no sentido anti-horário com respeito a p.
+        // q será adicionado na próxima iteração
+         p = q;
+    } while (p != l);  // Enquanto não voltar para o primeiro ponto
+  return hull;
+}\end{lstlisting}
+}
+
+\end{frame}
+
+\subsection{Par de ponto mais próximo}
+
+\begin{frame}{Par de Ponto mais próximo}
+
+\BIT
+\item Dado um vetor de pontos em um plano, o problema é encontrar o par de pontos mais próximo.
+
+\item O problema surge em várias aplicações. Por exemplo, no controle de tráfego aéreo.
+
+\item O algoritmo ingênuo é $O(n^2)$.
+
+\item O problema pode ser resolvido por divisão e conquista em $O(n log n)$.
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Algoritmo de Divisão e Conquista}
+
+\BE
+\item Ordene os pontos com relação as coordenadas X
+
+\item Divida os pontos em duas metades
+
+\item Recursivamente encontre a menor distância nas duas metades.
+
+\item Seja $d$ o mínimo entre as menores distâncias das duas metades.
+
+\item Crie um vetor strip[] que armazena todos os pontos que estão na distância no máximo d das linhas que divide os dois conjuntos.
+
+\item Encontre a menor distância entre os pontos de strip[]
+
+\item Retorne o mínimo entre d e a menor distância calculada no passo anterior.
+
+\EE
+
+\end{frame}
+
+\begin{frame}{Algoritmo de Divisão e Conquista}
+
+\BIT
+\item Mantendo os vetores ordenados com as coordenadas y, a menor distância em strip[] pode ser calculada em $O(n)$.
+
+\item O vetor strip será implicitamente ordenado para manter a complexidade O(n).
+\EIT
+
+\end{frame}
+
+\begin{frame}[fragile]{Par de ponto mais próximo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+// The main functin that finds the smallest distance
+// This method mainly uses closestUtil()
+float closest(Point P[], int n)
+{
+    Point Px[n];
+    Point Py[n];
+    for (int i = 0; i < n; i++)
+    {
+        Px[i] = P[i];
+        Py[i] = P[i];
+    }
+
+    qsort(Px, n, sizeof(Point), compareX);
+    qsort(Py, n, sizeof(Point), compareY);
+
+    // Use recursive function closestUtil() to find the smallest distance
+    return closestUtil(Px, Py, n);
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Par de ponto mais próximo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+float closestUtil(Point Px[], Point Py[], int n){
+    if (n <= 3)
+        return bruteForce(Px, n);
+    int mid = n/2; // Find the middle point
+    Point midPoint = Px[mid];
+    // Divide points in y sorted array around the vertical line.
+    // Assumption: All x coordinates are distinct.
+    Point Pyl[mid+1];   // y sorted points on left of vertical line
+    Point Pyr[n-mid-1];  // y sorted points on right of vertical line
+    int li = 0, ri = 0;  // indexes of left and right subarrays
+    for (int i = 0; i < n; i++){
+      if (Py[i].x <= midPoint.x) Pyl[li++] = Py[i];
+      else Pyr[ri++] = Py[i];
+    }
+    float dl = closestUtil(Px, Pyl, mid);
+    float dr = closestUtil(Px + mid, Pyr, n-mid);
+    float d = min(dl, dr); // Find the smaller of two distances
+    // Build an array strip[] that contains points close (closer than d)
+    // to the line passing through the middle point
+    Point strip[n];
+    int j = 0;
+    for (int i = 0; i < n; i++)
+        if (abs(Py[i].x - midPoint.x) < d) strip[j] = Py[i], j++;
+    // Find the closest points in strip.  Return the minimum of d and closest
+    // distance is strip[]
+    return min(d, stripClosest(strip, j, d) );
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Par de ponto mais próximo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+// A utility function to find the distance beween the closest points of
+// strip of given size. All points in strip[] are sorted accordint to
+// y coordinate. They all have an upper bound on minimum distance as d.
+// Note that this method seems to be a O(n^2) method, but it's a O(n)
+// method as the inner loop runs at most 6 times
+float stripClosest(Point strip[], int size, float d)
+{
+    float min = d;  // Initialize the minimum distance as d
+
+    // Pick all points one by one and try the next points till the difference
+    // between y coordinates is smaller than d.
+    // This is a proven fact that this loop runs at most 6 times
+    for (int i = 0; i < size; ++i)
+        for (int j = i+1; j < size && (strip[j].y - strip[i].y) < min; ++j)
+            if (dist(strip[i],strip[j]) < min)
+                min = dist(strip[i], strip[j]);
+
+    return min;
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}{Algoritmo de Linha de Varredura}
+
+\BIT
+\item Linha de varredura é uma estratégia para solução de problemas geométrico.
+
+\item A ideia geral é manter uma linha (com algumas informações auxiliares) que varre através do plano e resolve o problema localmente
+
+\item Definimos eventos que causam a mudança da nossa estrutura de dados auxiliar.
+\EIT
+
+\end{frame}
+
+\begin{frame}{Par de pontos mais próximos}
+
+\BIT
+
+\item Durante o algoritmo de Linha de Varredura manteremos as seguintes informações:
+
+\item O par mais próximo encontrado até o momento.
+
+\item A distância $d$ entre pontos do par anterior.
+
+\item Todos os pontos em uma distância no máximo $d$ à esquerda da linha de varredura. Esses pontos serão armazenados em um conjunto ordenado $D$ pela coordenada $y$.
+\EIT
+
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Linha de Varredura}
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{sweepline1.png}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Algoritmo de Linha de Varredura}
+
+
+Cada vez que uma linha de varredura encontra um ponto $p$, as seguintes ações serão executadas:
+
+\BE
+\item Remova todos os pontos com a distância superior $d$ à esquerda de $p$ do conjunto ordenado $D$.
+\item Determine o ponto à esquerda de p mais próximo dele.
+\item Se esta distância for menor que d então atualize a distância mínima.
+\EE
+
+\end{frame}
+
+
+\begin{frame}{Algoritmo de Linha de Varredura}
+
+
+O resumo da análise do algoritmo de linha de varredura:
+
+\BIT
+\item Ordenar os pontos com relação a coordenada x leva $O(n ~log~ n)$.
+\item Inserir e remover um ponto do conjunto ordenado $D$ leva $O(log ~n)$.
+\item Encontrar a distância mínima dentro de strip é $O(n)$.
+\EIT
+
+\end{frame}
+
+\begin{frame}[fragile]{Par de ponto mais próximo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+double sweepLine(Point P[], int n){
+  qsort(P, n, sizeof(Point), compareX);
+  int back=0;
+  double d=dist(P[0],P[1]);
+  multiset<Point,classcomp> S;
+  S.insert(P[0]);
+  S.insert(P[1]);
+  for (int i=2; i<n; i++){
+    S.insert(P[i]);
+    multiset<Point,classcomp>::iterator pos= S.find(P[i]), tmp;
+    tmp=pos;
+    if( tmp != S.end() ){
+      tmp++;
+      while (tmp!=S.end() && (tmp->y-pos->y)<d){
+        d=min(dist(*tmp,*pos),d); tmp++;
+      }
+    }
+    tmp=pos;
+    if( tmp != S.begin() ){
+      tmp--;
+      while ( tmp != S.begin() && (pos->y-tmp->y)<d){
+        d=min(d,dist(*tmp,*pos)); tmp--;
+      }
+    }
+    for (;P[i].x-P[back].x>d && back<i; back++)
+      S.erase(S.find(P[back]));
+  }
+  return d;
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Par de ponto mais próximo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+double sweepLine2(Point P[],int n){
+  qsort(P, n, sizeof(Point), compareX);
+  set< pair<int,int> > box;
+  box.insert( make_pair(P[0].y, P[0].x) );
+  box.insert( make_pair(P[1].y, P[1].x) );
+  double best=dist(P[0],P[1]);
+  int left = 0;
+  for (int i=2;i<n;++i)
+  {
+    //Atualiza pontos ativos
+    while (left<i && P[i].x - P[left].x > best){
+      box.erase( box.find( make_pair( P[left].y , P[left].x ) ) );
+      left++;
+    }
+    //Atualiza distancia
+    set< pair<int,int> >::iterator it;
+    it=box.lower_bound(make_pair(P[i].y-best,P[i].x-best));
+    for(;it!=box.end() && P[i].y+best>=it->first;it++)
+      best = min(best, dist(P[i], Point(it->second, it->first) ) );
+    //Insere um ponto ativo
+    box.insert( make_pair( P[i].y, P[i].x) );
+  }
+  return best;
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\begin{frame}{União de retângulos}
+
+\BIT
+\item Dado n retângulos alinhados com o eixo x encontre a área da união deles.
+
+\item Nós vamos varrer o plano da esquerda para direita
+
+\item Eventos: Aresta esquerda e aresta direita dos retângulos.
+
+\item A ideia principal é manter um conjunto de retângulos ativos.
+\EIT
+
+\end{frame}
+
+\begin{frame}{Exemplo}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep1.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep2}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep3}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep4}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep5}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep6}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep7}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep8}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep9}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep10}
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+\includegraphics[height=0.6\textheight]{sweep11}
+\end{center}
+\end{frame}
+
+\begin{frame}{Linha de Varredura}
+Outras aplicações:
+\BIT
+\item Fecho convexo
+\item Encontrar o perímetro da união de retângulos
+\item Encontrar todas as k intersecções entre n segmentos em $O( (n+k) ~log~ n)$
+\EIT
+\end{frame}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+

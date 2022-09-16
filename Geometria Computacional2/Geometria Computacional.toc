@@ -1,0 +1,10 @@
+\beamer@endinputifotherversion {3.12pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Problemas cl\'assicos}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{Problema: C\IeC {\'\i }rculo passando por tr\^es pontos}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Smallest Circle Enclosing Problem}{7}{0}{1}
+\beamer@subsectionintoc {1}{3}{Intersec\c c\~ao de Segmentos}{8}{0}{1}
+\beamer@subsectionintoc {1}{4}{M\IeC {\'\i }nimo de Retas para cobrir todos os pontos}{15}{0}{1}
+\beamer@subsectionintoc {1}{5}{Varredura de Graham}{19}{0}{1}
+\beamer@subsectionintoc {1}{6}{Marcha de Jarvis}{26}{0}{1}
+\beamer@subsectionintoc {1}{7}{Par de ponto mais pr\'oximo}{30}{0}{1}

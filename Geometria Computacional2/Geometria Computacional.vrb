@@ -1,0 +1,30 @@
+\frametitle{Par de ponto mais próximo}
+\par\Fontvi{
+\begin{lstlisting}[language=C]
+double sweepLine2(Point P[],int n){
+  qsort(P, n, sizeof(Point), compareX);
+  set< pair<int,int> > box;
+  box.insert( make_pair(P[0].y, P[0].x) );
+  box.insert( make_pair(P[1].y, P[1].x) );
+  double best=dist(P[0],P[1]);
+  int left = 0;
+  for (int i=2;i<n;++i)
+  {
+    //Atualiza pontos ativos
+    while (left<i && P[i].x - P[left].x > best){
+      box.erase( box.find( make_pair( P[left].y , P[left].x ) ) );
+      left++;
+    }
+    //Atualiza distancia
+    set< pair<int,int> >::iterator it;
+    it=box.lower_bound(make_pair(P[i].y-best,P[i].x-best));
+    for(;it!=box.end() && P[i].y+best>=it->first;it++)
+      best = min(best, dist(P[i], Point(it->second, it->first) ) );
+    //Insere um ponto ativo
+    box.insert( make_pair( P[i].y, P[i].x) );
+  }
+  return best;
+}
+\end{lstlisting}
+}
+

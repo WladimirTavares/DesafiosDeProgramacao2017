@@ -1,0 +1,233 @@
+\documentclass[onecolumn,a4paper,10pt]{report}
+%\documentclass[12pt,a4paper,twoside]{book} %twoside distingue página par de ímpar
+\usepackage{graphics} %para a inclusão de gráficos
+\usepackage[dvips,pdftex]{graphicx} %para incluir figuras gif, jpg,
+ %etc.
+\usepackage[portuges]{babel} %para separar sílabas em Português, etc...
+\usepackage[usenames,dvipsnames]{color} % para letras e caixas coloridas
+\usepackage[T1]{fontenc} %define uma codificação para os caracteres em que os acentos são digitados diretamente pelo teclado
+\usepackage{latexsym} %para fazer $\Box$ no \LaTeX2$\epsilon$
+%\usepackage{wrapfig} %define texto ao lado de figura
+\usepackage{makeidx} % índice remissivo
+\usepackage{amstext} %texto em equações: $... \text{} ...$
+\usepackage{theorem}
+\usepackage{tabularx} %tabelas ocupando toda a página
+\usepackage[all]{xy}
+\usepackage{amsfonts} %adiciona alguns estilos de letras
+\usepackage{amssymb}
+%\usepackage{a4wide} %correta formatação da página em A4
+\usepackage{indentfirst} %adiciona espaços no primeiro parágrafo
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{hyperref}
+
+
+%\usepackage{amscd}
+%\usepackage{amsthm} %define um estilo para a escrita dos teoremas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\parskip}{0.0cm} %espaco entre parágrafos
+\setlength{\oddsidemargin}{-1cm} %margem esquerda das páginas
+%\setlength{\unitlength}{3cm} %tamanho da figura criada
+\linespread{1.5} %distância entre linhas
+\setlength{\textheight}{25cm} %distância entre a primeira e última linha do texto(comprimento do texto)
+\setlength{\textwidth}{18cm} %indica a largura do texto
+\topmargin=-2cm %margem superior entre topo da página e o cabeçalho
+%\headsep=0.5cm %distãncia entre o cabeçalho e o corpo do texto
+%\setlength{\footskip}{27pt} %distãncia da última linha ao número da página
+%\evensidemargin=-0.2in %margem esquerda das páginas pares
+%\marginparwidth=1.7in %tamanho das notas de margem
+%\marginparsep=0.2in %distância entre a margem direita e as notas de margem
+%\topmargin=0cm
+%\stackrel{\frown}{AB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{cinza}{gray}{.8}
+\definecolor{branco}{gray}{1}
+\definecolor{preto}{gray}{0}
+\definecolor{verdemusgo}{rgb}{.3,.7,.5}
+\definecolor{vinho}{cmyk}{0,1,1,.5}
+%\setcounter{secnumdepth}{1}
+%\renewcommand{\thesection}{\textcolor{preto}{\arabic{section}}}
+%\renewcommand{\thepage}{\textcolor{preto}{\color{preto}{{\scriptsize}}}}
+{\theorembodyfont{\upshape}
+\newtheorem{Dem}{Demonstração}[chapter]}
+\newtheorem{Ex}{Exemplo}[chapter]
+\newtheorem{Exer}{Exercício}
+\newtheorem{Lista}{Lista de exercícios}
+\newtheorem{Def}{Definição}[chapter]
+
+\newtheorem{Pro}{Proposição}[chapter]
+\newtheorem{Ax}{Axioma}[chapter]
+\newtheorem{Teo}{Teorema}[chapter]
+\newtheorem{Cor}{Corolário}[chapter]
+\newtheorem{Cas}{Caso}[subsection]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{que}{Questão}[chapter]
+\newcommand{\dem}{\noindent{\bf Demonstração:}}
+\newcommand{\sol}{\noindent{\it Solução.}}
+\newcommand{\nota}{\noindent{\bf Notação:}}
+\newcommand{\ex}{\noindent{\bf Exemplos}}
+\newcommand{\Obs}{\noindent{\bf Observação:}}
+\newcommand{\fim}{\hfill $\blacksquare$}
+\newcommand{\ig}{\,\, = \,\,}
+\newcommand{\+}{\, + \,}
+\newcommand{\m}{\, - \,}
+\newcommand{\I}{\mbox{$I\kern-0.40emI$}}
+\newcommand{\Z}{\mbox{Z$\kern-0.40em$Z}}
+\newcommand{\Q}{\mbox{I$\kern-0.60em$Q}}
+\newcommand{\C}{\mbox{I$\kern-0.60em$C}}
+\newcommand{\N}{\mbox{I$\kern-0.40em$N}}
+\newcommand{\R}{\mbox{I$\kern-0.40em$R}}
+\newcommand{\Ro}{\rm{I\!R\!}}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\<}{\hspace*{-0.4cm}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ov}{\overline}
+\newcommand{\aj}{\vspace*{-0.2cm}}
+\newcommand{\pt}{\hspace{-1mm}\times\hspace{-1mm}}
+\newcommand{\cm}{\mbox{cm}}
+\newcommand{\np}{\mbox{$\in \kern-0.80em/$}}
+\newcommand{\tg} {\mbox{tg\,}}
+\newcommand{\ptm}{\hspace{-0.4mm}\cdot\hspace{-0.4mm}}
+\newcommand{\arc}{\stackrel{\;\;\frown}}
+\newcommand{\rad}{\;\mbox{rad}}
+\newcommand{\esp}{\;\;\;\;}
+\newcommand{\sen}{\mbox{sen\,}}
+\newcommand{\grau}{^{\mbox{{\scriptsize o}}}}
+\newcommand{\real} {\mbox{$I\kern-0.60emR$}}
+\newcommand{\vetor}{\stackrel{\color{vinho}\vector(1,0){15}}}
+\newcommand{\arctg}{\mbox{arctg\,}}
+\newcommand{\arcsen}{\mbox{arcsen\,}}
+\newcommand{\ordinal}{^{\underline{\scriptsize\mbox{\rmo}}}}
+\newcommand{\segundo}{$2^{\underline{o}}$ }
+\newcommand{\primeiro}{$1^{\underline{o}}$ }
+\newcommand{\nee}{\mbox{$\;=\kern-0.90em/\;$}}
+
+\begin{document}
+
+\begin{center}
+Universidade Federal do Ceará
+
+Campus de Quixadá
+
+QXD0153 - Desafios de Programação
+\end{center}
+
+\begin{center}
+Lista $4$ - Programação Dinâmica
+\end{center}
+
+
+
+\begin{enumerate}
+
+\item Dado $n$ amigos, cada um amigo pode ficar sozinho ou fazer dupla uma única vez com algum outro amigo. Encontre o número total de maneiras em que os amigos podem ser organizados.
+
+\begin{tabular}{ll}
+Entrada: n = 3\\
+Saída : 4\\
+Explicação:\\
+\{1\},\{2\},\{3\} : 3 amigos sozinhos & \{1\},\{2,3\} : 1 sozinho, 1 dupla com 2 e 3\\
+\{1,2\},\{3\} : 1 dupla com 1 e 2, 3 sozinho  & \{1,3\},\{2\} : 1 dupla com 1 e 3, 2 sozinho \\
+\end{tabular}
+
+\begin{lstlisting}[language=C++]
+
+int duplas(int N){
+	if (N < 0) return 0;
+	vector<int> v;
+	v.resize(N+1, 0);
+	v[1] = 1;
+	v[2] = 2;
+	for (int i = 3; i <= N; i++){
+		v[i] = v[i-1] + (i-1)*v[i-2];
+	}
+	return v[N];
+}
+
+\end{lstlisting}
+
+
+\item Dado um madeira de $n$ metros e um vetor de preços que contém os preços de todas as peças de tamanho menor que n. Determine o valor máximo obtido cortando a madeira e vendendo as peças. Por exemplo, se o comprimento da madeira é 8 e o vetor de preços abaixo então o valor máximo é 22 ( cortando em dois pedaços de comprimento 2 e 6).
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+comprimento & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
+\hline
+preço       & 1 & 5 & 8 & 9 & 10 & 17 & 17 & 20\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\item Pedro Henrique trabalha no caixa de um supermercado. Ele precisa passar o troco milhares de vezes durante o dia. Só que ele apaixonado por moedas e quer entregar o menor números de moedas possível a cada cliente. Dado um valor N e um estoque infinito de cada uma das M moedas de diferentes valores $m_1,m_2,\ldots,m_M$, desenvolva um algoritmo que encontra quais e quantas moedas você deve entregar ao cliente de modo que o total de moedas seja o mínimo possível. Por exemplo, dado N=49 e 5 moedas de valores 1,5,6,13,27 o menor número de moedas para N=49 são duas moedas de valor 5, duas moedas de 6 e um moeda de 27.
+
+%Problema relacionado: \url{http://br.spoj.com/problems/MOEDAS/}
+
+\item Enoque e Leonardo encontraram um tesouro secreto no campus de Quixadá. O tesouro é composto por $n$ itens de valores diferentes $v_1,v_2,\ldots,v_n$. Eles querem saber se é possível particionar os itens do tesouro em dois subconjuntos de tal maneira que ambos recebam o mesmo valor. Por exemplo, se eles encontrarem um tesouro composto por 3 itens de valores 1, 5, 11 e 5. Esse tesouro pode ser particionado como $\{1,5,5\}$ e $\{11\}$
+%Problema relacionado : \url{http://br.spoj.pl/problems/TESOURO/}
+\item Pedro Olímpio tem uma capacidade impressionante, dada uma sequência qualquer, ele consegue dizer o tamanho da maior subsequência palindrome contida na sequência dada. Desenvolva um algoritmo com a mesma capacidade do Pedro Olímpio. Por exemplo, se a sequência é "BBABCBCAB", então o tamanho da maior subsequência palindrome é 7 e "BABCBAB" é um subsequência palindrome com esse tamanho.
+
+\item Nas suas horas vagas, Décio gosta de descobrir o número mínimo de caracteres que precisam ser inserido em um string para que ela torne-se palindrome. Porém, ele faltou a aula de Programação Dinâmica e agora não sabe resolver este problema de maneira ótima. Desenvolva um algoritmo para o Décio que dada uma string qualquer, devolva o número mínimo de caracteres que precisam ser inseridos. Por exemplo, dada a string s = "Ab3bd", o número mínimo de caracteres que precisa ser inserido é 2 e podemos obter "dAb3bAd" ou "Adb3bdA".
+
+\item Dado um vetor de n inteiros positivos. Desenvolva um algoritmo para encontrar a subsequencia de soma máxima tal que os inteiros na subsequência estão ordenados em ordem crescente. Por exemplo, se a entrada é \{1,101,2,3,100,4,5\}, então a saída deve ser \{1,2,3,100\}.
+
+\item Daiane propôs um novo jogo para Décio chamado particionamento palindrome . Dada uma string, o particionamento palindrome é um particionamento da string que toda substring da partição é um palindrome. Por exemplo, "aba|b|bbabb|a|b|aba" é um particionamento palindrome de "ababbbabbababa". Desenvolva um algoritmo que encontra o número mínimo de partições necessárias de uma partição palindrome.
+
+%Problema relacionado: \url{http://br.spoj.com/problems/PAL/}
+
+\item Um número é não-decrescente se todo dígito (exceto o primeiro) é menor ou igual ao dígito anterior. Por exemplo, 223, 4455567 e  899 são números não-decrescente. Dado o número de dígitos $n$, devolva a quantidade de números não-decrescente de n dígitos.
+
+\item Dada uma string s, a tarefa é contar o número de subsequência da forma $a^ib^jc^k$, onde $i\geq 1$, $j \geq 1$ e $k \geq 1$. Duas subsequência são consideradas diferentes se os índices escolhidos da sequência inicial para formar as duas subsequência são diferentes.
+
+\begin{tabular}{l}
+Entrada  : abcabc\\
+Saída : 7\\
+Explicação: As subseqüências são abc, abc, abbc, aabc,abcc, abc e abc \\
+\end{tabular}
+
+\item Existem 100 diferentes tipos de bonés cada um tem um identificador único de 1 a 100. Além disso, existem n pessoas cada um com uma coleção de bonés. Um dia todas essas pessoas decidem ir a uma festa usando boné, porém elas decidiram que nenhuma delas vai usar um boné do mesmo tipo. Desenvolva um algoritmo que encontre o número total de formas tais que nenhuma delas está usando um boné do mesmo tipo. A primeira linha da entrada contém o valor n, as n linhas seguintes contém a coleções de cada uma das pessoas.
+
+\textbf{Entrada}\\
+3\\
+5 100 1 // Coleção da primeira pessoa \\
+2 // Coleção da segunda pessoa \\
+5 100 //Coleção da terceira pessoa \\
+\textbf{Saída}\\
+4\\
+\textbf{Explicação:} Todas as maneiras possíveis são (5,2,100),(100,2,5),(1,2,5) e (1,2,100).\\
+Descreva a estrutura recursiva do seguinte problema:
+\begin{center}
+$Count_{S,j}$ = Número de maneiras que podemos atribuir os bonés identificados identificados [1..j] para as pessoas do conjunto S.
+\end{center}
+Considere os seguintes casos na estrutura recursiva:
+\begin{enumerate}
+  \item O boné $j$ não faz parte da coleção de nenhuma pessoa do conjunto S.
+  \item O boné $j$ faz parte da coleção de um ou mais pessoas do conjunto S.
+\end{enumerate}
+
+Defina os seguintes casos bases: $Count_{\emptyset, j} = ?$ e $Count_{S,0} = ?$
+
+
+%\item Dois jogadores disputavam um prêmio de $K$ moedas que seria dado a quem primeiro fizesse $N$ pontos no jogo.
+%Quando o primeiro jogador tinha $J1$ pontos e o segundo tinha $J2$ pontos, foi preciso interromper o jogo. Decida como
+%dividir o prêmio justamente de acordo com a sua probabilidade de vencer o jogo considerando que ambos tem a mesma chance de vencer uma partida? Por exemplo, para K=64,N=3,J1=2,J2=1, o jogador 1 deve receber 48 moedas e o jogador 2 deve receber 16 moedas.
+%
+%\begin{figure}[!htb]
+%\centering
+%\includegraphics[scale=0.5]{probabilidade.png}
+%\caption{Árvore de possibilidade}
+%\end{figure}
+
+
+
+%\item Imagine que você está em um prédio com F andares (começando no andar 1, o piso mais baixo), e você tem um grande números de ovos idênticos. Para cada andar, você quer saber se um ovo jogado do andar $i$ quebrar ou não. Se um ovo quebra quando é jogado do andar $i$, então todos os ovos jogados de qualquer piso $j > i$ também vão quebrar. Da mesma forma, se um ovo não quebrar quando jogado do andar $i$, então todos os ovos são garantidos nunca quebrar quando cair de um andar $j \leq i$. O problema consiste em encontrar o número mínimo de tentativas para encontrar o andar crítico no pior caso. Observe que se apenas um ovo estiver disponível e quisermos ter a certeza de obter o resultado correto pode ser realizado apenas de uma maneira. Jogue o ovo do primeiro andar, se não quebrar, solte-o do segundo andar. Continue até quebrar. No pior caso, este método exige $F$ tentativas.
+\end{enumerate}
+
+\end{document} 

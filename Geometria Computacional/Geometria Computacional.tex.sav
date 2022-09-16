@@ -1,0 +1,302 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+%\usepackage[noend]{algorithmic}
+%\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{courier}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tkz-graph}
+\usetikzlibrary{positioning}
+
+
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+% Declare layers
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+%  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Geometria Computacional}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Produto Vetorial}
+
+\begin{frame}{Produto Vetorial}
+
+\begin{itemize}
+\item Possui diversas aplicações:
+\begin{itemize}
+\item Determinar a area de um triângulo.
+\item Testar se três pontos são colineares;
+\item Determinar a orientação de três pontos (horário, anti-horário).
+\item Testar se dois segmentos intersectam.
+\end{itemize}
+
+\end{itemize}
+
+
+
+\end{frame}
+
+\begin{frame}{Produto Vetorial}
+
+O comprimento de $V \times W$ é a área do paralelogramo definido por V e W.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{paralelogramo.png}
+\end{figure}
+
+\begin{equation}
+||V \times W || = ||V|| ~||W|| ~sen(\theta)
+\end{equation}
+
+\end{frame}
+
+\begin{frame}{Produto Vetorial}
+
+O sentido de $V \times W$ é tal que $V$, $W$ e $V \times W$ , nesta ordem, satisfazem a regra da mão direita.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.8]{regra_mao_direita.png}
+\end{figure}
+
+
+\end{frame}
+
+
+\begin{frame}{Produto Vetorial}
+
+O produto vetorial 2D pode ser calculado da seguinte maneira:
+\begin{equation}
+(x_1, y_1) \times (x_2, y_2) = \left| \begin{array}{cc} x_1 & x_2 \\ y_1 & y_2 \end{array}\right| = x_1 y_2 - x_2 y_1
+\end{equation}
+
+O produto vetorial 3D pode ser calculado da seguinte maneira:
+
+
+\begin{tabular}{lll}
+$(x_1, y_1,z_1) \times (x_2, y_2,z_2)$ &=& $\left| \begin{array}{ccc} x_1 & x_2 & 1 \\ y_1 & y_2 & 1 \\z_1 & z_2& 1\\ \end{array}\right|$ \\
+                                     &=& $x_1 y_2 + x_2z_1 + y_1z_2 - z_2x_1 - z_1y_2 - x_2y_1$
+\end{tabular}
+
+
+\end{frame}
+
+\begin{frame}{Área do Triângulo}
+\begin{itemize}
+  \item Dados três pontos A, B e C.
+  
+\begin{equation}
+area(\Delta ABC) = \frac{1}{2} || \overrightarrow{AB} \times \overrightarrow{AC} ||
+\end{equation}
+  
+  
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Área do Triângulo}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+
+const double EPSILON = 1.0e-7;
+
+typedef struct {
+  int x,y;
+} Point;
+
+int cross_product(int x1, int y1, int x2, int y2){
+  return x1*y2 - x2*y1;
+}
+
+double signed_area_triangulo(Point p0, Point p1, Point p2){
+  int dx1 = p1.x - p0.x;
+  int dy1 = p1.y - p0.y;
+  int dx2 = p2.x - p0.x;
+  int dy2 = p2.y - p0.y;
+  return 0.5*cross_product(dx1,dy1,dx2,dy2);
+}
+
+double area_triangulo(Point p0, Point p1, Point p2){
+  return fabs( signed_area_triangulo(p0,p1,p2) );
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}{Direção}
+
+\begin{itemize}
+  \item Dado três pontos $A$,$B$ e $C$
+  \item Se $\overrightarrow{AB} \times \overrightarrow{AC} > 0$ então  $\overrightarrow{AC}$ está à esquerda em relação a $\overrightarrow{AB}$ (sentido anti-horário).
+  \item Se $\overrightarrow{AB} \times \overrightarrow{AC} < 0$ então  $\overrightarrow{AC}$ está à direita em relação a $\overrightarrow{AB}$ (sentido horário).
+  \item Se $\overrightarrow{AB} \times \overrightarrow{AC} == 0$ então os pontos A, B e C são colineares.    
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Direção}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+/*
+// 0  --> p0, p1 and p2 são colineares
+// <0 --> Clockwise
+// >0 --> Counterclockwise
+*/
+int DIRECTION(Point p0, Point p1, Point p2){
+  int dx1 = p1.x - p0.x;
+  int dy1 = p1.y - p0.y;
+  int dx2 = p2.x - p0.x;
+  int dy2 = p2.y - p0.y;
+  return cross_product(dx1,dy1,dx2,dy2);
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}{Checar se dois segmentos se cruzam}
+
+\begin{itemize}
+  \item Um segmento $\overrightarrow{p_1p_2}$ intercepta uma linha se o ponto $p_1$ reside de um lado do segmento e o ponto $p_2$ reside do outro lado.
+  \item Um caso limite surge se $p_1$ e $p_2$ residem sobre a linha (pontos colineares).
+  \item Dois segmentos se cruzam se somente se:
+  \begin{itemize}
+    \item Cada segmento intercepta a linha que contém o outro.
+    \item Uma extremidade de um segmento reside no outro segmento.
+  \end{itemize}
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Determina se dois segmentos se cruzam}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+bool INTERSECT(Point p1, Point p2, Point p3, Point p4){
+  int d1 = DIRECTION(p1,p2,p3);
+  int d2 = DIRECTION(p1,p2,p4);
+  int d3 = DIRECTION(p3,p4,p1);
+  int d4 = DIRECTION(p3,p4,p2);
+
+  if( d1*d2 < 0 && d3*d4 < 0) return true;
+  else if(d1==0 && ON_SEGMENT(p1,p2,p3) ) return true;
+  else if(d2==0 && ON_SEGMENT(p1,p2,p4) ) return true;
+  else if(d3==0 && ON_SEGMENT(p3,p4,p1) ) return true;
+  else if(d4==0 && ON_SEGMENT(p3,p4,p2) ) return true;
+  else return false;
+}
+
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}{Ordenação polar}
+\begin{itemize}
+  \item Escreva um algoritmo para ordenar uma sequência $<p_1,p_2,\ldots,p_n>$ de $n$ pontos de acordo com seus ângulos polares com relação a um determinado ponto de origem $p_0$.
+\end{itemize}
+\end{frame}
+
+
+\end{document}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+\frametitle{Ponto mais próximo}
+\Fontvi{
+\begin{lstlisting}[language=C]
+void pointAndSlopeLine(PointD p, double m, Line &l){
+  l.a = -m;
+  l.b = 1.0;
+  l.c = -(l.a*p.x + l.b*p.y);
+}
+void closesPoint(PointD p_in, Line l, PointD & p_c){
+  Line perp;
+  if( fabs(l.b) <= EPSILON){ // reta vertical
+    p_c.x = -l.c;
+    p_c.y = p_in.y;
+    return;
+  }
+  if( fabs(l.a) <= EPSILON){// reta horizontal
+    p_c.x = p_in.x;
+    p_c.y = -l.c;
+    return ;
+  }
+  pointAndSlopeLine(p_in, 1.0/l.a, perp);
+  areIntersect(l, perp, p_c);
+}
+\end{lstlisting}
+}

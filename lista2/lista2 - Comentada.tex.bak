@@ -1,0 +1,257 @@
+\documentclass[onecolumn,a4paper,12pt]{report}
+%\documentclass[12pt,a4paper,twoside]{book} %twoside distingue página par de ímpar
+\usepackage{graphics} %para a inclusão de gráficos
+\usepackage[dvips,pdftex]{graphicx} %para incluir figuras gif, jpg,
+ %etc.
+\usepackage[portuges]{babel} %para separar sílabas em Português, etc...
+\usepackage[usenames,dvipsnames]{color} % para letras e caixas coloridas
+\usepackage[T1]{fontenc} %define uma codificação para os caracteres em que os acentos são digitados diretamente pelo teclado
+\usepackage{latexsym} %para fazer $\Box$ no \LaTeX2$\epsilon$
+%\usepackage{wrapfig} %define texto ao lado de figura
+\usepackage{makeidx} % índice remissivo
+\usepackage{amstext} %texto em equações: $... \text{} ...$
+\usepackage{theorem}
+\usepackage{tabularx} %tabelas ocupando toda a página
+\usepackage[all]{xy}
+\usepackage{amsfonts} %adiciona alguns estilos de letras
+\usepackage{amssymb}
+%\usepackage{a4wide} %correta formatação da página em A4
+\usepackage{indentfirst} %adiciona espaços no primeiro parágrafo
+\usepackage{amsmath}
+\usepackage{listings}
+
+%\usepackage{amscd}
+%\usepackage{amsthm} %define um estilo para a escrita dos teoremas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\parskip}{0.0cm} %espaco entre parágrafos
+\setlength{\oddsidemargin}{-1cm} %margem esquerda das páginas
+%\setlength{\unitlength}{3cm} %tamanho da figura criada
+\linespread{1.5} %distância entre linhas
+\setlength{\textheight}{25cm} %distância entre a primeira e última linha do texto(comprimento do texto)
+\setlength{\textwidth}{18cm} %indica a largura do texto
+\topmargin=-2cm %margem superior entre topo da página e o cabeçalho
+%\headsep=0.5cm %distãncia entre o cabeçalho e o corpo do texto
+%\setlength{\footskip}{27pt} %distãncia da última linha ao número da página
+%\evensidemargin=-0.2in %margem esquerda das páginas pares
+%\marginparwidth=1.7in %tamanho das notas de margem
+%\marginparsep=0.2in %distância entre a margem direita e as notas de margem
+%\topmargin=0cm
+%\stackrel{\frown}{AB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{cinza}{gray}{.8}
+\definecolor{branco}{gray}{1}
+\definecolor{preto}{gray}{0}
+\definecolor{verdemusgo}{rgb}{.3,.7,.5}
+\definecolor{vinho}{cmyk}{0,1,1,.5}
+%\setcounter{secnumdepth}{1}
+%\renewcommand{\thesection}{\textcolor{preto}{\arabic{section}}}
+%\renewcommand{\thepage}{\textcolor{preto}{\color{preto}{{\scriptsize}}}}
+{\theorembodyfont{\upshape}
+\newtheorem{Dem}{Demonstração}[chapter]}
+\newtheorem{Ex}{Exemplo}[chapter]
+\newtheorem{Exer}{Exercício}
+\newtheorem{Lista}{Lista de exercícios}
+\newtheorem{Def}{Definição}[chapter]
+
+\newtheorem{Pro}{Proposição}[chapter]
+\newtheorem{Ax}{Axioma}[chapter]
+\newtheorem{Teo}{Teorema}[chapter]
+\newtheorem{Cor}{Corolário}[chapter]
+\newtheorem{Cas}{Caso}[subsection]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{que}{Questão}[chapter]
+\newcommand{\dem}{\noindent{\bf Demonstração:}}
+\newcommand{\sol}{\noindent{\it Solução.}}
+\newcommand{\nota}{\noindent{\bf Notação:}}
+\newcommand{\ex}{\noindent{\bf Exemplos}}
+\newcommand{\Obs}{\noindent{\bf Observação:}}
+\newcommand{\fim}{\hfill $\blacksquare$}
+\newcommand{\ig}{\,\, = \,\,}
+\newcommand{\+}{\, + \,}
+\newcommand{\m}{\, - \,}
+\newcommand{\I}{\mbox{$I\kern-0.40emI$}}
+\newcommand{\Z}{\mbox{Z$\kern-0.40em$Z}}
+\newcommand{\Q}{\mbox{I$\kern-0.60em$Q}}
+\newcommand{\C}{\mbox{I$\kern-0.60em$C}}
+\newcommand{\N}{\mbox{I$\kern-0.40em$N}}
+\newcommand{\R}{\mbox{I$\kern-0.40em$R}}
+\newcommand{\Ro}{\rm{I\!R\!}}
+\newcommand{\disp}{\displaystyle}
+\newcommand{\<}{\hspace*{-0.4cm}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ov}{\overline}
+\newcommand{\aj}{\vspace*{-0.2cm}}
+\newcommand{\pt}{\hspace{-1mm}\times\hspace{-1mm}}
+\newcommand{\cm}{\mbox{cm}}
+\newcommand{\np}{\mbox{$\in \kern-0.80em/$}}
+\newcommand{\tg} {\mbox{tg\,}}
+\newcommand{\ptm}{\hspace{-0.4mm}\cdot\hspace{-0.4mm}}
+\newcommand{\arc}{\stackrel{\;\;\frown}}
+\newcommand{\rad}{\;\mbox{rad}}
+\newcommand{\esp}{\;\;\;\;}
+\newcommand{\sen}{\mbox{sen\,}}
+\newcommand{\grau}{^{\mbox{{\scriptsize o}}}}
+\newcommand{\real} {\mbox{$I\kern-0.60emR$}}
+\newcommand{\vetor}{\stackrel{\color{vinho}\vector(1,0){15}}}
+\newcommand{\arctg}{\mbox{arctg\,}}
+\newcommand{\arcsen}{\mbox{arcsen\,}}
+\newcommand{\ordinal}{^{\underline{\scriptsize\mbox{\rmo}}}}
+\newcommand{\segundo}{$2^{\underline{o}}$ }
+\newcommand{\primeiro}{$1^{\underline{o}}$ }
+\newcommand{\nee}{\mbox{$\;=\kern-0.90em/\;$}}
+
+\lstset{language=C++,
+basicstyle=\ttfamily,
+keywordstyle=\color{blue}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+commentstyle=\color{blue}\ttfamily,
+morecomment=[l][\color{red}]{\#}
+}
+
+
+\begin{document}
+
+\begin{center}
+Universidade Federal do Ceará
+
+Campus de Quixadá
+
+QXD0153 - Desafios de Programação
+\end{center}
+
+\begin{center}
+Lista $2$ - Algoritmos Matemáticos
+\end{center}
+
+
+
+\begin{enumerate}
+
+
+\item O número de divisores positivos de $n$ é denotado por $d(n)$. Seja a fatoração em primos de $n = p_1^{\alpha_1} \times p_2^{\alpha_2} \times \ldots \times p_k^{\alpha_k}$ então o número de divisores é $d(n) = (\alpha_1+1) \times (\alpha_2+1) \times \ldots \times (\alpha_k+1)$.
+
+Modifique o algoritmo de fatoração em primos para calcular $d(n)$.
+
+\item O número de fatores primos diferentes de $n$ é denotado por $numDiff(n)$. Modifique o algoritmo de fatoração em primos para calcular $numDiff(n)$.
+
+
+\begin{lstlisting}[language=C++]
+
+typedef map<int, int> prime_map;
+
+int squeeze(prime_map& M, int& n, int p) {
+	for (; n % p == 0; n /= p) M[p]++;
+	return M[p];
+}
+
+int divisores(int n) {
+	prime_map M;
+
+	int d = 1;
+
+	if (n < 0) return divisores(-n);
+	if (n < 2) return d;
+	
+	d *= 1 + squeeze(M, n, 2);
+	d *= 1 + squeeze(M, n, 3);
+	
+	int maxP = sqrt(n) + 2;
+	for (int p = 5; p < maxP; p += 6) {
+	    d *= 1 + squeeze(M, n, p);
+	    d *= 1 + squeeze(M, n, p+2);
+	}
+	
+	if (n > 1) {
+		d /= 1 + M[n];
+		M[n]++;
+		d *= 1 + M[n];
+	}
+	return d;
+}
+
+\end{lstlisting}
+
+\url{}
+
+
+\item A soma de divisores positivos de $n$ é denotado por $\sigma(n)$. Desenvolva um algoritmo para calcular $\sigma(n)$.
+
+\item O número de inteiros positivos menores que $n$ que são primos entre si com $n$ é denotado $\phi(n)$. Seja a fatoração em primos de $n = p_1^{\alpha_1} \times p_2^{\alpha_2} \times \ldots \times p_k^{\alpha_k}$ então o número de divisores é
+\begin{equation}
+\phi(n) = n(1 - \frac{1}{p_1})(1 - \frac{1}{p_2})\ldots (1 - \frac{1}{p_k})
+\end{equation}
+
+Modifique o algoritmo de fatoração para calcular $\phi(n)$.
+
+\item O número de fatores primos diferentes de $n$ pode ser determinado para intervalo de inteiros $[0..MAXN]$ modificando o algoritmo de Crivo de Eratóstenes da seguinte maneira:
+
+\begin{lstlisting}[frame=single,language=C]
+vector<int> sieve_numdiff(int MAXN){
+ vector<int> numDiff;
+ numDiff.resize(MAXN+1,0);
+ for(int i=2;i<=MAXN;i++){
+  if(numDiff[i]==0){
+   for(int j=i;j<=MAXN;j+=i)
+    numDiff[j]++;
+  }
+ }
+ return numDiff;
+}
+\end{lstlisting}
+
+Modifique o algoritmo do Crivo de Eratóstenes para calcular $\phi(n)$ para todos os números no intervalo $[0 \ldots MAXN]$
+
+\item O soma dos divisores de um número $n$ é denotado por $sumDiv(n)$. Modifique o algoritmo do Crivo de Eratóstenes para calcular $sumDiv(n)$ para todos os números no intervalor $[0 \ldots MAXN]$
+
+\item O método de Horner consiste em reescrever um polinômio de forma a obter o valor de $p(x)$ tal que $p(x) = a_0 + a_1x+a_2*x^2+\ldots+a_nx^n$ em que $a_0,a_1,\ldots,a_n$ são os coeficientes do polinômio. Observe que que $p(x)$ pode ser reescrito da seguinte forma:
+\begin{equation}
+p(x) = a_0 + x(a_1+x(a_2*+\ldots+x(a_{n-1}+xa_n)))
+\end{equation}
+
+\begin{enumerate}
+\item Implemente o método de Horner para a avaliação de um polinômio de grau $n$.
+\item Utilize o método de Horner para descobrir o resto da divisão de número N de até 100 dígitos por um inteiro $M$.
+\item Implemente um método que recebe um vetor binário representando um número na base 2 e devolve sua representação na base 10.
+\end{enumerate}
+
+
+%\item A fatoração LU é um processo de decompor um matriz $A$ em uma matriz triangular inferior $L$ e uma matriz triangular superior $U$. Modifique o algoritmo de eliminação de Gauss para calcular a decomposição $LU$ sem a realização de pivoteamento.
+%
+%\item O número de Catalão é uma sequência de números naturais que ocorrem em vários problemas de contagem interessantes:
+%
+%\begin{itemize}
+%\item Conta o número de expressões corretas contendo $n$ pares de paranteses. Por exemplo, para n=3, as possíveis expressões
+%((())),()(()),(())(),(()()).
+%\item Conta o número de árvores binárias com $n$ chaves.
+%\end{itemize}
+%
+%Os primeiros números da sequência de Catalão para $n=0,1,2,3,\ldots$ são $1,1,2,5,14,42,132,429,\ldots$.
+%
+%\begin{enumerate}
+%
+%\item Calcule o número de Catalão usando a seguinte fórmula recursiva:
+%
+%\begin{center}
+%\begin{tabular}{lll}
+%$C_0$ &=& 1\\
+%$C_{n+1}$ &=& $\sum_{i=0}^{n} C_iC_{n-1}$
+%\end{tabular}
+%\end{center}
+%
+%\item Calcule o número de Catalão usando a seguinte fórmula:
+%
+%\begin{center}
+%$C_n = \frac{1}{n+1} \binom{2n}{n}$
+%\end{center}
+%
+%\end{enumerate}
+
+\end{enumerate}
+
+\end{document} 

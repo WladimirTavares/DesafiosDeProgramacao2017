@@ -1,0 +1,19 @@
+\beamer@endinputifotherversion {3.12pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Grafos}{2}{0}{1}
+\beamer@sectionintoc {2}{Busca em largura}{9}{0}{2}
+\beamer@subsectionintoc {2}{1}{Di\^ametro de uma \'arvore}{13}{0}{2}
+\beamer@subsectionintoc {2}{2}{Centro de uma \'arvore}{15}{0}{2}
+\beamer@subsectionintoc {2}{3}{Di\^ametro de um grafo}{16}{0}{2}
+\beamer@subsectionintoc {2}{4}{Centro de um grafo}{17}{0}{2}
+\beamer@sectionintoc {3}{Busca em profundidade}{18}{0}{3}
+\beamer@subsectionintoc {3}{1}{Ordena\c c\~ao Topol\'ogica}{40}{0}{3}
+\beamer@subsectionintoc {3}{2}{Componentes Conexas de grafos n\~ao direcionados}{43}{0}{3}
+\beamer@subsectionintoc {3}{3}{Grafo direcionado fortemente conexo}{46}{0}{3}
+\beamer@subsectionintoc {3}{4}{Componentes Fortemente Conexas em grafos direcionados}{48}{0}{3}
+\beamer@subsectionintoc {3}{5}{Ponto de articula\c c\~ao}{54}{0}{3}
+\beamer@subsectionintoc {3}{6}{Pontes}{60}{0}{3}
+\beamer@sectionintoc {4}{Colora\c c\~ao Gulosa}{62}{0}{4}
+\beamer@sectionintoc {5}{Exerc\IeC {\'\i }cio: N\'umero de caminhos}{68}{0}{5}
+\beamer@sectionintoc {6}{Exerc\IeC {\'\i }cio: Percurso de Euler em grafos n\~ao direcionados}{70}{0}{6}
+\beamer@sectionintoc {7}{Exerc\IeC {\'\i }cio: Percurso de Euler em grafos direcionados}{72}{0}{7}

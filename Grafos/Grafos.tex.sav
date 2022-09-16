@@ -1,0 +1,1369 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+%\usepackage[noend]{algorithmic}
+%\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{courier}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tkz-graph}
+\usetikzlibrary{positioning}
+
+%\usepackage{hyperref}
+
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+%  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+\usepackage{tikz}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Algoritmos em Grafos}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\section{Busca em largura}
+
+
+\begin{frame}{Busca em largura}
+
+\begin{algorithm}[H]
+\caption{Algoritmo BFS}
+\scriptsize
+\begin{algorithmic}[1]
+
+\Function {BFS} {$G,s$}
+
+\For{ cada $v \in V(G)$ }
+    \State $cor[v] \leftarrow BRANCO$
+    \State $\pi[v] \leftarrow NULL$
+    \State $d[v] \leftarrow \infty$
+\EndFor
+
+\State $cor[s] \leftarrow CINZA$
+\State $d[s] \leftarrow 0$
+\State $Q \leftarrow \emptyset$
+\State $ENQUEUE(s)$
+\While{$Q \neq \emptyset$}
+\State $u \leftarrow DEQUEUE(Q)$
+\For{ cada $v \in Adj[u]$}
+\If{$cor[v] = BRANCO$}
+\State $cor[v] \leftarrow CINZA$
+\State $d[v] \leftarrow d[u]+1$
+\State $\pi[v] \leftarrow u$
+\State $ENQUEUE(Q,v)$
+\EndIf
+\EndFor
+\State $cor[u] \leftarrow PRETO$
+
+\EndWhile
+
+
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+
+\begin{frame}{Bons e maus sujeitos}
+
+\begin{enumerate}
+\item[1] Existem dois tipos de lutadores profissionais: "bons sujeitos" e "maus sujeitos". Entre qualquer par de lutadores profissionais pode ou não haver rivalidade. Suponha que temos $n$ lutadores e uma lista de $m$ pares de lutadores para os quais existem rivalidades. Forneça um algoritmo de tempo $O(n+m)$ que determina se é possível designar alguns dos lutadores como bons sujeitos e os restantes como maus sujeitos, de tal forma que a rivalidade ocorra em cada caso entre um bom sujeito e um mau sujeito.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Bons e maus sujeitos}
+
+\begin{algorithm}[H]
+\caption{Algoritmo BFS}
+\scriptsize
+\begin{algorithmic}[1]
+
+\Function {BFS} {$G,s$}
+
+\For{ cada $v \in V(G)$ }
+    \State $cor[v]  \leftarrow BRANCO$
+    \State $\pi[v]  \leftarrow NULL$
+    \State $tipo[v] \leftarrow INDETERMINADO$
+\EndFor
+
+\For{ cada $s \in V(G)$ }
+\If{$cor[s]=BRANCO$}
+\If{$\neg BFS\_VISIT(s)$}
+\State \Return false
+\EndIf
+\EndIf
+\EndFor
+\State \Return true
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+\begin{frame}{BFS\_VISIT}
+
+\begin{algorithm}[H]
+\caption{Algoritmo BFS\_VISIT}
+\scriptsize
+\begin{algorithmic}[1]
+
+\Function {BFS\_VISIT} {$v$}
+\State $cor[s] \leftarrow CINZA$
+\State $tipo[s] \leftarrow BOM$
+\State $Q \leftarrow \emptyset$
+\State $ENQUEUE(s)$
+\While{$Q \neq \emptyset$}
+\State $u \leftarrow DEQUEUE(Q)$
+\For{ cada $v \in Adj[u]$}
+
+\If{$cor[v] = BRANCO$}
+\If{$tipo[u]=BOM$}
+\State $tipo[v] \leftarrow RUIM$
+\Else
+\State $tipo[v] \leftarrow BOM$
+\EndIf
+\State $cor[v] \leftarrow CINZA$
+\State $d[v] \leftarrow d[u]+1$
+\State $\pi[v] \leftarrow u$
+\State $ENQUEUE(Q,v)$
+\EndIf
+\If{$cor[v] = CINZA \wedge tipo[u] = tipo[v]$ }
+\State \Return false
+\EndIf
+\EndFor
+\State $cor[u] \leftarrow PRETO$
+\EndWhile
+\State \Return true
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+
+
+
+
+\section{Busca em profundidade}
+
+
+\begin{frame}{Busca em Profundidade}
+
+\begin{algorithm}[H]
+\caption{Algoritmo DFS}
+\begin{algorithmic}[1]
+
+\Function {DFS} {$G$}
+
+\For{ cada $v \in V(G)$ }
+    \State $cor[v] \leftarrow BRANCO$
+    \State $\pi[v] \leftarrow NULL$
+\EndFor
+
+\State $tempo \leftarrow 0$
+
+\For{ cada $v \in V(G)$}
+\If{cor[v] = BRANCO}
+\State $DFS\_VISIT(v)$
+\EndIf
+\EndFor
+
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+
+\begin{frame}{Busca em Profundidade}
+
+\begin{algorithm}[H]
+\caption{Algoritmo DFS\_VIST}
+\begin{algorithmic}[1]
+
+\Function {DFS\_VISIT} {$v$}
+
+\State $cor[v] \leftarrow CINZA$
+\State $tempo  \leftarrow tempo + 1$
+\State $chegada[v] \leftarrow tempo$
+
+\For{ cada $u \in Adj[v]$}
+\If{cor[u] = BRANCO}
+\State $\pi[u] \leftarrow v$
+\State $DFS\_VISIT(u)$
+\EndIf
+\EndFor
+
+\State $cor[u] \leftarrow PRETO$
+\State $tempo  \leftarrow tempo + 1$
+\State $partida[u] \leftarrow tempo$
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+\begin{frame}{Busca em profundidade}
+
+\only<1>{
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(,)};
+
+  \node[main node] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(,)};
+
+  \node[main node] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(,)};
+
+  \node[main node] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(,)};
+
+
+  \node[main node] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(,)};
+
+
+  \node[main node] (5) at (3,0) {5};
+  \node[draw] at (5,0) {(,)};
+
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+
+
+
+
+
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<2>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(,)};
+
+  \node[main node] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(,)};
+
+  \node[main node] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(,)};
+
+
+  \node[main node] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(,)};
+
+
+  \node[main node] (5) at (3,0) {5};
+  \node[draw] at (5,0) {(,)};
+
+
+\path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+
+
+
+
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<3>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(,)};
+
+  \node[main node] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(,)};
+
+
+  \node[main node] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(,)};
+
+
+  \node[main node] (5) at (3,0) {5};
+  \node[draw] at (5,0) {(,)};
+
+
+\path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+
+
+
+
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<4>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(,)};
+
+  \node[main node, fill=gray] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(3,)};
+
+  \node[main node] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(,)};
+
+  \node[main node] (5) at (3,0) {5};
+  \node[draw] at (5,0) {(,)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<5>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node,fill=gray] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(4,)};
+
+  \node[main node, fill=gray] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(3,)};
+
+  \node[main node] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(,)};
+
+  \node[main node] (5) at (3,0) {5};
+  \node[draw] at (5,0) {(,)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<6>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node,fill=gray] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(4,)};
+
+  \node[main node, fill=gray] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(3,)};
+
+  \node[main node, fill=gray] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(5,)};
+
+  \node[main node] (5) at (3,0) {5};
+  \node[draw] at (5,0) {(,)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<7>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node,fill=gray] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(4,)};
+
+  \node[main node, fill=gray] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(3,)};
+
+  \node[main node, fill=gray] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(5,)};
+
+  \node[main node,fill=gray] (5) at (3,0) {5};
+  \node[draw] at (5,0) {(6,)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+
+\only<8>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node,fill=gray] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(4,)};
+
+  \node[main node, fill=gray] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(3,)};
+
+  \node[main node, fill=gray] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(5,)};
+
+  \node[main node,fill=black] (5) at (3,0) {\textcolor{white}{5}};
+  \node[draw] at (5,0) {(6,7)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<9>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node,fill=gray] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(4,)};
+
+  \node[main node, fill=gray] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(3,)};
+
+  \node[main node, fill=black] (4) at (1,0) {\textcolor{white}{4}};
+  \node[draw] at (-1,0) {(5,8)};
+
+  \node[main node,fill=black] (5) at (3,0) {\textcolor{white}{5}};
+  \node[draw] at (5,0) {(6,7)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<10>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node,fill=black] (2) at (1,2) {\textcolor{white}{2}};
+  \node[draw] at (-1,2) {(4,9)};
+
+  \node[main node, fill=gray] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(3,)};
+
+  \node[main node, fill=black] (4) at (1,0) {\textcolor{white}{4}};
+  \node[draw] at (-1,0) {(5,8)};
+
+  \node[main node,fill=black] (5) at (3,0) {\textcolor{white}{5}};
+  \node[draw] at (5,0) {(6,7)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<11>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=gray] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,)};
+
+  \node[main node,fill=black] (2) at (1,2) {\textcolor{white}{2}};
+  \node[draw] at (-1,2) {(4,9)};
+
+  \node[main node, fill=black] (3) at (3,2) {\textcolor{white}{3}};
+  \node[draw] at (5,2) {(3,10)};
+
+  \node[main node, fill=black] (4) at (1,0) {\textcolor{white}{4}};
+  \node[draw] at (-1,0) {(5,8)};
+
+  \node[main node,fill=black] (5) at (3,0) {\textcolor{white}{5}};
+  \node[draw] at (5,0) {(6,7)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<12>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=gray] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,)};
+
+  \node[main node,fill=black] (1) at (3,4) {\textcolor{white}{1}};
+  \node[draw] at (5,4) {(2,11)};
+
+  \node[main node,fill=black] (2) at (1,2) {\textcolor{white}{2}};
+  \node[draw] at (-1,2) {(4,9)};
+
+  \node[main node, fill=black] (3) at (3,2) {\textcolor{white}{3}};
+  \node[draw] at (5,2) {(3,10)};
+
+  \node[main node, fill=black] (4) at (1,0) {\textcolor{white}{4}};
+  \node[draw] at (-1,0) {(5,8)};
+
+  \node[main node,fill=black] (5) at (3,0) {\textcolor{white}{5}};
+  \node[draw] at (5,0) {(6,7)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\only<13>{
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node,fill=black] (0) at (1,4) {\textcolor{white}{0}};
+  \node[draw] at (-1,4) {(1,12)};
+
+  \node[main node,fill=black] (1) at (3,4) {\textcolor{white}{1}};
+  \node[draw] at (5,4) {(2,11)};
+
+  \node[main node,fill=black] (2) at (1,2) {\textcolor{white}{2}};
+  \node[draw] at (-1,2) {(4,9)};
+
+  \node[main node, fill=black] (3) at (3,2) {\textcolor{white}{3}};
+  \node[draw] at (5,2) {(3,10)};
+
+  \node[main node, fill=black] (4) at (1,0) {\textcolor{white}{4}};
+  \node[draw] at (-1,0) {(5,8)};
+
+  \node[main node,fill=black] (5) at (3,0) {\textcolor{white}{5}};
+  \node[draw] at (5,0) {(6,7)};
+
+  \path[-] (0) edge (1);
+  \path[-] (0) edge (2);
+  \path[-] (1) edge (3);
+  \path[-] (2) edge (3);
+  \path[-] (2) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (4) edge (5);
+\end{tikzpicture}
+\end{figure}
+}
+
+\end{frame}
+
+
+\begin{frame}{Classificação de arestas em grafos não-direcionado}
+
+\begin{itemize}
+  \item A aresta $(u,v)$ é uma \textbf{aresta da árvore} se $v$ foi descoberto primeiro pela exploração da aresta $(u,v)$.
+      \begin{equation}
+      chegada[u] < chegada[v] < partida[v] < partida[u]
+      \end{equation}
+  \item A aresta $(u,v)$ é uma \textbf{aresta de retorno} se ela conecta um vértice $u$ a um ancestral $v$ em uma árvore da busca em profundidade.. Então,
+      \begin{equation}
+      chegada[v] < chegada[u] < partida[u] < partida[v]
+      \end{equation}
+\end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}{Classificação de arestas em grafos não-direcionado}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node] (0) at (1,4) {0};
+  \node[draw] at (-1,4) {(1,12)};
+
+  \node[main node] (1) at (3,4) {1};
+  \node[draw] at (5,4) {(2,11)};
+
+  \node[main node] (2) at (1,2) {2};
+  \node[draw] at (-1,2) {(4,9)};
+
+  \node[main node] (3) at (3,2) {3};
+  \node[draw] at (5,2) {(3,10)};
+
+  \node[main node] (4) at (1,0) {4};
+  \node[draw] at (-1,0) {(5,8)};
+
+  \node[main node] (5) at (3,0) {5};
+  \node[draw] at (5,0) {(6,7)};
+
+  \path[-,blue] (0) edge (1);
+  \path[-,gray] (0) edge (2);
+  \path[-,blue] (1) edge (3);
+  \path[-,blue] (2) edge (3);
+  \path[-,blue] (2) edge (4);
+  \path[-,gray] (3) edge (5);
+  \path[-,blue] (4) edge (5);
+\end{tikzpicture}
+
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Classificação de arestas em grafos não-direcionado}
+
+\begin{itemize}
+  \item A aresta $(u,v)$ é uma \textbf{aresta da árvore} se $v$ foi descoberto primeiro pela exploração da aresta $(u,v)$.
+  \item A aresta $(u,v)$ é uma \textbf{aresta de retorno} se ela conecta um vértice $u$ a um ancestral $v$ em uma árvore da busca em profundidade.
+  \item A aresta $(u,v)$ é uma \textbf{aresta direta} se ela conecta um vértice $u$ a um descendente $v$ em uma árvore de busca em profundidade.
+  \item A aresta $(u,v)$ é uma \textbf{aresta cruzada} se ela conecta um vértice que não seja ancestral do outro.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Classificação de arestas em grafos direcionado}
+
+A classificação pode ser definida quando a aresta $(u,v)$ é explorada primeiro, se a cor de $v$ for
+\begin{itemize}
+\item BRANCO indica uma aresta de árvore.
+\item CINZA indica uma aresta de retorno.
+\item PRETO e $chegada[u]<chegada[v]$ indica uma aresta direta.
+\item PRETO e $chegada[u]>chegada[v]$ indica uma aresta cruzada.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Classificação de arestas em grafos direcionado}
+
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.6,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node] (0) at (0,4) {a};
+  \node[main node] (1) at (8,4) {b};
+  \node[main node] (2) at (-4,2) {c};
+  \node[main node] (3) at (2,2) {d};
+  \node[main node] (4) at (-6,0) {f};
+  \node[main node] (5) at (-2,0) {g};
+  \node[main node] (6) at (2,0) {h};
+  \node[main node] (7) at (2,-2) {j};
+  \node[main node] (8) at (10,2) {e};
+  \node[main node] (9) at (6,0) {i};
+
+
+  \path[->] (0) edge (2);
+  \path[->] (0) edge (3);
+  \path[->] (0) edge [bend left = 50](9);
+  \path[->] (0) edge (5);
+
+  \path[->] (1) edge (9);
+  \path[->] (1) edge (8);
+  \path[->] (2) edge (4);
+  \path[->] (3) edge (6);
+  \path[->] (3) edge (9);
+  \path[->] (8) edge (9);
+  \path[->] (4) edge (5);
+  \path[->] (5) edge (2);
+
+
+  \path[->] (6) edge [bend left=50 ](7);
+  \path[->] (7) edge (6);
+
+
+
+
+\end{tikzpicture}
+
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Aplicações da DFS com tempo de chegada e partida:
+}
+
+\begin{itemize}
+\item Ordenação topológica em um grafo direcionado acíclico.
+\item Detecção de componentes conexas em grafos não-direcionados.
+\item Determina se um grafo direcionado é fortemente conexo
+\item Detecção de componentes fortemente conexa em grafos direcionados.
+\item Detecção de ciclos em grafos direcionados e não-direcionados.
+\item Encontrar pontes e articulações.
+\end{itemize}
+\end{frame}
+
+\subsection{Ordenação Topológica}
+
+\begin{frame}{Ordenação Topológica}
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.8]{topsort2.png}
+\caption{O professor Bumstead ordena topologicamente sua roupa ao se vestir. Cada aresta orientada $(u,v)$ representa que a peça $u$ deve ser vestida antes da peça $v$}
+
+\end{figure}
+\end{frame}
+
+
+
+
+\begin{frame}{Ordenação Topológica}
+\begin{algorithm}[H]
+\caption{Algoritmo Ordenação Topológica(G)}
+\begin{algorithmic}[1]
+\Function {TOPOLOGICAL\_SORT} {$G$}
+\State CHAMAR DFS(S) para calcular $partida[v]$ para cada vértice $v$
+\State à medida que cada vértice é terminado, inserir o vértice à frente de uma lista ligada
+\State \Return lista ligada de vértices
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\end{frame}
+
+
+\begin{frame}{Ordenação Topológica}
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.8]{topsort.png}
+\caption{O professor Bumstead ordena topologicamente sua roupa ao se vestir. Cada aresta orientada $(u,v)$ representa que a peça $u$ deve ser vestida antes da peça $v$}
+
+\end{figure}
+\end{frame}
+
+\subsection{Componentes Conexas de grafos não direcionados}
+\begin{frame}{Componentes Conexas em grafos não direcionados}
+
+\begin{algorithm}[H]
+\caption{Algoritmo DFS\_COMPONENTE}
+\begin{algorithmic}[1]
+
+\Function {DFS\_COMPONENTE} {$G$}
+
+\For{ cada $v \in V(G)$ }
+    \State $cor[v] \leftarrow BRANCO$
+    \State $\pi[v] \leftarrow NULL$
+\EndFor
+
+\State $tempo \leftarrow 0$
+\State $cont  \leftarrow 0$
+\For{ cada $v \in V(G)$}
+\If{cor[v] = BRANCO}
+\State $cont  \leftarrow cont + 1$
+\State $DFS\_VISIT(v, cont)$
+\EndIf
+\EndFor
+
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+
+\begin{frame}{Componentes Conexas em grafos não direcionados}
+
+\begin{algorithm}[H]
+\caption{Algoritmo DFS\_VIST}
+\begin{algorithmic}[1]
+
+\Function {DFS\_VISIT} {$v, cont$}
+
+\State $cor[v] \leftarrow CINZA$
+\State $cc[v] \leftarrow cont$
+\State $tempo  \leftarrow tempo + 1$
+\State $chegada[v] \leftarrow tempo$
+
+\For{ cada $u \in Adj[v]$}
+\If{cor[u] = BRANCO}
+\State $\pi[u] \leftarrow v$
+\State $DFS\_VISIT(u, cont)$
+\EndIf
+\EndFor
+
+\State $cor[u] \leftarrow PRETO$
+\State $tempo  \leftarrow tempo + 1$
+\State $partida[u] \leftarrow tempo$
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+\begin{frame}{Componentes Conexas em grafos não direcionados}
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.5]{componentConexas.png}
+\caption{O algoritmo encontra 4 componentes conexas: \{1,3,7,8\}},\{2,6\},\{9\} e \{4,5,10\}
+
+\end{figure}
+\end{frame}
+
+\subsection{Grafo direcionado fortemente conexo}
+
+\begin{frame}{Grafo direcionado fortemente conexo}
+
+Um grafo direcionado é fortemente conexo se:
+
+\begin{itemize}
+\item $DFS\_VISIT(G,v)$ visita todos os vértices de $G$, então existe um caminho de $v$ para todos outros vértices de $G$.
+\item $DFS\_VISIT(G^{T},v)$ visita todos os vértices de $G$, então existe um caminho de todos os outros vértices de $G$ para $v$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Grafo direcionado fortemente conexo}
+\begin{algorithm}[H]
+\caption{STRONGLY\_CONNECTED(G)}
+\scriptsize
+\begin{algorithmic}[1]
+\Function {STRONGLY\_CONNECTED} {$G$}
+\For{ cada $v \in V(G)$ }
+    \State $cor[v] \leftarrow BRANCO$
+    \State $\pi[v] \leftarrow NULL$
+\EndFor
+\State CHAMAR $DFS\_VISIT(G,v)$
+\If{ $\exists v ~ cor[v] = BRANCO$}
+\State \Return false
+\EndIf
+\State Calcule $G^T$
+\For{ cada $v \in V(G)$ }
+    \State $cor[v] \leftarrow BRANCO$
+    \State $\pi[v] \leftarrow NULL$
+\EndFor
+\State CHAMAR $DFS\_VISIT(G^T,v)$
+\If{ $\exists v ~cor[v] = BRANCO$}
+\State \Return false
+\Else
+\State \Return true
+\EndIf
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\end{frame}
+
+
+\subsection{Componentes Fortemente Conexas em grafos direcionados}
+
+\begin{frame}{Componentes Fortemente Conexas em grafos direcionados}
+
+\begin{itemize}
+\item Um componente fortemente conexa em um grafo direcionado em $G=(V,E)$ é um conjunto maximal de vértice $C \subseteq V$ tal que para todo par de vértice $u$ e $v$ em $C$, temos ao mesmo tempo $u \to v$ e $v \to u$.
+\item Se $u$ e $v$ são acessíveis um a partir do outro em G se somente se eles são acessíveis um a partir do outro em $G^{T}$.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Componentes Fortemente Conexas em grafos direcionados}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.8]{scc.png}
+\caption{As componentes fortemente conexas de $G$ são mostradas como regiões sombreadas.}
+
+\end{figure}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Componentes Fortemente Conexas em grafos direcionados}
+\begin{algorithm}[H]
+\caption{STRONGLY\_CONNECTED\_COMPONENTS(G)}
+\begin{algorithmic}[1]
+\Function {STRONGLY\_CONNECTED\_COMPONENTS} {$G$}
+\State CHAMAR DFS(G) para calcular $partida[v]$ para cada vértice $v$ em $O(V+E)$
+\State Calcular $G^{T}$ em $O(V+E)$
+\State CHAMAR DFS($G^T$) mas , no loop principal do DFS, considerar os vértices em ordem decrescente de $partida [v]$
+\State Dar sáida aos vértices de cada árvore da floresta da busca primeiro na profundidade como uma componente fortemente conexa separadamente.
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\end{frame}
+
+
+\begin{frame}{Componentes Fortemente Conexas em grafos direcionados}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.6]{scc2.png}
+\caption{As componentes fortemente conexas de $G$ são mostradas como regiões sombreadas.}
+
+
+
+\end{figure}
+
+
+\end{frame}
+
+\subsection{Ponto de articulação}
+
+\begin{frame}{Ponto de articulação}
+
+\begin{itemize}
+\item Um vértice $v$ em um grafo conexo não orientado $G=(V,E)$ é uma \textbf{articulação} se sua remoção torna o grafo desconexo.
+
+\item Uma aresta $e$ em um grafo conexo não orientado $G=(V,E)$ é uma \textbf{ponte} se sua remoção torna o grafo desconexo
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.5,->,>=stealth',shorten >=1pt,auto,node distance=10cm,
+  thick,main node/.style={circle,draw,font=\sffamily\small}]
+
+  \node[main node] (1)  {1};
+  \node[main node, below = 0.8cm of 1] (2)  {2};
+  \node[main node, below = 0.8cm of 2] (3)  {3};
+
+  \node[main node, below = 0.8cm of 3] (5)  {5};
+
+  \node[main node, left = 0.8cm of 5] (4)  {4};
+  \node[main node, right = 0.8cm of 5] (6)  {6};
+
+  \node[main node, below = 0.8cm of 6] (7)  {7};
+  \node[main node, below = 0.8cm of 7] (8)  {8};
+
+
+  \path[-] (1) edge (2);
+  \path[-] (2) edge (3);
+  \path[-] (3) edge (4);
+  \path[-] (3) edge (5);
+  \path[-] (3) edge (6);
+  \path[-] (4) edge[bend left = 50] (2);
+  \path[-] (5) edge[bend right = 50] (1);
+  \path[-] (6) edge (7);
+  \path[-] (7) edge (8);
+  \path[-] (8) edge[bend right = 50] (6);
+
+\end{tikzpicture}
+\caption{Os vértices 3 e 6 são pontos de articulação e aresta \{3,6\} é uma ponte. }
+
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Ponto de articulação}
+\begin{lemma}
+Seja $v$ a raiz de $G_{\pi}$, então $v$ é ponto de articulação se somente se ele tem pelo menos dois filhos.
+\end{lemma}
+
+\begin{proof}
+Se $v$ tem somente um filho, isso significa que qualquer vértice pode ser alcançado a partir desse filho. Logo, tirando $v$ de $G$ não tornaria desconexo. Se $v$ tem mais de um filho, isso significa que não podemos alcançar todos os vértices a partir de qualquer um dos filhos. Nesse caso, devemos passar por $v$ para ir para vértices em subárvores diferentes. Logo, retirar $v$ torna o $G$ desconexo.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Ponto de articulação}
+\begin{lemma}
+Se $v$ é um ponto de articulação se somente se $v$ tem um filho $s$ tal que não existe uma aresta de retorno de $s$ ou de qualquer descendente de $s$ para um ancestral próprio de $v$.
+\end{lemma}
+
+\begin{proof}
+se $v$ tem um filho $s$ tal que não existe uma aresta de retorno de $s$ ou de qualquer descendente de $s$ para um ancestral próprio de $v$. Então a retirada de $v$ torna o grafo desconexo, os vértices da sub-árvore de $s$ não alcançam os vértices ancestrais próprio de $v$. Caso contrário, se retiramos $v$, um caminho de $s$ ou qualquer descendente de $s$ para um ancestral próprio de $v$ existe usando a aresta de retorno.
+\end{proof}
+
+\end{frame}
+
+
+\begin{frame}{Ponto de articulação}
+
+\begin{algorithm}[H]
+\caption{Algoritmo DFS\_ARTICULACAO}
+\begin{algorithmic}[1]
+
+\Function {DFS\_ARTICULACAO} {$G$}
+
+\For{ cada $v \in V(G)$ }
+    \State $cor[v] \leftarrow BRANCO$
+    \State $\pi[v] \leftarrow NULL$
+    \State $articulacao[v] \leftarrow false$
+\EndFor
+
+\State $altura  \leftarrow 0$
+\For{ cada $v \in V(G)$}
+\If{cor[v] = BRANCO}
+\State $DFS\_VISIT(v, altura)$
+\EndIf
+\EndFor
+
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+
+\begin{frame}{Ponto de articulação}
+
+\begin{algorithm}[H]
+\caption{Algoritmo DFS\_VISIT(v, altura)}
+\scriptsize
+\begin{algorithmic}[1]
+
+\Function {DFS\_VISIT} {$v, altura$}
+
+\State $cor[v] \leftarrow CINZA$
+\State $altura  \leftarrow altura + 1$
+\State $nivel[v] \leftarrow menor[v] \leftarrow altura$
+\State $filhos \leftarrow 0$
+
+\For{ cada $u \in Adj[v]$}
+
+\If{cor[u] = BRANCO}
+\State $filhos \leftarrow filhos+1$
+\State $\pi[u] \leftarrow v$
+\State $DFS\_VISIT(u, altura)$
+\State $menor[v] \leftarrow min( menor[v], menor[u])$
+\If{ $nivel[v] \neq 1 \wedge  menor[u] \geq nivel[v]$}
+\State $articulacao[v]  \leftarrow true$
+\EndIf
+\EndIf
+\If{$cor[u] = CINZA \wedge \pi[v] \neq u$}
+\State $menor[v] \leftarrow min( menor[v], nivel[u])$
+\EndIf
+
+\EndFor
+
+\If{ $nivel[v] = 1 \wedge filhos > 1$}
+\State $articulacao[v]  \leftarrow true$
+\EndIf
+\State $cor[u] \leftarrow PRETO$
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+\subsection{Pontes}
+
+\begin{frame}{Ponte}
+
+\begin{itemize}
+\item Uma aresta de $G$ é uma ponte se somente se ela não reside em qualquer ciclo simples de $G$.
+\item Uma aresta $e=\{u,v\}$ é uma ponte em $G_{\Pi}$ se somente se $menor[v] = nivel[v]$.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Ponte}
+
+\begin{algorithm}[H]
+\caption{Algoritmo DFS\_VISIT(v, altura)}
+\scriptsize
+\begin{algorithmic}[1]
+
+\Function {DFS\_VISIT} {$v, altura$}
+
+\State $cor[v] \leftarrow CINZA$
+\State $altura  \leftarrow altura + 1$
+\State $nivel[v] \leftarrow menor[v] \leftarrow altura$
+\State $filhos \leftarrow 0$
+
+\For{ cada $u \in Adj[v]$}
+
+\If{cor[u] = BRANCO}
+\State $filhos \leftarrow filhos+1$
+\State $\pi[u] \leftarrow v$
+\State $DFS\_VISIT(u, altura)$
+\State $menor[v] \leftarrow min( menor[v], menor[u])$
+\EndIf
+
+\If{$cor[u] = CINZA \wedge \pi[v] \neq u$}
+\State $menor[v] \leftarrow min( menor[v], nivel[u])$
+\EndIf
+
+\EndFor
+
+\If{ $menor[v] == nivel[v] \wedge \pi[v] \neq NULL$}
+\State $(\pi[v],v)$ é uma ponte
+\EndIf
+
+\State $cor[u] \leftarrow PRETO$
+\EndFunction
+
+\end{algorithmic}
+
+\end{algorithm}
+
+\end{frame}
+
+
+\subsection{Exercício: Número de caminhos}
+
+\begin{frame}{Exercícios}
+
+\begin{enumerate}
+\item[1] Forneça um algoritmo de tempo linear que tome como entrada um grafo acíclico orientado $G=(V,E)$ e dois vértice $s$ e $t$, e devolva o número de caminhos de $s$ para $t$ em $G$. Por exemplo, existem exatamente quatro caminhos do vértice $p$ para o vértice $v$: $pov$, $poryu$, $posryv$ e $psryu$. (Seu algoritmo só precisa contar os caminhos, não listá-los.)
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.7]{228.png}
+\caption{Grafo Direcionado Acíclico}
+
+\end{figure}
+
+
+\end{enumerate}
+
+\end{frame}
+
+\subsection{Exercício: Percurso de Euler}
+
+\begin{frame}{Exercícios}
+
+\begin{enumerate}
+\item[2] Um percurso de Euler de um grafo conectado de Euler $G=(V,E)$ é um ciclo que percorre cada aresta de $G$ exatamente uma vez, embora possa alcançar um vértice mais de uma vez.
+\begin{enumerate}
+\item Mostre que $G$ tem um percurso de Euler se e somente se o grau\_entrada(v) for igual ao grau\_saída[v], para cada vértice $v \in V(G)$.
+\item Descreva um algoritmo de tempo $O(E)$ para encontrar um percurso de Euler de $G$ se existir um.
+\end{enumerate}
+\end{enumerate}
+
+\end{frame}
+
+
+\end{document}
+
+
+
+
+
+
+
+
+

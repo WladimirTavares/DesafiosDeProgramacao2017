@@ -1,0 +1,702 @@
+\documentclass{beamer}
+\mode<presentation>
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithmicx}[1]
+
+\usepackage[latin1]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+
+%\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{ae}
+\usepackage{graphicx,color}
+%\usepackage[noend]{algorithmic}
+%\usepackage{etoolbox}\AtBeginEnvironment{algorithmic}{\small}
+\usepackage[all]{xy}
+\usepackage{caption}
+\usepackage{etex}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{graphicx}
+\usepackage{marvosym}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{verbatim}
+\usepackage[all]{xy}
+\usepackage{ctable}
+\usepackage{textpos}
+\usepackage{multicol}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{courier}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{tkz-graph}
+\usetikzlibrary{positioning}
+
+
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+% Declare layers
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+
+\lstset{language=C++,
+basicstyle=\ttfamily,
+keywordstyle=\color{blue}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+commentstyle=\color{magenta}\ttfamily,
+morecomment=[l][\color{red}]{\#}
+}
+
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\newcommand{\floor}[1]{$\lfloor$ #1 $\rfloor$}
+\newcommand\Fontvi{\fontsize{8}{7.2}\selectfont}
+\newcommand{\azul}[1]{ {\color{blue}#1} }
+\newcommand{\BIT}{\begin{itemize}}
+\newcommand{\EIT}{\end{itemize}}
+
+\newcommand{\BE}{\begin{enumerate}}
+\newcommand{\EE}{\end{enumerate}}
+
+
+\usetheme{Boadilla}
+
+\newcommand{\PC}[1]{\ensuremath{\left(#1\right)}}
+
+\title {Jogos Combinatórios}
+
+\author[Wladimir Araújo Tavares]{\small{\textbf{Wladimir Araújo Tavares} $^{1}$ \\
+}
+}
+
+\institute[UFC]{$^{1}$Universidade Federal do Ceará - Campus de Quixadá\\}
+
+\date{\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \small
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\begin{frame}{Jogo Simples}
+
+\BIT
+\item Existe uma pilha com n pedras. Dois jogadores se revezam e removem 1 ou 3 pedras por vez. Aquele que remover a última pedra ganha. Descubra quem é o vencedor se ambos os jogadores jogarem perfeitamente.
+
+\item Espaço de Estados: Cada estado pode ser representado por um número de pedras restantes na pilha
+
+\item Movimentos válidos de estado $x$: $x \to (x-1)$ ou $x \to (x-3)$, enquanto o número resultante não for negativo.
+
+\item Estado 0 é um estado perdedor.
+\EIT
+
+
+\end{frame}
+
+
+\begin{frame}{Jogo Simples}
+
+\BIT
+\item Sem ciclos nas transições de estados
+\BIT
+\item Pode ser resolvido de maneira bottom-up
+\EIT
+\item Um jogador ganha se existe um maneira de forçar seu oponente perder
+
+\BIT
+\item Por outro lado, perder se não existe tal maneira
+\EIT
+
+\item Um estado $x$ é um estado vencedor W se
+
+\BIT
+\item $(x-1)$ é um estado perdedor
+\item $(x-3)$ é um estado perdedor
+\EIT
+
+\item Caso contrário, o estado $x$ é um estado perdedor L
+\EIT
+
+\end{frame}
+
+
+\begin{frame}{Jogo Simples}
+
+\BIT
+\item Tabela de Programação Dinâmica
+
+\begin{tabular}{|l|llllllll|}
+\hline
+n   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+$W/L$ & L & W & L & W & L & W & L & W\\
+\hline
+\end{tabular}
+
+\item Vê o padrão?
+
+\item Vamos provar sua conjectura
+
+\EIT
+
+\end{frame}
+
+
+\begin{frame}{Jogo Simples}
+
+\BIT
+\item Conjectura: Se n é ímpar então o primeiro jogador vence. Se n é par, então o segundo jogador vence.
+
+\item É verdade para o caso base $n=0$
+\item Em geral,
+
+\BIT
+\item Se $n$ é ímpar, podemos remover uma pedra e deixamos um quantidade de pedras par para o oponente.
+\item Se $n$ é par então não importa o movimento realizado deixamos uma quantidade ímpar de pedras para o oponente.
+\EIT
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Exercício}
+
+Existe uma pilha com n pedras. Dois jogadores se revezam e removem 1 ou 2 pedras por vez. Aquele que remover a última pedra ganha. Descubra quem é o vencedor se ambos os jogadores jogarem perfeitamente.
+
+\BIT
+\item Faça a tabela de programação dinâmica para os casos menores.
+\item Elabore uma conjectura.
+\item Tente provar sua conjectura.
+\EIT
+
+\end{frame}
+
+\begin{frame}{CicloLândia}
+
+Em CicloLândia Jack e Jelly são dois amigos. Eles querem ir para UniversidadeCiclo por um ciclo (suponha que eles vivam na mesma casa).
+A distância entre UniversidadeCiclo e sua casa é 'N' km. Jack e Jelly gostam da sua colega Jenny. Eles decidiram jogar um jogo de tal forma que o vencedor terá a chance de se sentar com Jenny na escola. As regras do jogo são as seguintes:
+\BIT
+\item Inicialmente, Jelly anda no ciclo.
+\item Eles se alternam.
+\item Quando um está na bicicleta, o outro está sentado no transportador.
+\item Em cada passeio eles podem andar de ciclo exatamente 1, 2 ou 4 km. Não se pode andar mais do que a distância restante.
+\item Um que chega ao ciclo da UniversidadeCiclo terá a chance de se sentar com Jenny.
+\EIT
+Ambos jogam otimamente. Você deve encontrar quem vencerá este jogo.
+
+Fonte: \url{http://practice.geeksforgeeks.org/problems/cycle-race/0}
+
+\end{frame}
+
+
+
+\begin{frame}{Jogo dos números}
+Nikifor e Trofim jogam o seguinte jogo: eles escrevem um número inteiro positivo menor que 2.000.000.000 e se revezam um após o outro. Nikifor é o primeiro a fazer um movimento. O turno é feito pela seguinte regra: do inteiro escrito, qualquer dígito que não é zero é subtraído e o novo inteiro substitui o antigo na mesa. Por exemplo, para o número inteiro 40534, o próximo movimento pode ser: 40530, 40531 ou 40529. O vencedor é o jogador que escreve zero na mesa.
+
+\BIT
+\item Faça a tabela de programação dinâmica para os casos menores.
+\item Elabore uma conjectura.
+\item Tente provar sua conjectura
+\EIT
+
+Fonte: \url{http://www.spoj.com/problems/NGM/}
+\end{frame}
+
+\begin{frame}{Jogo da Multiplicação}
+Stan e Ollie jogam o jogo de multiplicação multiplicando um inteiro p por um dos números entre 2 e 9. Stan sempre começa com p = 1 e sua multiplicação, então Ollie multiplica seu número, então Stan e assim por diante. Antes que um jogo comece, eles escrevem um número inteiro de $1 <n <4294967295$ e o vencedor é quem alcança primeiro $p \geq n$.
+
+\BIT
+\item Faça a tabela de programação dinâmica para os casos menores.
+\item Elabore uma conjectura.
+\item Tente provar sua conjectura
+\EIT
+
+Fonte: \url{https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=788}
+
+\end{frame}
+
+\begin{frame}{Bachet Game}
+O jogo de Bachet provavelmente é conhecido por todos, mas provavelmente não por esse nome. Inicialmente, temos $n$ pedras na mesa. Há dois jogadores Stan e Ollie, que jogam alternadamente. Stan sempre começa. Os movimentos legais consistem na remoção de pelo menos uma, mas não mais do que $k$ pedras da mesa. O vencedor é o que remove a última pedra. Aqui consideramos uma variação deste jogo. O número de pedras que podem ser removidas em um único movimento deve ser um membro de um certo conjunto de números de $m$. Entre os números de $m$ números, há sempre 1 e, portanto, o jogo nunca fica parado.
+
+Fonte: 
+\BIT
+\item \url{https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1345}
+\item \url{https://kth.kattis.com/problems/bachetsgame}
+\EIT
+
+\end{frame}
+
+\begin{frame}{Jogo do Chocolate}
+Existem duas caixas cheias de chocolates. Ambos podem comer $L$ ($L \geq 1$) chocolates de qualquer caixa ou $L$ chocolates de cada caixa em cada etapa. Eles jogam o jogo alternadamente e o último para comer o chocolate será o vencedor.
+
+Como Bunty quer impressionar Dolly, ele quer que Dolly vença. Você deve ajudar Bunty a decidir quem deve jogar primeiro.
+
+Suponha que ambos os jogadores jogam o jogo de forma otimizada.
+
+Fonte: \url{http://practice.geeksforgeeks.org/problems/game-of-chocolates/0}
+
+\end{frame}
+
+\begin{frame}{Jogo 21}
+
+\BIT
+\item O jogo 21 é jogado como um jogo misère (jogador que faz o último movimento perder) com qualquer número de jogadores que se revezam dizendo um número.
+\item O primeiro jogador diz "1" e cada jogador, por sua vez, aumenta o número em 1, 2 ou 3, mas não pode exceder 21;
+\item O jogador forçado a dizer "21" perde.
+\EIT
+
+Qual jogador tem a estratégia vencedora?
+
+\end{frame}
+
+
+\begin{frame}{Jogo da sequencia}
+
+\BIT
+\item Considere o seguinte jogo de dois jogadores. 
+\item O tabuleiro do jogo consiste em uma seqüência de números inteiros positivos. Os dois jogadores se movem alternadamente. 
+\item Quando um jogador se move, ele seleciona um número da esquerda ou da extremidade direita da sequencia. O número selecionado é excluído do quadro. O jogo acabou quando todos os números foram selecionados. 
+\item O primeiro jogador ganha se a soma dos números que ele selecionou é maior ou igual ao selecionado pelo segundo jogador.
+\item O segundo jogador joga de maneira ótima.
+\item O primeiro jogador inicia o jogo.
+\item Se o quadro inicialmente contém um número par de elementos, o primeiro jogador tem uma estratégia vencedora. Você deve escrever um programa que implemente a estratégia do primeiro jogador a vencer o jogo.
+\EIT
+
+Fonte: \url{http://olympiads.win.tue.nl/ioi/ioi96/contest/ioi96g.html}
+
+\end{frame}
+
+\begin{frame}{Exercício}
+Dois jogadores jogam um jogo começando com o inteiro N. Os movimentos legais consistem na substituição de N por $\lfloor \frac{N}{2} \rfloor$ ou N-1. O jogador que substitui N por 0 vence. Assuma que os jogadores jogam de maneira ótima, quem é o jogador que vence o jogo?
+
+\BIT
+\item Prove que se o jogador joga com N ímpar vence.
+\item Quem vence o jogo quando N é igual a 1000.
+\EIT
+
+\end{frame}
+
+\begin{frame}{Jogo Nim}
+
+\BIT
+\item Temos $n$ pilhas de pedras. Dois jogadores jogam alternadamente. Cada jogador escolhe uma pilha e remove qualquer quantidade de pedras da pilha. O jogador que remove a última pedra vence. Encontre o vencedor se ambos jogam perfeitamente.
+
+\item Se o número de pilhas for grande não será possível usar PD porque o espaço de estado é enorme.
+\EIT
+\end{frame}
+
+\begin{frame}{Jogo Nim}
+
+\BIT
+\item Começa com pilhas de 3, 4 e 5 pedras
+\item Vamos representar o estado por (A,B,C), onde A , B e C representam a quantidade de pedras de cada pilha 
+\item Alice toma 2 pedras de A: (1, 4, 5)
+\item Bob leva 4 de C: (1, 4, 1)
+\item Alice leva 4 de B: (1, 0, 1)
+\item Bob leva 1 de A: (0, 0, 1)
+\item Alice leva 1 de C e ganha: (0, 0, 0)
+\EIT
+\end{frame}
+
+\begin{frame}{Jogo Nim}
+
+\BIT
+\item Dado pilhas de tamanho $n_1, n_2, \ldots , n_m$
+\item O primeiro jogador ganha se e somente se a soma-nim
+$n_1 \oplus n2 \oplus  \ldots \oplus n_m$ é diferente de zero (é o operador XOR no meio do bit)
+\item Se a soma-nim for zero, o que quer que o jogador atual faça, a soma-nim do próximo estado é diferente de zero.
+\item Se a soma-nim for diferente de zero, é possível forçá-la a se tornar zero.
+\item Leitura: \url{http://www.geeksforgeeks.org/combinatorial-game-theory-set-4-sprague-grundy-theorem/}
+\EIT
+
+\end{frame}
+
+\begin{frame}{Jogo Nim}
+
+\BIT
+\item Estado Inicial (3,4,5)
+
+\begin{tabular}{lll}
+3 &=& 011\\
+4 &=& 100\\
+5 &=& 101\\
+\hline
+soma-nim & = & 010\\
+\end{tabular}
+
+\item O jogador 1 precisa deixa uma soma-nim igual a zero para o segundo jogador.
+
+\item Teste se $pilha[i] \oplus soma\_nim > pilha[i]$
+
+\item Removendo 2 duas pedras da primeira pilha deixamos uma configuração zero
+
+\begin{tabular}{lll}
+1 &=& 001\\
+4 &=& 100\\
+5 &=& 101\\
+\hline
+soma-nim & = & 000\\
+\end{tabular}
+
+\item Qualquer escolha do segundo jogador resultará em soma-nim diferente de zero.
+
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Jogo Nim}
+
+\BIT
+\item Configuração Atual (1,4,5)
+
+\item O jogador 2 remove 2 pedras da segunda pilha.
+
+\begin{tabular}{lll}
+1 &=& 001\\
+2 &=& 010\\
+5 &=& 101\\
+\hline
+soma-nim & = & 110\\
+\end{tabular}
+
+\item O jogador 1 precisa deixa uma soma-nim igual a zero para o segundo jogador.
+
+\item Teste se $pilha[i] \oplus soma\_nim > pilha[i]$
+
+\item Remova três pedras da terceira pilha
+
+\begin{tabular}{lll}
+1 &=& 001\\
+2 &=& 010\\
+3 &=& 011\\
+\hline
+soma-nim & = & 000\\
+\end{tabular}
+
+\item Qualquer escolha do segundo jogador resultará em soma-nim diferente de zero.
+
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Jogo Nim}
+
+\BIT
+\item Configuração Atual (1,2,3)
+
+\item O jogador 2 remove 2 pedras da segunda pilha.
+
+\begin{tabular}{lll}
+1 &=& 001\\
+0 &=& 000\\
+3 &=& 011\\
+\hline
+soma-nim & = & 010\\
+\end{tabular}
+
+\item O jogador 1 precisa deixa uma soma-nim igual a zero para o segundo jogador.
+
+\item Teste se $pilha[i] \oplus soma\_nim > pilha[i]$
+
+\item Remova duas pedras da terceira pilha
+
+\begin{tabular}{lll}
+1 &=& 001\\
+0 &=& 000\\
+1 &=& 001\\
+\hline
+soma-nim & = & 000\\
+\end{tabular}
+
+\item (1,0,1) Configuração perdedora para o jogador 2.
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Last Year at Marienbad}
+
+\BIT
+\item O jogo começa com 6 fileiras de palitos. A primeira fileira contém 1 palito, a segunda contém 3, a terceira 5, a quarta 7, a quinta 9 e a sexta 11. Segue abaixo um desenho com o esquema do jogo inicial.
+\item articipam do jogo duas pessoas, que alternam seus movimentos. Em cada jogada, uma pessoa deve tirar uma quantidade diferente de zero de palitos do tabuleiro. Todos os palitos retirados em uma jogada devem pertencer à mesma fileira. Assim, se uma fileira contém k palitos e um jogador decide retirar palitos dessa fileira em sua jogada atual, ele tem k opções distintas de jogadas (poderá remover entre 1 e k palitos).
+\item Se após uma jogada o tabuleiro ficar completamente vazio (i.e., sem palitos em qualquer uma das 6 fileiras), o jogador que realizou a última jogada (o jogador que removeu os últimos palitos) perde o jogo.
+\EIT
+
+Fonte: \url{http://br.spoj.com/problems/MARIENBA/}
+
+\end{frame}
+
+
+
+\begin{frame}{Número Grundy}
+
+\BIT
+\item Para cada jogo, nós computamos o número Grundy.
+
+\item O primeiro jogador vence se somente se o XOR de todos os números Grundy é diferente de  zero.
+
+\item Por exemplo, o número Grundy do jogo nim com uma pilha é igual ao número de pedras da pilha.
+\EIT
+
+\end{frame}
+
+
+\begin{frame}{Número Grundy}
+
+\BIT
+\item Seja $S$ um estado e $T_1,T_2,\ldots,T_m$ os estados alcançados por $S$ usando um único movimento.
+
+\item O número Grundy $g(S)$ de S é o menor inteiro não negativo que não aparece em $\{g(T_1),g(T_2),\ldots,g(T_m)\}$
+
+\item O número Grundy do estado perdedor é zero.
+\EIT
+
+\end{frame}
+
+\begin{frame}{Número Grundy}
+
+\BIT
+\item Considere o jogo nim com uma pilha
+\item $g(0) = 0$, porque é um estado perdedor
+\item O estado 0 é alcançado pelo estado 1 então o menor inteiro não-negativo que não aparece em $\{g(0)\}=1$. Logo, g(1)=1.
+\item O número grundy do estado $n$ é $g(n)=n$
+\EIT
+
+\end{frame}
+
+
+\begin{frame}{Número Grundy}
+
+\BIT
+
+\item Considere a variante do jogo: 1 ou 2 pedras pode ser removida em cada turno.
+
+\item A tabela de número Grundy
+
+\begin{tabular}{|l|llllllll|}
+\hline
+$n$    & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+\hline
+$g(n)$ & 0 & 1 & 2 & 0 & 1 & 2 & 0 & 1\\
+\hline
+\end{tabular}
+
+\EIT
+
+\end{frame}
+
+\begin{frame}[fragile]{Número Grundy}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+int calculateGrundy(int n){
+    if (n == 0) return (0);
+    int moves = [] //
+    unordered_set<int> Set; // A Hash Table
+    for (int i=0; i< n; i++)
+            Set.insert(calculateGrundy( moves[i] ));
+    int Mex = 0;
+    while (Set.find(Mex) != Set.end())
+        Mex++;
+    return (Mex);
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+\begin{frame}{Número Grundy}
+
+\BIT
+
+
+\item A tabela de número Grundy
+
+\begin{tabular}{|l|llllllll|}
+\hline
+$n$    & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+\hline
+$g(n)$ & 0 & 1 & 2 & 0 & 1 & 2 & 0 & 1\\
+\hline
+\end{tabular}
+
+\item Quem vai ganhar se existe três pilhas de pedras (2,4,5)?
+
+\item $g(2) \oplus g(4) \oplus g(5) = 2 \oplus 1 \oplus 2 = 1$
+
+\item O jogador 1 tem uma estratégia vencedora.
+
+\item O jogador 1 começa removendo 4 pedras da segunda pilha. Deixando a configuração (2,0,5) para o segundo jogador ($2 \oplus 0 \oplus 2 = 0$)
+\item Se o jogador 2 remover duas pedras da primeira pilha, o jogador 1 vence.
+\item Suponha que o jogador 2 remova apenas uma pedra da primeira pilha deixando (1,0,5)
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Número Grundy}
+
+\BIT
+
+\item A tabela de número Grundy
+
+\begin{tabular}{|l|llllllll|}
+\hline
+$n$    & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+\hline
+$g(n)$ & 0 & 1 & 2 & 0 & 1 & 2 & 0 & 1\\
+\hline
+\end{tabular}
+
+\item Quem vai ganhar se existe três pilhas de pedras (1,0,5)?
+
+\item $g(1) \oplus g(0) \oplus g(5) = 1 \oplus 0 \oplus 2 = 3$
+
+\item O jogador 1 tem uma estratégia vencedora.
+
+\item O jogador 1 começa removendo 1 pedra da terceira pilha. Deixando a configuração (1,0,4) para o segundo jogador ($1 \oplus 0 \oplus 1 = 0$)
+\item Se o jogador 2 remover 1 pedra da primeira pilha, então o jogador 1 vence em (0,0,4).
+\item Se o jogador 2 remova 1 pedra da terceira pilha , então o jogador 1 vence em (1,0,3).
+\item Suponha que o jogador 2 remova 2 pedras da terceira pilha.
+
+
+\EIT
+
+\end{frame}
+
+
+\begin{frame}{Número Grundy}
+
+\BIT
+
+\item A tabela de número Grundy
+
+\begin{tabular}{|l|llllllll|}
+\hline
+$n$    & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+\hline
+$g(n)$ & 0 & 1 & 2 & 0 & 1 & 2 & 0 & 1\\
+\hline
+\end{tabular}
+
+\item Quem vai ganhar se existe três pilhas de pedras (1,0,2)?
+
+\item $g(1) \oplus g(0) \oplus g(5) = 1 \oplus 0 \oplus 2 = 3$
+
+\item O jogador 1 tem uma estratégia vencedora.
+
+\item O jogador 1 começa removendo 1 pedra da terceira pilha. Deixando a configuração (1,0,1) para o segundo jogador ($1 \oplus 0 \oplus 1 = 0$)
+\item Se o jogador 2 remover 1 pedra da primeira pilha, então o jogador 1 vence em (0,0,1).
+\item Se o jogador 2 remova 1 pedra da terceira pilha , então o jogador 1 vence em (1,0,0).
+
+
+\EIT
+
+\end{frame}
+
+\begin{frame}{Jogo da Divisão}
+
+O jogo começa com um número n. O jogador pode substitui o número pelo piso da divisão de n por 2, 3 ou 6. Se o número torna-se zero, ele é removido. Os jogadores jogam alternadamente. O jogador que realiza o último movimento vence. Qual é o jogador que vence?
+
+\end{frame}
+
+\begin{frame}[fragile]{Número Grundy}
+
+\Fontvi{
+\begin{lstlisting}[language=C]
+#include<bits/stdc++.h>
+using namespace std;
+int calculateMex(unordered_set<int> Set){
+    int Mex = 0;
+    while (Set.find(Mex) != Set.end()) Mex++;
+    return (Mex);
+}
+
+int calculateGrundy (int n){
+    if (n == 0)
+        return (0);
+    unordered_set<int> Set; // A Hash Table
+    Set.insert(calculateGrundy(n/2));
+    Set.insert(calculateGrundy(n/3));
+    Set.insert(calculateGrundy(n/6));
+    return (calculateMex(Set));
+}
+int main(){
+    int n = 10;
+    printf("%d", calculateGrundy (n));
+}
+\end{lstlisting}
+}
+
+\end{frame}
+
+
+
+\begin{frame}{Nimble}
+
+Nimble é jogado em um tabuleiro consistindo de uma linha de quadrados rotulados: $0,
+1, 2, 3,\ldots$. Um número finito de moedas é colocado nos quadrados, possivelmente
+mais de uma moeda em um único quadrado. Um movimento consiste em tomar uma das
+moedas e movê-la para qualquer quadrado para a esquerda, possivelmente para um quadrado que já contém uma ou mais moedas. Os jogadores alternam movimentos e o jogo termina quando todas as moedas estão no quadrado com 0. O último jogador a mover ganha.
+
+\begin{center}
+\includegraphics[scale=0.5]{nimble}
+\end{center}
+
+Fonte: \url{https://www.hackerrank.com/challenges/nimble-game-1}
+
+\end{frame}
+
+\begin{frame}{Exercícios}
+
+\BIT
+\item \url{http://www.spoj.com/problems/MCOINS/}
+\item \url{http://www.spoj.com/problems/EALP1/}
+\item \url{http://www.spoj.com/problems/TEAMNIM/}
+\item \url{http://www.spoj.com/problems/HUBULLU/}
+\item \url{http://www.spoj.com/problems/QCJ3/}
+\item \url{http://codeforces.com/problemset/problem/346/A}
+\item \url{http://www.spoj.com/problems/NIMGAME/}
+\item \url{http://www.spoj.com/problems/MATGAME/}
+\item \url{http://codeforces.com/problemset/problem/276/B}
+\item \url{https://community.topcoder.com/stat?c=problem_statement&pm=7424}
+\item \url{https://www.codechef.com/problems/IITK1P06}
+\item \url{https://www.codechef.com/problems/TWONIM}
+\EIT
+\end{frame}
+
+\end{document}
+
+
+
+
+
+
+
+
+
