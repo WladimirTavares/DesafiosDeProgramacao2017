@@ -9,6 +9,6 @@ Slides:
 
 Listas:
 
-1.[Lista 1 - Introdução](lista1/lista1.pdf)
-2.[Lista 2 - Algoritmos matemáticos](lista2/lista2.pdf)
-3.[Lista 3 - Estrutura de Dados](lista3/lista3.pdf)  
+1. [Lista 1 - Introdução](lista1/lista1.pdf)
+2. [Lista 2 - Algoritmos matemáticos](lista2/lista2.pdf)
+3. [Lista 3 - Estrutura de Dados](lista3/lista3.pdf)  
